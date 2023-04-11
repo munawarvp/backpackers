@@ -1,0 +1,79 @@
+.Cards{
+    display: flex;
+    gap: 10px
+}
+.parentContainer{
+    width: 100%;
+}
+
+.CompactCard{
+    display: flex;
+    flex: 1;
+    height: 7rem !important;
+    border-radius: 0.7rem;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    padding: 1rem;
+}
+.CompactCard:hover{
+    box-shadow: none !important;
+}
+.radialBar{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.CircularProgressbar{
+    width: 4rem !important;
+    overflow: visible;
+}
+.CircularProgressbar-path{
+    stroke: white !important;
+    stroke-width: 11px !important;
+    filter: drop-shadow(2px 4px 6px white);
+}
+.CircularProgressbar-trail{
+    display: none;
+}
+.CircularProgressbar-text{
+    fill: white !important;
+}
+.radialBar>span{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.detail{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.detail>span:nth-child(1){
+    font-size: 30px;
+    font-weight: bold;
+}
+.detail>span:nth-child(2){
+    font-size: 28px;
+    font-weight: bold;
+
+}
+
+@media screen and (max-width: 1200px){
+    .Cards{
+        flex-direction: column;
+    }
+    .parentContainer{
+        height: 9rem;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .Cards{
+        width: 90%;
+    }
+}

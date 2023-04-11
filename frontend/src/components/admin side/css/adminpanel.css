@@ -1,0 +1,41 @@
+
+.admin-panel{
+    background: linear-gradient(
+        106.37deg,
+        #ffe1bc 29.63%,
+        #ffcfd1 51.55%,
+        #f3c6f1 90.85%
+    );
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1.5rem;
+}
+
+.app-glass{
+    display: grid;
+    /* height: 97%; */
+    width: 97%;
+    border-radius: 2rem;
+    background-color: var(--glass);
+    overflow: hidden;
+    grid-template-columns: 13rem auto 20rem;
+    gap: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .app-glass{
+        grid-template-columns: 10% 50% auto;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .app-glass{
+        grid-template-columns: 1fr;
+    }
+    .app-glass::-webkit-scrollbar{
+        display: none;
+    }
+}

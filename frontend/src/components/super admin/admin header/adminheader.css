@@ -1,0 +1,31 @@
+.header-div{
+    /* margin: 0 10px; */
+    /* padding: 10px; */
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: #192238f7;
+    border-bottom: 3px solid #04ffde;
+}
+.user-search{
+    height: 30px;
+    width: 350px;
+    margin-left: 25px;
+    padding-left: 20px;
+    border: 2px solid gray;
+    border-radius: 3px;
+}
+.header-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header-right{
+    display: flex;
+    align-items: center;
+}
+.user-name-header{
+    margin-right: 1rem;
+}
