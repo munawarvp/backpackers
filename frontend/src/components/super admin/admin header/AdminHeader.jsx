@@ -12,7 +12,7 @@ function AdminHeader() {
     <div className='header-div'>
         <div className='header-left'>
             <h1>Super Admin</h1>
-            <input className='user-search' type="text" placeholder='Search User'/>
+            <input className='user-search' type="text" placeholder='Search'/>
         </div>
         <div className="header-right">
             <h3 className='user-name-header'>{user}</h3>

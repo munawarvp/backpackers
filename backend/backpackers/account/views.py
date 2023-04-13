@@ -167,3 +167,23 @@ class ResetPassword(APIView):
             return Response({'msg': 'Password Updated Successfully'})
     
         return HttpResponseRedirect('http://localhost:3000/reset-password')
+    
+
+
+# for listing the staffs only in super admin panel
+class ListStaffs(APIView):
+    def get(self, request):
+        queryset = User.objects.filter(is_staff=True).exclude(is_superadmin=True)
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+class BlockStaff(APIView):
+    def get(self, request, pk):
+        user = User.objects.get(id=pk)
+        print(user.is_active)
+        user.is_active = not user.is_active
+        user.save()
+        return Response({'status':user.is_active})
+
+        

@@ -1,5 +1,5 @@
 from django.urls import path
-from account.views import UserRegistration, ForgotPassword, ResetPassword
+from account.views import UserRegistration, ForgotPassword, ResetPassword, ListStaffs, BlockStaff
 from . import views
 from .views import MyTokenObtainPairView
 
@@ -17,4 +17,7 @@ urlpatterns = [
     path('forgotpassword/', ForgotPassword.as_view()),
     path('reset_validate/<uidb64>/<token> ', views.reset_validate, name='reset_validate'),
     path('resetpassword/', ResetPassword.as_view()),
+
+    path('liststaffs/', ListStaffs.as_view()),
+    path('blockstaff/<int:pk>', BlockStaff.as_view()),
 ]

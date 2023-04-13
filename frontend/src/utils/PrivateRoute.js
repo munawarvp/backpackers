@@ -17,12 +17,13 @@ const PrivateRoute = ({children, ...rest}) => {
             return <SuperAdmin/>
         }else if (decoded.is_staff) {
             return <AdminPanel/>
-        }else{
-            <Navigate to='/'/>
+        }
+        else{
+            // <Navigate to='/'/>
         }
 
     }else{
-        return <Login/>
+        return history('/')
         // history('/login')
         // console.log('navigated');
         // window.location.href = '/login'

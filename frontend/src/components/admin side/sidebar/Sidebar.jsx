@@ -2,7 +2,6 @@ import React from 'react'
 import './sidebar.css'
 import Logo from '../images/logo.png'
 import { SidebarData } from '../data/Data'
-import { motion } from 'framer-motion'
 
 import { UilSignOutAlt, UilBars } from "@iconscout/react-unicons"
 import { useState } from 'react'
@@ -35,7 +34,7 @@ function Sidebar() {
     >
         <UilBars/>
     </div>
-    <motion.div className='Sidebar'
+    <div className='Sidebar'
         variants={sidebarVariants}
         animate={window.innerWidth<=768?`${expanded}` : ''}
     >
@@ -63,7 +62,7 @@ function Sidebar() {
                 <span>Logout</span>
             </div>
         </div>
-    </motion.div>
+    </div>
     </>
   )
 }

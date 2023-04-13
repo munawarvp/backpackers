@@ -1,0 +1,36 @@
+.resort-card{
+    background: linear-gradient(
+        106.37deg,
+        #ffe1bd 29.63%,
+        #ffcfd1 51.55%,
+        #f3c6f1 90.85%
+    );
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #7171717b;
+    margin-bottom: 1.5rem;
+}
+
+
+.pop-up-pending{
+    height: 70vh;
+    width: 60%;
+    padding: 0 1.2rem;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #71717156;
+    background-color: #fff1e0;
+
+}
+.resort-name-toggle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pending-reso-details>img{
+    height: 12rem;
+}

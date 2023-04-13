@@ -1,0 +1,60 @@
+.table-div{
+    margin: 0 50px;
+    width: 74%;
+}
+/* .align-table{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 0 10px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #255BC3;
+    color: white;
+  }
+  .action-col{
+    width: 130px;
+  }
+  .room_avail_col{
+    width: 120px;
+  }
+  .action-text{
+    color: black;
+    text-decoration: none;
+  }
+  .resort-table-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .search-resort-input{
+    width: 50%;
+    height: 40px;
+  }
+  .approved{
+    color: green;
+    font-weight: bold;
+  }
+  .pending{
+    color: orangered;
+    font-weight: bold;
+  }

@@ -42,14 +42,32 @@ class ListResorts(viewsets.ModelViewSet):
     serializer_class = ResortSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = ResortSerializer(data=request.data)
         print(request.data)
         print(serializer.is_valid())
+        # print(serializer.error_messages)
         if serializer.is_valid():
             serializer.save()
-            # print the data that was passed in the request
+        # print the data that was passed in the request
             print('created')
             # print(serializer.data)
             return Response(serializer.data)
         else:
             return Response({'msg': "Not created"})
+        
+
+
+class ListPendingResort(APIView):
+    def get(self, request):
+        queryset = Resorts.objects.filter(is_approved=False)
+        serializer = ResortSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+class BlockResort(APIView):
+    def get(self, request, pk):
+        resort = Resorts.objects.get(id=pk)
+        resort.is_approved = not resort.is_approved
+        resort.save()
+
+        return Response({'msg': resort.is_approved})
