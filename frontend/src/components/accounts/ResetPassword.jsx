@@ -23,7 +23,7 @@ function ResetPassword() {
                     password
                 })
             })
-            if(response.status == 200){
+            if(response.status === 200){
                 toast.success('Password updated')
                 localStorage.removeItem('user_id')
                 history('/login')

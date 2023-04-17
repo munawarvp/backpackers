@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Resorts, Location
+from .models import Resorts, Location, Adventures, Destinations
+from account.models import User
 from account.serializers import UserSerializer
 
 
@@ -9,7 +10,22 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ResortSerializer(serializers.ModelSerializer):
-    owner = UserSerializer(read_only = True)
+    # owner = UserSerializer()
+    # location = LocationSerializer()
     class Meta:
         model = Resorts
+        fields = '__all__'
+
+class AdventureSerializer(serializers.ModelSerializer):
+    # owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    # resort = serializers.PrimaryKeyRelatedField(read_only=True)
+    # owner = serializers.IntegerField(read_only=True,source='owner.id')
+    # resort = serializers.IntegerField(read_only=True,source='resprt.id')
+    class Meta:
+        model = Adventures
+        fields = '__all__'
+
+class DestinationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Destinations
         fields = '__all__'

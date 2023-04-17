@@ -5,6 +5,7 @@ import { BsPersonFillAdd } from 'react-icons/bs'
 import { BiNote } from 'react-icons/bi'
 import { SlLogout } from 'react-icons/sl'
 import { IoIosSettings } from 'react-icons/io'
+import { FaHiking, FaLocationArrow } from 'react-icons/fa'
 import './adminsidebar.css'
 
 function AdminSidebar() {
@@ -20,7 +21,8 @@ function AdminSidebar() {
             <Link to='/admin/resorts' ><p className='sidebar-items-top'><AiOutlineHome size={25} className='icons'/> All Resorts</p></Link>
             <Link to='/admin/pendings'><p className='sidebar-items-top'><BiNote size={25} className='icons'/> Pending Requests</p></Link>
             <Link to='/admin/manage-staff'><p className='sidebar-items-top'><BsPersonFillAdd size={25} className='icons'/>Manage Staffs</p></Link>
-            <Link to='/admin/destinations' ><p className='sidebar-items-top'><BiNote size={25} className='icons'/> Destinations</p></Link>
+            <Link to='/admin/adventures'><p className='sidebar-items-top'><FaHiking size={25} className='icons'/>Adventures</p></Link>
+            <Link to='/admin/destinations' ><p className='sidebar-items-top'><FaLocationArrow size={20} className='icons'/> Destinations</p></Link>
             <Link to='/admin/services' ><p className='sidebar-items-top'><BiNote size={25} className='icons'/> Services</p></Link>
             <Link to='/admin/settings' ><p className='sidebar-items-top'><IoIosSettings size={25} className='icons'/> Settings</p></Link>
         </div>

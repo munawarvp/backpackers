@@ -14,6 +14,10 @@ import AddResort from './components/admin side/AddResort';
 import SuperAllResorts from './pages/super admin/SuperAllResorts';
 import ResortsPending from './pages/super admin/ResortPending';
 import ManageStaff from './pages/super admin/ManageStaff';
+import AdventurePage from './components/admin side/AdventurePage';
+import DestinationPage from './components/admin side/DestinationPage';
+import AdminAdventure from './pages/super admin/AdminAdventure';
+import AdminDestination from './pages/super admin/AdminDestination';
 
 
 function App() {
@@ -32,7 +36,9 @@ function App() {
             </Route>
 
             {/* ***staff admin*** */}
-            <Route path='/resorts' element={<ResortPage/>} />
+            <Route path='/staff/resorts' element={<ResortPage/>} />
+            <Route path='/staff/adventure' element={<AdventurePage/>} />
+            <Route path='/staff/destination' element={<DestinationPage/>} />
             <Route path='/bookings' element={<BookingPage/>} />
             <Route path='/add-resort' element={<AddResort/>} />
 
@@ -40,6 +46,8 @@ function App() {
             <Route path='/admin/resorts' element={<SuperAllResorts/>} />
             <Route path='/admin/pendings' element={<ResortsPending/>} />
             <Route path='/admin/manage-staff' element={<ManageStaff/>} />
+            <Route path='/admin/adventures' element={<AdminAdventure/>} />
+            <Route path='/admin/destinations' element={<AdminDestination/>} />
           </Routes>
         </Router>
     </div>

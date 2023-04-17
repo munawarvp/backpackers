@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { getLocal } from '../../../../helpers/auth';
 import axios from 'axios';
+import { BASE_URL } from '../../../../utils/config';
 
 function createData(
     customer,
@@ -36,7 +37,7 @@ function ResortList() {
 
     useEffect(()=>{
         async function resorts() {
-            const response = await axios.get(`http://localhost:8000/resorts/resortslist/?user_id=${user_id}`)
+            const response = await axios.get(`${BASE_URL}/resorts/resortslist/?user_id=${user_id}`)
             setResortList(response.data)
         }
         resorts()
@@ -45,7 +46,6 @@ function ResortList() {
     console.log(resortList);
 
     const rows = [
-        createData('Munawar', '7558916838', '2BHK', 'Paid', '16-03-2023'),
         ...resortList.map((item) => (
             createData(item.resort_name, item.address, item.place, item.phone_number, item.room_type,)
             
@@ -54,12 +54,19 @@ function ResortList() {
         
     ];
 
+    async function searchResorts(keyword) {
+        // const response = await axios.get(`${BASE_URL}/resorts/searchresorts/?search=${keyword}`)
+        setResortList(resortList.filter(item => item.resort_name.includes(keyword)))
+    }
+
   return (
     <div className="MainDash">
         <h1>Resorts</h1>
         
         <div className="header">
-            <input className='search-resort' type="text" placeholder='Search Resort' />
+            <input className='search-resort' type="text" placeholder='Search Resort'
+             onChange={e => searchResorts(e.target.value)}
+            />
             <Link className='link-modi' to={'/add-resort'}><h3 className='add-resort-btn'>Add new Resort</h3></Link> 
         </div>
         <div className="resort-table">

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../../../utils/config'
-import {FaEdit} from 'react-icons/fa'
 import { Switch } from 'antd'
 import './managestaffs.css'
 

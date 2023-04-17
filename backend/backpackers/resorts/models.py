@@ -38,3 +38,41 @@ class Resorts(models.Model):
 
     def __str__(self):
         return self.resort_name
+    
+    
+class Adventures(models.Model):
+    owner         = models.ForeignKey(User, on_delete=models.CASCADE)
+    resort        = models.ForeignKey(Resorts, on_delete=models.CASCADE)
+    activity_name = models.CharField(max_length=200)
+    activity_type = models.CharField(max_length= 200)
+    place         = models.CharField(max_length=200)
+    about         = models.TextField()
+    time_take     = models.CharField(max_length= 200)
+    day_slot      = models.IntegerField()
+    safety        = models.CharField(max_length= 200)
+    is_approved   = models.BooleanField(default=False)
+
+    activity_one       = models.ImageField(upload_to='photos/adventures')
+    activity_two       = models.ImageField(upload_to='photos/adventures')
+    activity_three     = models.ImageField(upload_to='photos/adventures',blank=True, null=True)
+
+    def __str__(self):
+        return self.activity_name
+    
+class Destinations(models.Model):
+    resort      = models.ForeignKey(Resorts, on_delete=models.CASCADE)
+    owner       = models.ForeignKey(User, on_delete=models.CASCADE)
+    place       = models.CharField(max_length=200)
+    location    = models.FloatField(blank=True, null=True)
+    spot_name   = models.CharField(max_length=200)
+    about       = models.TextField()
+    start_time  = models.TimeField()
+    close_time  = models.TimeField()
+    is_approved = models.BooleanField(default=False)
+
+    image_one   = models.ImageField(upload_to='photos/destinations')
+    image_two   = models.ImageField(upload_to='photos/destinations')
+    image_three = models.ImageField(upload_to='photos/destinations', blank=True, null=True)
+
+    def __str__(self):
+        return self.spot_name

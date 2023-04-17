@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode"
 import AdminPanel from "../components/admin side/AdminPanel";
 import SuperAdmin from "../pages/super admin/SuperAdmin"
 import Login from "../components/accounts/Login";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PrivateRoute = ({children, ...rest}) => {
     const response = getLocal('authToken');
@@ -19,7 +19,7 @@ const PrivateRoute = ({children, ...rest}) => {
             return <AdminPanel/>
         }
         else{
-            // <Navigate to='/'/>
+            return <Login/>
         }
 
     }else{

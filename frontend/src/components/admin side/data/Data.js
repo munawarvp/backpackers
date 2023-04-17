@@ -13,8 +13,18 @@ export const SidebarData = [
     {
         icon: UilEstate,
         heading: "Resorts",
-        link: '/resorts'
+        link: '/staff/resorts'
 
+    },
+    {
+        icon: UilPicture,
+        heading: "Adventures",
+        link: "/staff/adventure"
+    },
+    {
+        icon: UilMapPin,
+        heading: "Destinations",
+        link: "/staff/destination",
     },
     {
         icon: UilBookOpen,
@@ -23,19 +33,10 @@ export const SidebarData = [
     },
     {
         icon: UilShield,
-        heading: "Adventure",
-        link: "/adventure"
-    },
-    {
-        icon: UilMapPin,
-        heading: "Destinations",
-        link: "/destinations",
-    },
-    {
-        icon: UilPicture,
         heading: "Services",
-        link: "/services"
+        link: "/staff/services"
     },
+    
 ];
 
 export const CardsData = [

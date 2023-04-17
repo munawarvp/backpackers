@@ -1,10 +1,9 @@
 import React from 'react'
-import { NavLink, Link, useNavigate } from 'react-router-dom'
-import logo from '../../../images/app_logo.png'
+import { Link, useNavigate } from 'react-router-dom'
 import './navbar.css'
 import { getLocal } from '../../../helpers/auth'
 import jwtDecode from 'jwt-decode'
-import { UilSignOutAlt, UilBars } from "@iconscout/react-unicons"
+import { UilSignOutAlt } from "@iconscout/react-unicons"
 
 function Navbar() {
   const history = useNavigate();

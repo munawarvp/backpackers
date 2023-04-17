@@ -1,0 +1,48 @@
+.adventure-panel{
+    background: linear-gradient(
+        106.37deg,
+        #ffe1bc 29.63%,
+        #ffcfd1 51.55%,
+        #f3c6f1 90.85%
+    );
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1.5rem;
+}
+.adventure-glass{
+    display: grid;
+    /* height: 97%; */
+    width: 97%;
+    border-radius: 2rem;
+    background-color: var(--glass);
+    overflow: hidden;
+    grid-template-columns: 13rem auto 12rem;
+    gap: 10px;
+}
+.pop-update-adv{
+    height: 70vh;
+    width: 60%;
+    padding: 1.2rem 1.2rem;
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #71717156;
+    background-color: #ffffff;
+
+}
+.form-group{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+.input-group{
+    width: 40%;
+}
+.add-adv-form{
+    margin-top: 1.5rem;
+}

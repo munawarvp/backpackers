@@ -1,11 +1,12 @@
 import React from 'react'
 import Sidebar from './sidebar/Sidebar'
 import AddResortForm from './maindash/add resort/AddResortForm'
+import './maindash/adventure list/adventurelist.css'
 
 function AddResort() {
   return (
-    <div className='admin-panel'>
-        <div className="app-glass">
+    <div className='adventure-panel'>
+        <div className="adventure-glass">
             <Sidebar/>
             <AddResortForm/>
         </div>
