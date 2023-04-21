@@ -15,15 +15,17 @@ import jwtDecode from 'jwt-decode';
 import { getLocal } from '../../../../helpers/auth';
 import axios from 'axios';
 import { BASE_URL } from '../../../../utils/config';
+import { Toaster } from 'react-hot-toast';
 
 function createData(
-    customer,
-    phone,
-    roomtype,
-    payment,
-    checkin,
+    id,
+    resort_name,
+    address,
+    place,
+    phone_number,
+    is_approved,
 ) {
-    return { customer, phone, roomtype, payment, checkin };
+    return { id, resort_name, address, place, phone_number, is_approved };
 }
 
 
@@ -47,7 +49,7 @@ function ResortList() {
 
     const rows = [
         ...resortList.map((item) => (
-            createData(item.resort_name, item.address, item.place, item.phone_number, item.room_type,)
+            createData(item.id, item.resort_name, item.address, item.place, item.phone_number, item.is_approved,)
             
         ))
     
@@ -55,12 +57,14 @@ function ResortList() {
     ];
 
     async function searchResorts(keyword) {
-        // const response = await axios.get(`${BASE_URL}/resorts/searchresorts/?search=${keyword}`)
-        setResortList(resortList.filter(item => item.resort_name.includes(keyword)))
+        const response = await axios.get(`${BASE_URL}/resorts/searchresorts/${user_id}?search=${keyword}`)
+        // setResortList(resortList.filter(item => item.resort_name.includes(keyword)))
+        setResortList(response.data)
     }
 
   return (
     <div className="MainDash">
+        <Toaster position='top-center' reverseOrder='false' ></Toaster>
         <h1>Resorts</h1>
         
         <div className="header">
@@ -89,12 +93,16 @@ function ResortList() {
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell align="left">{row.customer}</TableCell>
-                                <TableCell align="left">{row.phone}</TableCell>
-                                <TableCell align="left">{row.roomtype}</TableCell>
-                                <TableCell align="left">{row.payment}</TableCell>
-                                <TableCell align="left">{row.checkin}</TableCell>
-                                <TableCell align="left" className='Details' >Update</TableCell>
+                                <TableCell align="left">{row.resort_name}</TableCell>
+                                <TableCell style={{padding:"10px"}} align="left">{row.address}</TableCell>
+                                <TableCell align="left">{row.place}</TableCell>
+                                <TableCell align="left">{row.phone_number}</TableCell>
+                                <TableCell align="left">{row.is_approved ? <p style={{color:"green"}}>Approved</p> : <p style={{color:"red"}}>Pending</p>}</TableCell>
+                                <div style={{display:"flex"}}>
+                                    <Link to={`/staff/view-resort/${row.id}`}><TableCell align="left" className='Details' >View</TableCell></Link>
+                                    <Link to={`/staff/update-resort/${row.id}`}><TableCell align="left" className='Details' >Update</TableCell></Link>
+                                </div>
+                               
                             </TableRow>
                         ))}
                     </TableBody>

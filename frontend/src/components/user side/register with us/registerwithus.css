@@ -1,0 +1,136 @@
+ .flex {
+     display: flex;
+ }
+.titles{
+    text-align: center;
+    color: #fa3c52;
+}
+ .registerwith-main-container {
+     height: 100vh;
+     background: linear-gradient(
+        106.37deg,
+        #fff3d1 29.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #7df9fb 90.85%
+    );
+     align-items: center;
+     justify-content: center;
+ }
+
+ .image-form-container {
+     border: 3px solid #FF919D;
+     max-width: 1024px;
+     margin: auto;
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     padding-right: 3rem;
+ }
+.image-only-container{
+    padding: 2rem;
+}
+ .image-only-container>img {
+     width: 100%;
+     height: 100%;
+ }
+ .form-only-container {
+     padding: 1rem;
+     padding-left: 1.5rem;
+ }
+
+ .registerwith-two-col {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 2rem;
+ }
+
+ .registerwith-input {
+     width: 100%;
+     padding: 10px;
+     background-color: #ffffff82;
+     border: 1px solid transparent;
+     border-bottom: 3px solid #7df9fb;
+     margin-bottom: 13px;
+     margin-right: 1rem;
+ }
+
+ .registerwith-btn {
+     padding: 12px 20px;
+     border: none;
+     cursor: pointer;
+     font-size: 20px;
+     font-weight: bold;
+     color: white;
+     background-color: #FF919D;
+     margin-top: 1.6rem;
+     width: 100%;
+ }
+
+ .registerwith-btn:hover {
+     background-color: #ff6275;
+
+ }
+
+ .registerwith-select {
+     width: 100%;
+     padding: 10px;
+     background-color: #ffffff82;
+     border: 1px solid rgb(232, 232, 232);
+     border-bottom: 3px solid #7df9fb;
+     margin-bottom: 13px;
+     margin-right: 1rem;
+ }
+ .regi-succ-bg{
+    background: linear-gradient(
+        106.37deg,
+        #fff3d1 29.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #7df9fb 90.85%
+    );
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .success-main-container{
+    background-color: white;
+    height: 62vh;
+    width: 50%;
+    
+    
+    
+    box-shadow: 0 0 20px 22px #0000003e;
+    border-radius: 12px;
+ }
+ .regi-heading-div>h2{
+    margin-bottom: 0;
+ }
+ .regi-heading-div>p{
+    margin-bottom: 0;
+ }
+ .regi-heading{
+    text-align: center;
+ }
+ .regi-img{
+    display: flex;
+    justify-content: center;
+ }
+ .done-img{
+    height: 20rem;
+    
+ }
+ .regi-btn-div{
+    display: flex;
+    justify-content: center;
+ }
+ .regi-btn{
+    height: 2.5rem;
+    width: 10rem;
+    border: none;
+    background-color: #FF919D;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+ }

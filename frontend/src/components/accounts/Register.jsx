@@ -32,8 +32,7 @@ function Register() {
       })
       // console.log(response);
       if(response.status === 200){
-        toast.success("Account Created, Please Activate..!").then(history('/login'))
-
+        toast.success("Account Created, Please Activate..!")
       }else{
         toast.error("Something went wrong")
       }

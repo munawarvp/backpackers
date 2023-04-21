@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import User
+from location_field.models.plain import PlainLocationField
 
 # Create your models here.
 
@@ -14,7 +15,7 @@ class Resorts(models.Model):
     owner           = models.ForeignKey(User, on_delete=models.CASCADE)
     resort_name     = models.CharField(max_length=200)
     location        = models.ForeignKey(Location, on_delete=models.CASCADE)
-    map_location    = models.FloatField(blank=True, null=True)
+    map_location    = PlainLocationField(based_fields=['city'], zoom=7, blank=True, null=True)
     place           = models.CharField(max_length=100)
     address         = models.CharField(max_length=250)
     zipcode         = models.CharField(max_length=25)
@@ -60,19 +61,20 @@ class Adventures(models.Model):
         return self.activity_name
     
 class Destinations(models.Model):
-    resort      = models.ForeignKey(Resorts, on_delete=models.CASCADE)
-    owner       = models.ForeignKey(User, on_delete=models.CASCADE)
-    place       = models.CharField(max_length=200)
-    location    = models.FloatField(blank=True, null=True)
-    spot_name   = models.CharField(max_length=200)
-    about       = models.TextField()
-    start_time  = models.TimeField()
-    close_time  = models.TimeField()
-    is_approved = models.BooleanField(default=False)
+    resort       = models.ForeignKey(Resorts, on_delete=models.CASCADE)
+    owner        = models.ForeignKey(User, on_delete=models.CASCADE)
+    place        = models.CharField(max_length=200)
+    location     = models.FloatField(blank=True, null=True)
+    spot_name    = models.CharField(max_length=200)
+    map_location = PlainLocationField(based_fields=['city'], zoom=7, blank=True, null=True)
+    about        = models.TextField()
+    start_time   = models.TimeField()
+    close_time   = models.TimeField()
+    is_approved  = models.BooleanField(default=False)
 
-    image_one   = models.ImageField(upload_to='photos/destinations')
-    image_two   = models.ImageField(upload_to='photos/destinations')
-    image_three = models.ImageField(upload_to='photos/destinations', blank=True, null=True)
+    image_one    = models.ImageField(upload_to='photos/destinations')
+    image_two    = models.ImageField(upload_to='photos/destinations')
+    image_three  = models.ImageField(upload_to='photos/destinations', blank=True, null=True)
 
     def __str__(self):
         return self.spot_name

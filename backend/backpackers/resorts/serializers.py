@@ -17,9 +17,9 @@ class ResortSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AdventureSerializer(serializers.ModelSerializer):
-    # owner = serializers.PrimaryKeyRelatedField(read_only=True)
-    # resort = serializers.PrimaryKeyRelatedField(read_only=True)
-    # owner = serializers.IntegerField(read_only=True,source='owner.id')
+    owner = UserSerializer()
+    resort = ResortSerializer()
+    
     # resort = serializers.IntegerField(read_only=True,source='resprt.id')
     class Meta:
         model = Adventures
@@ -29,3 +29,22 @@ class DestinationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Destinations
         fields = '__all__'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # owner = serializers.IntegerField(read_only=True,source='owner.id')

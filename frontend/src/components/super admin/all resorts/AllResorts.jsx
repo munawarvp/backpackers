@@ -20,12 +20,17 @@ function AllResorts() {
     const handleChange = (id) => {
         axios.get(`${BASE_URL}/resorts/blockresort/${id}`).then(()=>resorts())
     }
-    
+    async function handleSearch(keyword) {
+        const response = await axios.get(`${BASE_URL}/resorts/adminsearchresort/?search=${keyword}`)
+        setAllResorts(response.data)
+    }
   return (
     <div className='table-div'>
             <div className="resort-table-header">
                 <h1 style={{color:"rgba(255, 255, 255, 0.54)"}}>Resorts List</h1>
-                <input className='search-resort-input' type="text" placeholder='Search Resort' />
+                <input className='allresort-search' type="text" placeholder='Search Resort'
+                    onChange={e=> handleSearch(e.target.value)}
+                />
             </div>
             <div className="align-table">
                 <table id="customers">

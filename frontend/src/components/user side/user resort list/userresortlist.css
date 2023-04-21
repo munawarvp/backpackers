@@ -1,0 +1,50 @@
+/* *{
+    margin: 0;
+} */
+.user-resortlist-main{
+    height: 8rem;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.drop-locations{
+    width: 13rem;
+}
+.resort-search-filter{
+    gap: 1.6rem;
+    padding: 10px 25px;
+    background-color: #15406e;
+    color: white;
+    border-radius: 10px;
+}
+.date-for-checkin{
+    height: 2.3rem;
+}
+.total-count-resort{
+    margin-top: 15px;
+}
+.total-count-resort>h3{
+    margin: 0;
+}
+.filter-sort-resort{
+    display: flex;
+    gap: 10rem;
+    padding: 0 25px;
+    height: 3rem;
+    background-color: #d7d7d7;
+    margin-top: 6px;
+    border-radius: 10px;
+}
+.resort-listing{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 20px;
+}
+.single-resort-card{
+    width: 60%;
+    height: 14rem;
+    border: 1px solid rgba(128, 128, 128, 0.693);
+    border-radius: 3px;
+}

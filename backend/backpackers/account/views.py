@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from django.http import HttpResponseRedirect
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
+from rest_framework.filters import SearchFilter
 
 from .serializers import UserSerializer
 from account.models import User
@@ -177,6 +179,11 @@ class ListStaffs(APIView):
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
     
+class AdminSearchStaff(ListCreateAPIView):
+    serializer_class = UserSerializer
+    filter_backends = [SearchFilter]
+    queryset = User.objects.filter(is_staff=True).exclude(is_superadmin=True)
+    search_fields = ['username', 'email']  
 
 class BlockStaff(APIView):
     def get(self, request, pk):

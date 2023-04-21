@@ -1,8 +1,13 @@
-.header{
+.header-navbar{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* padding: 15px 20px; */
+    margin-top: 15px;
+    border-radius: 10px;
+    padding: 0 20px;
+    box-shadow: 4px 4px 10px 7px #0000003e;
+    height: 3.8rem;
+    
 }
 .nav-container {
     cursor: pointer;
@@ -17,16 +22,18 @@
 .toggle{
     display: none;
 }
-.header>ul{
+.header-navbar>ul{
+    padding-left: 0;
     display: flex;
-    gap: 1rem;
+    gap: 4rem;
     list-style-type: none;
 }
 .nav-item{
     text-decoration: none;
-    color: #0077b6;
+    color: #023e8a;
     font-size: 1.2rem;
     transition: 0.1s ease-in-out;
+    
 }
 .nav-item:hover{
     color: #023e8a;

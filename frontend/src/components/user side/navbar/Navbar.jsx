@@ -11,6 +11,7 @@ function Navbar() {
   let user_name;
   if(user_auth){
     user_name = jwtDecode(user_auth)
+    
   }
 
 
@@ -19,7 +20,7 @@ function Navbar() {
     history('/login')
   }
   return (
-    <div className='header'>
+    <div className='header-navbar'>
         <div className="brand">
             <div className="nav-container">
                 <img src="" alt="" />
@@ -33,6 +34,7 @@ function Navbar() {
             <li><Link className='nav-item' to="/adventures">Adventures</Link></li>
             <li><Link className='nav-item' to="/destinations">Destinations</Link></li>
         </ul>
+        { user_auth && user_name.is_staff ? <Link to='/admin-dashboard'><button className='login-btn'>Admin</button></Link> : null}
         {user_auth ? <div className='nav-right-group'><h3>{user_name.username}</h3><UilSignOutAlt onClick={logout} /></div> : <Link to='/login'><button className='login-btn'>Login</button></Link>}
          
     </div>

@@ -2,9 +2,10 @@
 .admin-panel{
     background: linear-gradient(
         106.37deg,
-        #ffe1bc 29.63%,
-        #ffcfd1 51.55%,
-        #f3c6f1 90.85%
+        #fff3d1 29.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #7df9fb 90.85%
     );
     min-height: 100vh;
     display: flex;

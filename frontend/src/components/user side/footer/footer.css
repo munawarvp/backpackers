@@ -1,0 +1,27 @@
+.main-footer-container{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #d0d8ff;
+    padding: 2.5rem;
+    border-radius: 0.5rem;
+
+}
+.ul-links{
+    display: flex;
+    list-style-type: none;
+    gap: 2rem;
+}
+.footer-ul-links{
+    text-decoration: none;
+    color: black;
+    transition: 0.3s ease-in-out;
+}
+.footer-ul-links:hover {
+    color: #302ce9;
+}
+.register-with-us{
+    color: black;
+}
+.register-with-us:hover{
+    color: #302ce9;
+}

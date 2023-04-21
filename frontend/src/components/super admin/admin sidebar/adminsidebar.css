@@ -2,9 +2,10 @@ a{
     text-decoration: none;
 }
 .main-sidebar{
-    background: linear-gradient(to bottom, #1f2b4a, #141c31);
-    height: 83vh;
-    width: 17.5rem;
+    background-color: #6cb4e4;
+    
+    height: 100vh;
+    width: 17rem;
     padding: 30px .5rem;
     display: flex;
     flex-direction: column;
@@ -15,7 +16,7 @@ a{
     padding: 1rem 1rem;
     margin-bottom: .2rem;
     margin: 0;
-    color: white;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     font-size: 1.2rem;
     font-weight: bold;
@@ -23,18 +24,19 @@ a{
     border-left : .4rem solid transparent;
 }
 .sidebar-items-top:hover{
-    background: #ffffff12;
-    border-left-color: #04ffde;
+    color: #6cb4e4;
+    background: white;
+    border-left-color: #349ce4;
 }
 .sidebar-items{
     margin: 0;
-    color: white;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     font-size: 1.2rem;
     font-weight: bold;
     padding: 1rem;
-    border-top:  1px solid GRAY;
-    background: linear-gradient(to bottom, rgba(113, 113, 253, 0.147), transparent);
+    border-top:  1px solid rgb(255, 255, 255);
+    background: linear-gradient(to bottom, #b5b5b53d, transparent);
 }
 .icons{
     margin-right: 12px;

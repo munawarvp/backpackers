@@ -25,11 +25,17 @@ function AllDestination() {
         axios.get(`${BASE_URL}/resorts/blockdestination/${id}`).then(()=>destinations())
         // console.log(response);
     }
+    async function handleSearch(keyword) {
+        const response = await axios.get(`${BASE_URL}/resorts/adminsearchdestination/?search=${keyword}`)
+        setDestinationList(response.data)
+    }
   return (
     <div className='table-div'>
         <div className="resort-table-header">
             <h1>All Destinations</h1>
-            <input className='search-resort-input' type="text" placeholder='Search Staff' />
+            <input className='allresort-search' type="text" placeholder='Search Staff'
+                onChange={e=>handleSearch(e.target.value)}
+            />
         </div>
         <div className="align-table">
                 <table id="customers">

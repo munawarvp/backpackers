@@ -18,6 +18,10 @@ import AdventurePage from './components/admin side/AdventurePage';
 import DestinationPage from './components/admin side/DestinationPage';
 import AdminAdventure from './pages/super admin/AdminAdventure';
 import AdminDestination from './pages/super admin/AdminDestination';
+import RegisterWithPage from './pages/user side/RegisterWithPage';
+import RegisterSuccess from './components/user side/register with us/RegisterSuccess';
+import UpdateResort from './components/admin side/UpdateResort';
+import UserResortPage from './pages/user side/UserResortPage';
 
 
 function App() {
@@ -30,6 +34,9 @@ function App() {
             <Route path='/forgot-password' Component={ForgotPassword} />
             <Route path='/reset-password' Component={ResetPassword} />
             <Route Component={Register} path='/register'/>
+            <Route path='/register-with-us' element={<RegisterWithPage/>}/>
+            <Route path='/register-success' element={<RegisterSuccess/>}/>
+            <Route path='/resorts-list' element={<UserResortPage/>}/>
                 
             <Route path='/admin-dashboard' element={<PrivateRoute/>}>
                 <Route path='/admin-dashboard' element={<AdminPanel/>} />
@@ -41,6 +48,7 @@ function App() {
             <Route path='/staff/destination' element={<DestinationPage/>} />
             <Route path='/bookings' element={<BookingPage/>} />
             <Route path='/add-resort' element={<AddResort/>} />
+            <Route path='/staff/update-resort/:id' element={<UpdateResort/>} />
 
             {/* ***super admin*** */}
             <Route path='/admin/resorts' element={<SuperAllResorts/>} />

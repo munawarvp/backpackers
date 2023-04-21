@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import { BASE_URL } from '../../../../utils/config'
 import { getLocal } from '../../../../helpers/auth'
 import { toast, Toaster } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 // import { useFormik } from 'formik'
 
 
@@ -30,6 +31,8 @@ function AddResortForm() {
   const [image_four, setImageFour] = useState(null)
 
   const [locationList, setLocationlist] = useState([]);
+
+  const history = useNavigate()
 
 
   useEffect(() => {
@@ -131,11 +134,12 @@ function AddResortForm() {
       data: form
     })
     console.log(res);
-    // if(res.status === 200){
-    //   toast.success('200')
-    // }else{
-    //   toast.error(res.statusText)
-    // }
+    if(res.status === 200){
+      toast.success('resort added')
+      history('/staff/resorts')
+    }else{
+      toast.error(res.statusText)
+    }
   }
 
 
@@ -148,7 +152,7 @@ function AddResortForm() {
         <div className='form-container'>
           <form onSubmit={e => handleSubmit(e)} >
             <div className="two-input-row">
-              <div>
+              <div style={{display:"flex", flexDirection:"column"}}>
                 <label htmlFor="resort">Resort Name</label>
                 <input type="text" className='input-needed' name='resort_name'
                   // onChange={formik.handleChange}
@@ -157,7 +161,7 @@ function AddResortForm() {
                   required
                 />
               </div>
-              <div>
+              <div style={{display:"flex", flexDirection:"column"}}>
                 <label htmlFor="location">Place</label>
                 <input type="text" id="location" className='input-needed' name='place'
                   // onChange={formik.handleChange}
@@ -197,7 +201,7 @@ function AddResortForm() {
             </div>
 
             <div className="two-input-row">
-              <div>
+              <div style={{display:"flex", flexDirection:"column"}}>
                 <label htmlFor="zipcode">Zipcode</label>
                 <input
                   type="text"
@@ -211,7 +215,7 @@ function AddResortForm() {
                 />
 
               </div>
-              <div>
+              <div style={{display:"flex", flexDirection:"column"}}>
                 <label htmlFor="roomType">Phone Number</label>
                 <input
                   type="text"
@@ -227,7 +231,7 @@ function AddResortForm() {
             </div>
 
             <div className="two-input-row">
-              <div>
+              <div style={{display:"flex", flexDirection:"column"}}>
                 <label htmlFor="numberOfRooms">Number of Rooms</label>
                 <input
                   type="number"
@@ -263,6 +267,7 @@ function AddResortForm() {
                   id="price"
                   name='price'
                   className='input-needed'
+                  style={{width:"20rem"}}
                   // onChange={formik.handleChange}
                   // value={formik.values.price}
                   onChange={e => setPrice(e.target.value)}
@@ -341,7 +346,9 @@ function AddResortForm() {
                 onChange={e => setImageFour(e.target.files[0])}
               />
             </div>
-            <button type="submit">Submit</button>
+            <div style={{display:"flex", justifyContent:"center"}}>
+              <button className='resort-add-btn' type="submit">Submit</button>
+            </div>
           </form>
         </div>
       </div>

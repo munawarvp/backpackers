@@ -19,6 +19,12 @@
     border: 1px solid #ddd;
     padding: 0 10px;
   }
+
+  .allresort-search{
+    width: 22rem;
+    height: 30px;
+    padding: 5px;
+  }
   
   #customers tr:nth-child(even){background-color: #f2f2f2;}
   
@@ -28,7 +34,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #255BC3;
+    background-color: #349ce4;
     color: white;
   }
   .action-col{

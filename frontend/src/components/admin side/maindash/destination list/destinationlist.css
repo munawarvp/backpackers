@@ -1,0 +1,23 @@
+.add-destination-row{
+    display: flex;
+}
+
+.add-destination-input{
+    width: 20rem;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.803);
+    border: 1px solid rgb(232, 232, 232);
+    border-bottom: 3px solid #FF919D;
+    margin-right: 1rem;
+}
+.add-destination-btn{
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #FF919D;
+    margin-top: 1.6rem;
+    margin-right: 3rem;
+}

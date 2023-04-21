@@ -8,6 +8,9 @@ from .models import Location, Resorts, Adventures, Destinations
 from account.models import User
 from rest_framework import viewsets
 
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+
 
 # ***views for staff admin***
 
@@ -28,20 +31,64 @@ class CreateResort(APIView):
         serializer = ResortSerializer(data=request.data)
         print(request.data)
         is_valid = serializer.is_valid()
-        print(is_valid)
+        print(serializer.errors)
 
         if serializer.is_valid():
             serializer.save()
             print('at last hope')
+            return Response({'msg': 200})
         else :
             print('still no hope')
+            return Response({'msg': 404})
         
-        return Response({'msg':'Registration Success'})
+    def get(self, request, resort_id=None):
+        if resort_id is not None:
+            queryset = Resorts.objects.get(id=resort_id)
+            serializer = ResortSerializer(queryset)
+            return Response(serializer.data)
+        return Response({'msg': 404})
+        
+    def put(self, request, resort_id):
+        try:
+            queryset = Resorts.objects.get(id=resort_id)
+        except:
+            Resorts.DoesNotExist
+            return Response({'msg': 404})
+        print(request.data)
+        
+        serializer = ResortSerializer(queryset, data=request.data)
+        err = serializer.is_valid()
+        print(serializer.errors)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg': 200})
+        else:
+            return Response({'msg': 500})
+        
+    def delete(self, request, resort_id):
+        try:
+            queryset = Resorts.objects.get(id=resort_id)
+            queryset.delete()
+            return Response({'msg': 200})
+        except:
+            Resorts.DoesNotExist
+            return Response({'msg': 500})
+
     
 class SearchResorts(ListCreateAPIView):
-    queryset = Resorts.objects.all()
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = Resorts.objects.filter(owner=user_id)
+        return queryset
     serializer_class = ResortSerializer
     filter_backends = [SearchFilter]
+    queryset = Resorts.objects.all()
+    search_fields = ['resort_name', 'place']
+
+class AdminSearchResort(ListCreateAPIView):
+    serializer_class = ResortSerializer
+    filter_backends = [SearchFilter]
+    queryset = Resorts.objects.all()
     search_fields = ['resort_name', 'place']
 
 # use this view for both creating resort and listing resort in super admin panel
@@ -60,7 +107,7 @@ class ListResorts(viewsets.ModelViewSet):
             print('created')
             return Response(serializer.data)
         else:
-            return Response({'msg': "Not created"})
+            return Response({'msg': 404})
         
 
 class StaffPendingResort(APIView):
@@ -68,17 +115,37 @@ class StaffPendingResort(APIView):
         queryset = Resorts.objects.filter(owner=id).filter(is_approved=False)
         serializer = ResortSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+
+class HomeListResorts(APIView):
+    def get(self, request):
+        queryset = Resorts.objects.filter(is_approved=True)[:4]
+        serializer = ResortSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class HomeListAdventures(APIView):
+    def get(self, request):
+        queryset = Adventures.objects.filter(is_approved=True)[:4]
+        serializer = AdventureSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class HomeListDestinations(APIView):
+    def get(self, request):
+        queryset = Destinations.objects.filter(is_approved=True)[:4]
+        serializer = DestinationSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 # ****adventure view****
 class StaffAdventureList(APIView):
     def post(self, request):
         serializer = AdventureSerializer(data=request.data)
+        print(request.data)
         print(serializer.is_valid())
         print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg': 'Adventure activity created'})
-        return Response({'msg': 'something wrong'})
+            return Response({'msg': 200})
+        return Response({'msg': 404})
     
     def get(self, request, user_id=None):
         if user_id is not None:
@@ -89,7 +156,32 @@ class StaffAdventureList(APIView):
             queryset = Adventures.objects.all()
             serializer = AdventureSerializer(queryset, many=True)
             return Response(serializer.data)
+    
+    def put(self, request, user_id):
+        try:
+            queryset = Adventures.objects.get(id=user_id)
+        except:
+            Adventures.DoesNotExist
+            return Response({'msg': 'Product doesnot exist'})
         
+        serializer = AdventureSerializer(queryset, data=request.data)
+        serializer.is_valid()
+        if serializer.is_valid():
+            serializer.save()
+            print('saved')
+            return Response(serializer.data)
+        print('didnt saved')
+        return Response({'msg': 404})
+    
+    def delete(self, request, user_id):
+        try:
+            queryset = Adventures.objects.get(id=user_id)
+            queryset.delete()
+            return Response({'msg': 200})
+        except:
+            Adventures.DoesNotExist
+            return Response({'msg': 404})
+
 class GetAdventureDetail(APIView):
     def get(self, request, act_id=None):
         if act_id is not None:
@@ -100,6 +192,17 @@ class GetAdventureDetail(APIView):
             return Response({'msg':'get has nothing '})
         
 class SearchAdventure(ListCreateAPIView):
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = Adventures.objects.filter(owner=user_id)
+        return queryset
+    
+    queryset = Adventures.objects.all()
+    serializer_class = AdventureSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['activity_name', 'place']
+
+class AdminSearchAdventure(ListCreateAPIView):
     queryset = Adventures.objects.all()
     serializer_class = AdventureSerializer
     filter_backends = [SearchFilter]
@@ -110,7 +213,6 @@ class SearchAdventure(ListCreateAPIView):
 # *** destination views ***
 class StaffDestinationList(APIView):
     def post(self, request):
-        print(request.data)
         serializer = DestinationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -127,6 +229,26 @@ class StaffDestinationList(APIView):
             queryset = Destinations.objects.all()
             serializer = DestinationSerializer(queryset, many=True)
             return Response(serializer.data)
+        
+    def put(self, request, user_id):
+        try:
+            queryset = Destinations.objects.get(id=user_id)
+        except:
+            Destinations.DoesNotExist
+            return Response({'msg': 404})
+        serializer = DestinationSerializer(queryset, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg': 200})
+        return Response({'msg': 500})
+
+    def delete(self, request, user_id):
+        try:
+            queryset = Destinations.objects.get(id=user_id)
+            queryset.delete()
+            return Response({'msg': 200})
+        except:
+            return Response({'msg': 404})
 
 class GetDestinationDeatail(APIView):
     def get(self, request, id=None):
@@ -140,10 +262,22 @@ class GetDestinationDeatail(APIView):
         return Response(serializer.data)
     
 class SearchDestinations(ListCreateAPIView):
-    queryset = Destinations.objects.all()
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = Destinations.objects.filter(owner=user_id)
+        return queryset
+    
     serializer_class = DestinationSerializer
+    queryset = Destinations.objects.all()
     filter_backend = [SearchFilter]
-    search_fields = ['spot_name']
+    search_fields = ['spot_name', 'place']
+
+class AdminSearchDestination(ListCreateAPIView):
+    serializer_class = DestinationSerializer
+    queryset = Destinations.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ['spot_name', 'place']
+
 # *** destination views ***
 
 # ***views for staff admin***
@@ -177,6 +311,19 @@ class ApproveResort(APIView):
             user.save()
             resort.is_approved = True
             resort.save()
+
+            to_email = user.email
+            resortname = resort.resort_name
+
+            mail_subject = 'Congratulations..! Your resort got approval from our side.'
+            message = render_to_string( 'accounts/resort_approval_email.html', {
+                'user': user,
+                'resort': resortname
+            })
+            
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+
             return Response({'msg': 'user and resort updated'})
         else:
             resort.is_approved = True

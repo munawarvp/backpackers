@@ -8,6 +8,8 @@ import { FiWifiOff } from 'react-icons/fi'
 import { FaSwimmer } from 'react-icons/fa'
 import { AiFillEye } from 'react-icons/ai'
 import { toast, Toaster } from 'react-hot-toast'
+import { getLocal } from '../../../helpers/auth'
+import jwtDecode from 'jwt-decode'
 
 function PendingResorts() {
     const [pendingResort, setPendingResort] = useState([])
@@ -30,14 +32,14 @@ function PendingResorts() {
             const response = await axios.get(`${BASE_URL}/resorts/singleresort/${id}`)
             setSingleResort(response.data)
             setLocation(response.data.location)
-            setOwnerDetails(response.data.owner)
+            // setOwnerDetails(response.data.owner)
         }
         singleResort();
         setToggle(!toggle)
     }
 
     async function handleApproval(user_id, id){
-        console.log(user_id , id);
+        
         const response = await axios.get(`${BASE_URL}/resorts/approveresort/${user_id}/${id}`).then(()=>console.log(response))
         // .then(()=>{if(response.status === 200){
         //     toast.success('Approved')
@@ -114,7 +116,7 @@ function PendingResorts() {
                                     <p><b>Approval Status: </b>{singleResort.is_approval ? "Approved" : "Pending"}</p>
 
                                     <div style={{display:"flex", gap:"3rem", justifyContent:"center"}}>
-                                        <button style={{backgroundColor:"green"}} className='resort-popup-btn' onClick={()=>handleApproval(ownerDetails.id, singleResort.id)}>Accept</button>
+                                        <button style={{backgroundColor:"green"}} className='resort-popup-btn' onClick={()=>handleApproval(singleResort.owner, singleResort.id)}>Accept</button>
                                         <button style={{backgroundColor:"red"}} className='resort-popup-btn' onClick={()=>setToggle(!toggle)}>Cancel</button>
                                     </div>
                                     

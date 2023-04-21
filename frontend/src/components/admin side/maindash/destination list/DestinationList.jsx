@@ -15,9 +15,10 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { getLocal } from '../../../../helpers/auth';
 import { BASE_URL } from '../../../../utils/config';
+import { AddDestinationSchema } from '../../../../validations/FormValidation';
 
 import './destinationlist.css'
-import { toast } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 
 function createData(
     destination,
@@ -27,7 +28,7 @@ function createData(
     is_approved,
     id
 ) {
-    return { destination, resort, place,closing_time, is_approved, id };
+    return { destination, resort, place, closing_time, is_approved, id };
 }
 
 
@@ -39,7 +40,7 @@ function DestinationList() {
     const [addToggle, setAddToggle] = useState(false)
     const [updateToggle, setUpdateToggle] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
         getDestinations();
     }, [])
 
@@ -61,7 +62,7 @@ function DestinationList() {
 
     const formik = useFormik({
         initialValues: {
-            owner : user_id,
+            owner: user_id,
             spot_name: '',
             place: '',
             about: '',
@@ -72,6 +73,7 @@ function DestinationList() {
             image_two: null,
             image_three: null
         },
+        validationSchema: AddDestinationSchema,
         onSubmit: async values => {
             const form = new FormData()
             form.append('owner', formik.values.owner)
@@ -89,7 +91,7 @@ function DestinationList() {
 
             getDestinations();
             setAddToggle(!addToggle)
-            
+
         }
     })
 
@@ -101,22 +103,73 @@ function DestinationList() {
         getResorts();
         setAddToggle(!addToggle)
     }
-    async function getActivity(id) {
+    async function getDestination(id) {
         console.log(id);
         const response = await axios.get(`${BASE_URL}/resorts/getdestinationdetail/${id}`)
         setSingleDestination(response.data)
     }
+    async function handleDelete(resort_id) {
+        const response = await axios.delete(`${BASE_URL}/resorts/stafflistdestination/${resort_id}`)
+        if(response.data.msg === 200){
+            getDestinations();
+            setUpdateToggle(!updateToggle)
+            toast.success('Deleted successfully')
+        }else{
+          toast.error('Something went wrong')
+        }
+    }
     async function searchDestination(keyword) {
-        const response = await axios.get(`${BASE_URL}/resorts/searchdestination/?search=${keyword}`)
+        const response = await axios.get(`${BASE_URL}/resorts/searchdestination/${user_id}?search=${keyword}`)
         setDestinationList(response.data)
     }
 
+    const formik2 = useFormik({
+        initialValues: {
+            owner: user_id,
+            spot_name: '',
+            place: '',
+            about: '',
+            resort: null,
+            start_time: '',
+            close_time: '',
+            image_one: null,
+            image_two: null,
+            image_three: null
+        },
+        onSubmit: async values => {
+            const form2 = new FormData()
+            form2.append('owner', formik2.values.owner)
+            form2.append('spot_name', formik2.values.spot_name)
+            form2.append('place', formik2.values.place)
+            form2.append('about', formik2.values.about)
+            form2.append('resort', formik2.values.resort)
+            form2.append('start_time', formik2.values.start_time)
+            form2.append('close_time', formik2.values.close_time)
+            form2.append('image_one', formik2.values.image_one)
+            form2.append('image_two', formik2.values.image_two)
+            form2.append('image_three', formik2.values.image_three)
+
+            const response = await axios.put(`${BASE_URL}/resorts/stafflistdestination/${singleDestination.id}`, form2)
+
+            if(response.data.msg === 200){
+                toast.success('Updated successfully')
+            }else if(response.data.msg === 404){
+                toast.error('Something went wrong')
+            }else{
+                toast.error('Internal server error')
+            }
+            getDestinations();
+            setUpdateToggle(!updateToggle)
+        }
+    })
+
     return (
         <div className="Maindash">
+            <Toaster position='top-center' reverseOrder='false' ></Toaster>
             <h1>Destinations</h1>
             <div className="header">
                 <input className='search-resort' type="text" placeholder='Search Activity'
-                onChange={(e)=>searchDestination(e.target.value)}
+                    onChange={(e) => searchDestination(e.target.value)}
                 />
                 <h3 className='add-resort-btn' onClick={handleAddnew}>Add new Destination</h3>
             </div>
@@ -132,9 +185,9 @@ function DestinationList() {
                     </div>
                     <div className="resort-images">
                         <h4>Destination Images :</h4>
-                        <img src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
-                        <img src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
-                        {singleDestination.image_three ? <img src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
+                        <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
+                        <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
+                        {singleDestination.image_three ? <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
 
                     </div>
                     <p><b>About Activity : {singleDestination.about}</b> <br /></p>
@@ -153,42 +206,63 @@ function DestinationList() {
                     </div>
                 </div>
                 <form className='add-adv-form' onSubmit={formik.handleSubmit}>
-                    <div className="form-group">
-                        <input className='input-group' type="text" name='spot_name' placeholder='destination name'
-                            onChange={formik.handleChange}
-                            value={formik.values.spot_name}
-                        />
-                        <input className='input-group' type="text" name='place' placeholder='place'
-                            onChange={formik.handleChange}
-                            value={formik.values.place}
-                        />
+                    <div className="add-destination-row">
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Spot Name</label>
+                            <input className='add-destination-input' type="text" name='spot_name' placeholder='destination name'
+                                onChange={formik.handleChange}
+                                value={formik.values.spot_name}
+                            />
+                            {formik.errors.spot_name && formik.touched.spot_name ? <p className='form-errors'>{formik.errors.spot_name}</p> : null}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Place</label>
+                            <input className='add-destination-input' type="text" name='place' placeholder='place'
+                                onChange={formik.handleChange}
+                                value={formik.values.place}
+                            />
+                            {formik.errors.place && formik.touched.place ? <p className='form-errors'>{formik.errors.place}</p> : null}
+                        </div>
                     </div>
-                    <div className="form-group">
-                        
-                        <select name="resort"
-                            onChange={formik.handleChange}
-                            value={formik.values.resort}
-                        >
-                            <option value="">Select your resort</option>
-                            {resortList.map((item) => (
-                                <option value={item.id}>{item.resort_name}</option>
-                            ))}
-                        </select>
+                    <div className="add-destination-row">
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Starting Time</label>
+                            <input className='add-destination-input' style={{ width: "17rem" }} type="time" name='start_time' placeholder='starting time'
+                                onChange={formik.handleChange}
+                                value={formik.values.start_time}
+                            />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Closing Time</label>
+                            <input className='add-destination-input' style={{ width: "17rem" }} type="time" name='close_time' placeholder='closing time'
+                                onChange={formik.handleChange}
+                                value={formik.values.close_time}
+                            />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Your Resort</label>
+                            <select name="resort" className='add-destination-input' style={{ width: "17rem" }}
+                                onChange={formik.handleChange}
+                                value={formik.values.resort}
+                            >
+                                <option value="">Select your resort</option>
+                                {resortList.map((item) => (
+                                    <option value={item.id}>{item.resort_name}</option>
+                                ))}
+                            </select>
+                        </div>
+
                     </div>
-                    <textarea name="about" placeholder='about the adventure activity' rows={6}
-                        onChange={formik.handleChange}
-                        value={formik.values.about}
-                    ></textarea>
-                    <div className="form-group">
-                        <input className='input-group' type="time" name='start_time' placeholder='starting time'
+                    <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                        <label>About</label>
+                        <textarea name="about" placeholder='about the adventure activity' rows={6}
+                            className='add-destination-input' style={{ width: "25rem" }}
                             onChange={formik.handleChange}
-                            value={formik.values.start_time}
-                        />
-                        <input className='input-group' type="time" name='close_time' placeholder='closing time'
-                            onChange={formik.handleChange}
-                            value={formik.values.close_time}
-                        />
+                            value={formik.values.about}
+                        ></textarea>
+                        {formik.errors.about && formik.touched.about ? <p className='form-errors'>{formik.errors.about}</p> : null}
                     </div>
+
                     <div className="form-group">
                         <input className='input-group' type="file" name='image_one'
                             // onChange={formik.handleChange}
@@ -213,7 +287,102 @@ function DestinationList() {
 
                         />
                     </div>
-                    <button type='submit'>Add New</button>
+                    <button className='add-destination-btn' type='submit'>Add New</button>
+                </form>
+
+            </div> : null}
+
+            {updateToggle ? <div className="pop-update-adv">
+                <div>
+                    <div className='resort-name-toggle'>
+                        <h2>Update Destination</h2>
+                        <IoMdCloseCircle size={30} onClick={() => setUpdateToggle(!updateToggle)}/>
+                    </div>
+                </div>
+                <form className='add-adv-form' onSubmit={formik2.handleSubmit}>
+                    <div className="add-destination-row">
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Spot Name</label>
+                            <input className='add-destination-input' type="text" name='spot_name' placeholder='destination name'
+                                onChange={formik2.handleChange}
+                                // value={formik.values.spot_name}
+                                defaultValue={singleDestination.spot_name}
+                            />
+                            {formik.errors.spot_name && formik.touched.spot_name ? <p className='form-errors'>{formik.errors.spot_name}</p> : null}
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Place</label>
+                            <input className='add-destination-input' type="text" name='place' placeholder='place'
+                                onChange={formik2.handleChange}
+                                defaultValue={singleDestination.place}
+                            />
+                            {formik.errors.place && formik.touched.place ? <p className='form-errors'>{formik.errors.place}</p> : null}
+                        </div>
+                    </div>
+                    <div className="add-destination-row">
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Starting Time</label>
+                            <input className='add-destination-input' style={{ width: "17rem" }} type="time" name='start_time' placeholder='starting time'
+                                onChange={formik2.handleChange}
+                                defaultValue={singleDestination.start_time}
+                            />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Closing Time</label>
+                            <input className='add-destination-input' style={{ width: "17rem" }} type="time" name='close_time' placeholder='closing time'
+                                onChange={formik2.handleChange}
+                                defaultValue={singleDestination.close_time}
+                            />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Your Resort</label>
+                            <select name="resort" className='add-destination-input' style={{ width: "17rem" }}
+                                onChange={formik2.handleChange}
+                                defaultValue={singleDestination.resort}
+                            >
+                                <option value="">Select your resort</option>
+                                {resortList.map((item) => (
+                                    <option value={item.id}>{item.resort_name}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                        <label>About</label>
+                        <textarea name="about" placeholder='about the adventure activity' rows={6}
+                            className='add-destination-input' style={{ width: "25rem" }}
+                            onChange={formik2.handleChange}
+                            defaultValue={singleDestination.about}
+                        ></textarea>
+                        {formik.errors.about && formik.touched.about ? <p className='form-errors'>{formik.errors.about}</p> : null}
+                    </div>
+
+                    <div style={{display:"flex"}}>
+                        <div style={{display:"flex", flexDirection:"column"}}>
+                            <input className='input-group' type="file" name='image_one'
+                                // onChange={formik.handleChange}
+                                onChange={(e) => formik2.setFieldValue('image_one', e.target.files[0])}
+                            />
+                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
+                        </div>
+                        <div style={{display:"flex", flexDirection:"column"}}>
+                            <input className='input-group' type="file" name='image_two'
+                                // onChange={formik.handleChange}
+                                onChange={(e) => formik2.setFieldValue('image_two', e.target.files[0])}
+                            />
+                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
+                        </div>
+                        <div style={{display:"flex", flexDirection:"column"}}>
+                            <input className='input-group' type="file" name='image_three'
+                                // onChange={formik.handleChange}
+                                onChange={(e) => formik2.setFieldValue('image_three', e.target.files[0])}
+                            />
+                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" />
+                        </div>
+                    </div>
+                    <button className='add-destination-btn' type='submit'>Update</button>
+                    <button className='resort-delete-btn' onClick={()=>handleDelete(singleDestination.id)}>Delete</button>
                 </form>
 
             </div> : null}
@@ -244,8 +413,8 @@ function DestinationList() {
                                 <TableCell align="left">{row.closing_time}</TableCell>
                                 <TableCell align="left">{row.is_approved ? <p style={{ color: "green" }}>Approved</p> : <p style={{ color: "red" }}>Pending</p>}</TableCell>
                                 <TableCell align="left" className='Details'><div style={{ display: "flex", justifyContent: "space-around" }}>
-                                    <p onClick={() => getActivity(row.id).then(() => setToggle(!toggle))}>View</p>
-                                    <p onClick={() => getActivity(row.id).then(getResorts).then(() => setUpdateToggle(!updateToggle))}>Edit</p></div>
+                                    <p onClick={() => getDestination(row.id).then(() => setToggle(!toggle))}>View</p>
+                                    <p onClick={() => getDestination(row.id).then(getResorts).then(() => setUpdateToggle(!updateToggle))}>Edit</p></div>
                                 </TableCell>
                             </TableRow>
                         ))}

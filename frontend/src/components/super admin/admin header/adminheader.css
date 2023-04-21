@@ -5,16 +5,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
-    background-color: #192238f7;
-    border-bottom: 3px solid #04ffde;
+    color: rgb(255, 255, 255);
+    /* background: linear-gradient(
+        106.37deg,
+        #ffe1bc 29.63%,
+        #ffcfd1 51.55%,
+        #f3c6f1 90.85%
+    ); */
+    /* background-color: #dedad1; */
+    background-color: #349ce4;
+    border-bottom: 3px solid #898989;
 }
 .user-search{
-    height: 30px;
+    height: 32px;
     width: 350px;
     margin-left: 25px;
     padding-left: 20px;
-    border: 2px solid gray;
+    border: 2px solid #6cb4e4;
     border-radius: 3px;
 }
 .header-left{

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import service1 from "../../../images/service1.png";
 import service2 from "../../../images/service2.png";
 import service3 from "../../../images/service3.png";
@@ -16,8 +16,32 @@ import info2 from "../../../images/info2.png";
 import info3 from "../../../images/info3.png";
 
 import './services.css'
+import axios from 'axios';
+import { BASE_URL } from '../../../utils/config';
 
 function Services() {
+    const [resortList, setResortList] = useState([])
+    const [adventureList, setAdventureList] = useState([])
+    const [destinationList, setDestinationList] = useState([])
+
+    useEffect(()=>{
+        getResorts();
+        getAdventures();
+        getDestinations();
+    }, [])
+
+    async function getResorts() {
+        const respone = await axios.get(`${BASE_URL}/resorts/homelistresort`)
+        setResortList(respone.data)
+    }
+    async function getAdventures() {
+        const respone = await axios.get(`${BASE_URL}/resorts/homelistadventure`)
+        setAdventureList(respone.data)
+    }
+    async function getDestinations() {
+        const respone = await axios.get(`${BASE_URL}/resorts/homelistdestination`)
+        setDestinationList(respone.data)
+    }
     const data = [
         {
             icon: service1,
@@ -116,9 +140,9 @@ function Services() {
 
             <div id="recommend">
                 <div className="title">
-                    <h2>Recommended Destinations</h2>
+                    <h2>Recommended Resorts</h2>
                 </div>
-                <div className="packages">
+                {/* <div className="packages">
                     <ul>
                         {packages.map((pkg, index) => {
                             return (
@@ -131,25 +155,90 @@ function Services() {
                             );
                         })}
                     </ul>
-                </div>
+                </div> */}
                 <div className="destinations">
-                    {datatwo.map((destination) => {
+                    {resortList.map((destination) => {
                         return (
                             <div className="destination">
-                                <img src={destination.image} alt="" />
-                                <h3>{destination.title}</h3>
-                                <p>{destination.subTitle}</p>
+                                <div className="resort-img-container">
+                                    <img className='home-resort-img' src={`${BASE_URL}/${destination.image_one}`} alt="" />
+                                </div>
+                                
+                                <h3>{destination.resort_name}</h3>
+                                <p>{destination.address}</p>
                                 <div className="info">
                                     <div className="services-recom">
                                         <img src={info1} alt="" />
                                         <img src={info2} alt="" />
                                         <img src={info3} alt="" />
                                     </div>
-                                    <h4>{destination.cost}</h4>
+                                    <h4>{destination.price} ₹</h4>
                                 </div>
                                 <div className="distance">
-                                    <span>1000 Kms</span>
+                                    <span>reviews</span>
                                     <span>{destination.duration}</span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div id="recommend">
+                <div className="title">
+                    <h2>Recommended Activities</h2>
+                </div>
+                <div className="destinations">
+                    {adventureList.map((destination) => {
+                        return (
+                            <div className="destination">
+                                <div className="resort-img-container">
+                                    <img className='home-resort-img' src={`${BASE_URL}/${destination.activity_one}`} alt="" />
+                                </div>
+                                
+                                <h3>{destination.activity_name}</h3>
+                                <p>{destination.about}</p>
+                                <div className="info">
+                                    <div className="services-recom">
+                                        <img src={info1} alt="" />
+                                        <img src={info2} alt="" />
+                                        <img src={info3} alt="" />
+                                    </div>
+                                    <h4>Time : {destination.time_take} Minutes</h4>
+                                </div>
+                                <div className="distance">
+                                    <span>reviews</span>
+                                    
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div id="recommend">
+                <div className="title">
+                    <h2>Poppular Destinations</h2>
+                </div>
+                <div className="destinations">
+                    {destinationList.map((destination) => {
+                        return (
+                            <div className="destination">
+                                <div className="resort-img-container">
+                                    <img className='home-resort-img' src={`${BASE_URL}/${destination.image_one}`} alt="" />
+                                </div>
+                                
+                                <h3>{destination.spot_name}</h3>
+                                <p>{destination.about}</p>
+                                <div className="info">
+                                    <div className="services-recom">
+                                        <img src={info1} alt="" />
+                                        <img src={info2} alt="" />
+                                        <img src={info3} alt="" />
+                                    </div>
+                                    <h4>{destination.place}</h4>
+                                </div>
+                                <div className="distance">
+                                    <span>reviews</span>
+                                    
                                 </div>
                             </div>
                         );

@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
 
-    
+    'location_field.apps.DefaultConfig',
+
 ]
 
 REST_FRAMEWORK = {
@@ -118,7 +119,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
+LOCATION_FIELD = {
+    'provider.mapbox.access_token': 'pk.eyJ1IjoibGFzZXJsYWQiLCJhIjoiY2xnaXoweTBpMTBuZTNkcGh6YjJ6emh6aiJ9.fzEafvzlOKjLZPcreOKjDg',
+    'provider.mapbox.max_zoom': 18,
+    'provider.mapbox.id': 'mapbox.streets',
+}
 
 ROOT_URLCONF = 'backpackers.urls'
 

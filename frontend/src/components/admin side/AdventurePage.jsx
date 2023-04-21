@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from './sidebar/Sidebar'
-import AdventueList from './maindash/adventure list/AdventueList'
 import './maindash/adventure list/adventurelist.css'
+import AdventueList from './maindash/adventure list/AdventueList'
 
 function AdventurePage() {
   return (
