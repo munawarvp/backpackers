@@ -41,3 +41,26 @@ export const RegisterWithSchema = Yup.object({
     
     description: Yup.string().min(4).required('This field is required'),
 })
+
+export const BookingSchema = Yup.object({
+    first_name: Yup.string().min(4).required('first name is required'),
+    last_name: Yup.string().min(4).required('last name is requires'),
+    phone_number: Yup.string().min(4).required('phone number is requires'),
+    email: Yup.string().min(4).required('email is requires'),
+    address: Yup.string().min(4).required('address is requires'),
+    occupancy: Yup.number().typeError('This field must be a valid number').required('Add number of guests'),
+    check_in: Yup.date().typeError('This field must be a valid date').required('Check in date is required'),
+    check_out: Yup.date().typeError('This field must be a valid date').required('Check Out date is required')
+})
+
+export const ActivityBookingSchema = Yup.object({
+    first_name: Yup.string().min(4).required('first name is required'),
+    email: Yup.string().min(4).required('email is requires'),
+    address: Yup.string().min(4).required('address is requires'),
+    age: Yup.number().typeError('Age should be a valid number').required('Age is required'),
+    activity_date: Yup.date().typeError('This field must be a valid date').required('book in date is required'),
+    phone_number: Yup.string().min(4).required('phone number is requires'),
+    weight: Yup.number().typeError('weight should be a valid number').required('weight is required'),
+    guardian_name: Yup.string().min(4).required('guardian name  is required'),
+    guardian_phone: Yup.string().min(4).required('guardian phone  is required'),
+})

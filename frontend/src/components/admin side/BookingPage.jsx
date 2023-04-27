@@ -1,11 +1,13 @@
 import React from 'react'
 import Sidebar from './sidebar/Sidebar'
+import ResortBookingList from './maindash/booking list/ResortBookingList'
 
 function BookingPage() {
   return (
-    <div className='admin-panel'>
-        <div className="app-glass">
+    <div className='adventure-panel'>
+        <div className="adventure-glass">
             <Sidebar/>
+            <ResortBookingList/>
         </div>
     </div>
   )

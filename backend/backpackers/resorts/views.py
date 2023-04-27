@@ -115,7 +115,44 @@ class StaffPendingResort(APIView):
         queryset = Resorts.objects.filter(owner=id).filter(is_approved=False)
         serializer = ResortSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class FilterResorts(APIView):
+    def get(self, request, id, value):
+        if value == 1:
+            queryset = Resorts.objects.filter(owner=id).filter(is_approved=True)
+        elif value == 2:
+            queryset = Resorts.objects.filter(owner=id).filter(is_approved=False)
+        else:
+            queryset = Resorts.objects.filter(owner=id).all()
+
+        serializer = ResortSerializer(queryset, many=True)
+        return Response(serializer.data)
     
+class FilterActivity(APIView):
+    def get(self, request, id, value):
+        if value == 1:
+            queryset = Adventures.objects.filter(owner=id).filter(is_approved=True)
+        elif value == 2:
+            queryset = Adventures.objects.filter(owner=id).filter(is_approved=False)
+        else:
+            queryset = Adventures.objects.filter(owner=id).all()
+
+        serializer = AdventureSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class FilterDestination(APIView):
+    def get(self, request, id, value):
+        if value == 1:
+            queryset = Destinations.objects.filter(owner=id).filter(is_approved=True)
+        elif value == 2:
+            queryset = Destinations.objects.filter(owner=id).filter(is_approved=False)
+        else:
+            queryset = Destinations.objects.filter(owner=id).all()
+
+        serializer = DestinationSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+# user side views starts    
 
 class HomeListResorts(APIView):
     def get(self, request):
@@ -134,6 +171,32 @@ class HomeListDestinations(APIView):
         queryset = Destinations.objects.filter(is_approved=True)[:4]
         serializer = DestinationSerializer(queryset, many=True)
         return Response(serializer.data)
+
+class UserResortList(APIView):
+    def get(self, request):
+        queryset = Resorts.objects.filter(is_approved=True)
+        serializer = ResortSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class UserAdventureList(APIView):
+    def get(self, request):
+        queryset = Adventures.objects.filter(is_approved=True)
+        serializer = AdventureSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class UserDestinationList(APIView):
+    def get(self, request):
+        queryset = Destinations.objects.filter(is_approved=True)
+        serializer = DestinationSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class SingleResortView(APIView):
+    def get(self, request, resort_id):
+        queryset = Resorts.objects.get(id=resort_id)
+        serializer = ResortSerializer(queryset)
+        return Response(serializer.data)
+    
+# user side views
 
 # ****adventure view****
 class StaffAdventureList(APIView):
@@ -330,6 +393,12 @@ class ApproveResort(APIView):
             resort.save()
             return Response({'msg': 'resort only updated'})
         
+class RejectResort(APIView):
+    def delete(self, request, id):
+        resort = Resorts.objects.get(id=id)
+        resort.delete()
+        return Response({'msg': 200})
+        
 class BlockResort(APIView):
     def get(self, request, pk):
         resort = Resorts.objects.get(id=pk)
@@ -350,3 +419,41 @@ class BlockDestination(APIView):
         destination.is_approved = not destination.is_approved
         destination.save()
         return Response({'msg': destination.is_approved})
+
+
+class AdminFilterResorts(APIView):
+    def get(self, request, value):
+        if value == 1:
+            queryset = Resorts.objects.filter(is_approved=True)
+        elif value == 2:
+            queryset = Resorts.objects.filter(is_approved=False)
+        else:
+            queryset = Resorts.objects.all()
+
+        serializer = ResortSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class AdminFilterActivity(APIView):
+    def get(self, request, value):
+        if value == 1:
+            queryset = Adventures.objects.filter(is_approved=True)
+        elif value == 2:
+            queryset = Adventures.objects.filter(is_approved=False)
+        else:
+            queryset = Adventures.objects.all()
+
+        serializer = AdventureSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class AdminFilterDestination(APIView):
+    def get(self, request, value):
+        if value == 1:
+            queryset = Destinations.objects.filter(is_approved=True)
+        elif value == 2:
+            queryset = Destinations.objects.filter(is_approved=False)
+        else:
+            queryset = Destinations.objects.all()
+
+        serializer = DestinationSerializer(queryset, many=True)
+        return Response(serializer.data)
+

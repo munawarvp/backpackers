@@ -49,6 +49,13 @@ function PendingResorts() {
         pending()
         toast.success('Resort Approved')
     }
+
+    async function handleRejection(id) {
+        const response = await axios.delete(`${BASE_URL}/resorts/rejectresort/${id}`)
+        pending();
+        toast.success('Resort deleted')
+        setToggle(!toggle)
+    }
     
   return (
     <div className='table-div'>
@@ -85,8 +92,8 @@ function PendingResorts() {
                                         <IoMdCloseCircle size={30} onClick={()=>setToggle(!toggle)}/>
                                     </div>
                                     <div style={{display:"flex", gap:"3rem"}}>
-                                        <h3>Owner : {ownerDetails.username}</h3>
-                                        <h3>Email : {ownerDetails.email}</h3>
+                                        <h3>Owner : {singleResort.owner && singleResort.owner.username}</h3>
+                                        <h3>Email : {singleResort.owner && singleResort.owner.email}</h3>
                                     </div>
                                     
                                     <p><b>Phone : </b>{singleResort.phone_number}</p>
@@ -117,7 +124,7 @@ function PendingResorts() {
 
                                     <div style={{display:"flex", gap:"3rem", justifyContent:"center"}}>
                                         <button style={{backgroundColor:"green"}} className='resort-popup-btn' onClick={()=>handleApproval(singleResort.owner, singleResort.id)}>Accept</button>
-                                        <button style={{backgroundColor:"red"}} className='resort-popup-btn' onClick={()=>setToggle(!toggle)}>Cancel</button>
+                                        <button style={{backgroundColor:"red"}} className='resort-popup-btn' onClick={()=>handleRejection(singleResort.id)}>Reject</button>
                                     </div>
                                     
                                 </div>

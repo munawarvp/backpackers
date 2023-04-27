@@ -29,7 +29,7 @@ export const SidebarData = [
     {
         icon: UilBookOpen,
         heading: "Bookings",
-        link: "/bookings"
+        link: "/staff/bookings"
     },
     {
         icon: UilShield,

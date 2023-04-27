@@ -1,0 +1,207 @@
+.checkout-heading{
+    margin-top: 3rem;
+    text-align: center;
+}
+.form-details-container{
+    display: flex;
+    width: 100%;
+    height: max-content;
+    /* background-color: brown; */
+    gap: 1rem;
+}
+.checkform-container{
+    width: 65%;
+    height: max-content;
+    background-color: #dce2ff;
+    border-radius: 8px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.booking-form-dates{
+    width: 85%;
+    display: flex;
+    gap: 1rem;
+}
+.booking-checkout-input-container{
+    width: 85%;
+    margin-bottom: 1.2rem;
+}
+.booking-input-name{
+    width: 85%;
+    border: none;
+    border-radius: 3px;
+    padding: 12px 15px;
+    margin-bottom: 3px;
+}
+.booking-input-date{
+    width: 70%;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin-bottom: 1.2rem;
+}
+.details-container{
+    width: 30%;
+    border-radius: 8px;
+    padding: 1.2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d1d1d175;
+}
+.booking-img-container{
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    
+}
+.booking-resort-img{
+    width: 100%;
+    height: 150px;
+    /* object-fit: cover; */
+}
+.booking-details-name{
+    max-width: 70%;
+}
+.booking-details-small{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 70%;
+}
+.booking-details-name>h3,h4{
+    margin-top: 5px;
+    margin-bottom: 0;
+    
+}
+.booking-details-card{
+    border: 3px solid rgb(171, 171, 171);
+    border-radius: 8px;
+    width: 80%;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.booking-right-input{
+    width: 90%;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin-bottom: 1.2rem;
+}
+.booking-details-input{
+    width: 70%;
+}
+.booking-payment-method{
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.booking-btn-container{
+    margin-top: 20px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+.booking-btn{
+    border: none;
+    border-radius: 3px;
+    font-size: 20px;
+    height: 35px;
+    width: 80%;
+    color: white;
+    background-color: #4361ee;
+}
+.booking-btn:hover{
+    background-color: #3c57d0;
+}
+
+
+
+
+
+/* booking-success */
+
+
+.booking-succ-bg{
+    
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.booking-success-main-container{
+    background-color: white;
+    height: 70vh;
+    width: 70%;
+    box-shadow: 0 0 20px 22px #0000003e;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.booking-heading-div{
+    padding: 30px 0;
+}
+.booking-summary-heading{
+    color: #15406e;
+}
+.booking-summary-container{
+    width: 80%;
+}
+.summary-img-container{
+    width: 100%;
+    margin-top: 5px;
+}
+.summary-image{
+    height: 130px;
+    margin-right: 1rem;
+    box-shadow: 0 0 5px 5px #0000003e;
+}
+.summary-resort-headings{
+    font-weight: bold;
+}
+.summary-resort-name{
+    font-weight: bold;
+    color: #15406e;
+    margin-top: 10px;
+}
+.summary-checkin{
+    margin-top: 10px;
+    box-shadow: 0 0 5px 5px #0000003e;
+    width: max-content;
+    padding: 7px;
+    border-radius: 4px;
+}
+.booking-summary-btn{
+    border: none;
+    border-radius: 4px;
+    height: 40px; 
+    width: 120px;
+    background-color: #3c57d0;
+    color: white;
+    font-size: 17px;
+}
+.booking-payment-info{
+    display: flex;
+    justify-content: space-between;
+}
+.summary-resort-payment{
+    font-weight: bold;
+    margin-top: 10px;
+}
+.adventure-booking-name-email{
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+}
+.booking-input-half{
+    width: 40%;
+    border: none;
+    border-radius: 3px;
+    padding: 12px 15px;
+    margin-bottom: 3px;
+}

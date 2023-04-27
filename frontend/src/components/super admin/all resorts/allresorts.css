@@ -15,52 +15,57 @@
     width: 100%;
   }
   
-  #customers td, #customers th {
-    border: 1px solid #ddd;
-    padding: 0 10px;
-  }
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+/* .all-resort-table-td{
+  padding: 0 10px;
+} */
+.allresort-search{
+  width: 22rem;
+  height: 30px;
+  padding: 5px;
+}
 
-  .allresort-search{
-    width: 22rem;
-    height: 30px;
-    padding: 5px;
-  }
-  
-  #customers tr:nth-child(even){background-color: #f2f2f2;}
-  
-  #customers tr:hover {background-color: #ddd;}
-  
-  #customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #349ce4;
-    color: white;
-  }
-  .action-col{
-    width: 130px;
-  }
-  .room_avail_col{
-    width: 120px;
-  }
-  .action-text{
-    color: black;
-    text-decoration: none;
-  }
-  .resort-table-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .search-resort-input{
-    width: 50%;
-    height: 40px;
-  }
-  .approved{
-    color: green;
-    font-weight: bold;
-  }
-  .pending{
-    color: orangered;
-    font-weight: bold;
-  }
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #349ce4;
+  color: white;
+}
+.action-col{
+  width: 130px;
+}
+.room_avail_col{
+  width: 120px;
+}
+.action-text{
+  color: black;
+  text-decoration: none;
+}
+.resort-table-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.search-resort-input{
+  width: 50%;
+  height: 40px;
+}
+.approved{
+  color: green;
+  font-weight: bold;
+}
+.pending{
+  color: orangered;
+  font-weight: bold;
+}
+.resort-filter-drop{
+  width: 10rem;
+}

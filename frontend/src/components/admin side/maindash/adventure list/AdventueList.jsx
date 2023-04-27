@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik'
 
+import Select from 'react-select';
 
 import { IoMdCloseCircle } from 'react-icons/io'
 
@@ -95,7 +96,7 @@ function AdventueList() {
             const response = await axios.post(`${BASE_URL}/resorts/stafflistadventure/`, form)
             if (response.data.msg === 200) {
                 toast.success('Added Sucessfully')
-            }else{
+            } else {
                 toast.error('Something went wrong')
             }
             getAdventure();
@@ -123,12 +124,12 @@ function AdventueList() {
 
     async function handleDelete(resort_id) {
         const response = await axios.delete(`${BASE_URL}/resorts/stafflistadventure/${resort_id}`)
-        if(response.data.msg === 200){
+        if (response.data.msg === 200) {
             getAdventure();
             setUpdateToggle(!updateToggle)
             toast.success('Deleted successfully')
-        }else{
-          toast.error('Something went wrong')
+        } else {
+            toast.error('Something went wrong')
         }
     }
 
@@ -177,26 +178,35 @@ function AdventueList() {
 
             const response = await axios.put(`${BASE_URL}/resorts/stafflistadventure/${singleAdv.id}`, form2)
 
-            if(response.data.msg === 404){
+            if (response.data.msg === 404) {
                 toast.error('didnt updated')
             }
-            else{
+            else {
                 toast.success('updated successfully')
                 setUpdateToggle(!updateToggle)
             }
-
-            
         }
     })
-
+    const options = [
+        { value: 0, label: 'All' },
+        { value: 1, label: 'Approved' },
+        { value: 2, label: 'Pending' }
+    ]
+    const handleFilter = async (option)=> {
+        const response = await axios.get(`${BASE_URL}/resorts/filteractivity/${user_id}/${option.value}`)
+        setActivityList(response.data)
+    }
     return (
         <div className="MainDash">
             <Toaster position='top-center' reverseOrder='false' ></Toaster>
             <h1>Adventures</h1>
             <div className="header">
-                <input className='search-resort' type="text" placeholder='Search Activity'
-                    onChange={(e) => searchActivity(e.target.value)}
-                />
+                <div className="resort-list-header-left">
+                    <input className='search-resort' type="text" placeholder='Search Resort'
+                        onChange={e => searchActivity(e.target.value)}
+                    />
+                    <Select className='drop-locations' options={options} onChange={handleFilter} />
+                </div>
                 <h3 className='add-resort-btn' onClick={handleAddnew}>Add new Activity</h3>
             </div>
             {toggle ? <div className='pop-update-adv'>
@@ -211,9 +221,9 @@ function AdventueList() {
                     </div>
                     <div className="resort-images">
                         <h4>Activity Images :</h4>
-                        <img style={{height: "9rem"}} src={`${BASE_URL}/${singleAdv.activity_one}`} alt="" />
-                        <img style={{height: "9rem"}} src={`${BASE_URL}/${singleAdv.activity_two}`} alt="" />
-                        {singleAdv.activity_three ? <img style={{height: "9rem"}} src={`${BASE_URL}/${singleAdv.activity_three}`} alt="" /> : null}
+                        <img style={{ height: "9rem" }} src={`${BASE_URL}/${singleAdv.activity_one}`} alt="" />
+                        <img style={{ height: "9rem" }} src={`${BASE_URL}/${singleAdv.activity_two}`} alt="" />
+                        {singleAdv.activity_three ? <img style={{ height: "9rem" }} src={`${BASE_URL}/${singleAdv.activity_three}`} alt="" /> : null}
 
                     </div>
                     <p><b>About Activity : {singleAdv.about}</b> <br /></p>
@@ -416,31 +426,31 @@ function AdventueList() {
                             />
                         </div>
                     </div>
-                    <div style={{display:"flex"}}>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                    <div style={{ display: "flex" }}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input type="file" name='activity_one'
 
                                 onChange={(e) => formik2.setFieldValue('activity_one', e.target.files[0])}
                             />
-                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleAdv.activity_one}`} alt="" />
+                            <img style={{ height: "9rem", marginRight: "6px" }} src={`${BASE_URL}/${singleAdv.activity_one}`} alt="" />
                         </div>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input className='input-group' type="file" name='activity_two'
                                 onChange={(e) => formik2.setFieldValue('activity_two', e.target.files[0])}
                             />
-                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleAdv.activity_two}`} alt="" />
+                            <img style={{ height: "9rem", marginRight: "6px" }} src={`${BASE_URL}/${singleAdv.activity_two}`} alt="" />
                         </div>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input className='input-group' type="file" name='activity_three'
                                 // onChange={formik.handleChange}
                                 onChange={(e) => formik2.setFieldValue('activity_three', e.target.files[0])}
                             />
-                            <img style={{height: "9rem"}} src={`${BASE_URL}/${singleAdv.activity_three}`} alt="" />
+                            <img style={{ height: "9rem" }} src={`${BASE_URL}/${singleAdv.activity_three}`} alt="" />
                         </div>
                     </div>
 
                     <button className='activity-add-btn' type='submit'>Update</button>
-                    <button className='resort-delete-btn' onClick={()=>handleDelete(singleAdv.id)}>Delete</button>
+                    <button className='resort-delete-btn' onClick={() => handleDelete(singleAdv.id)}>Delete</button>
 
                 </form>
 
@@ -467,7 +477,7 @@ function AdventueList() {
 
                             >
                                 <TableCell align="left">{row.activity_name}</TableCell>
-                                <TableCell align="left">{row.resort}</TableCell>
+                                <TableCell align="left">{row.resort ? row.resort.resort_name : null}</TableCell>
                                 <TableCell align="left">{row.activity_type}</TableCell>
                                 <TableCell align="left">{row.place}</TableCell>
                                 <TableCell align="left">{row.is_approved ? <p style={{ color: "green" }}>Approved</p> : <p style={{ color: "red" }}>Pending</p>}</TableCell>

@@ -1,0 +1,119 @@
+.breadcremps{
+    display: flex;
+    gap: 1rem;
+    margin-top: 10px;
+    margin-left: 9rem;
+}
+.link{
+    color: black;
+}
+
+.single-resort-img-container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.single-resort-first-image{
+    height: 30rem;
+    
+    object-fit: cover;
+}
+
+.single-resort-remaining-image{
+    height: 150px;
+    margin-bottom: 1rem;
+    object-fit: cover;
+}
+.single-resort-heading{
+    width: 63%;
+}
+.single-heading-container{
+    display: flex;
+    justify-content: center;
+}
+.single-resort-place{
+    font-weight: bold;
+    color: #15406e;
+    margin-bottom: 10px;
+}
+.single-resort-about{
+    font-size: 14px;
+}
+.single-resort-heading>h3,h2,p{
+    margin: 0;
+
+}
+.single-resort-price{
+    color: #15406e;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.availability-btn{
+    border: none;
+    border-radius: 3px;
+    height: 2.5rem;
+    width: 9rem;
+    background-color: #4361ee;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.book-now-btn{
+    border: none;
+    border-radius: 3px;
+    height: 2.5rem;
+    width: 8rem;
+    background-color: #4361ee;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+.resort-subheading-container{
+    display: flex;
+    justify-content: center;
+}
+.resort-subheading{
+    /* border-bottom: 3.5px solid #15406e; */
+    width: 68%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+.nav-sub-heading{
+    text-align: center;
+    border-bottom: 3.5px solid #15406e;
+    width: 15%;
+}
+.nav-sub-heading:hover{
+    border-bottom: 3.5px solid #4361ee;
+    color: #15406e;
+}
+.resort-overview-container{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 20px;
+}
+.resort-overview{
+    width: 68%;
+}
+.resort-overview-details{
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.resort-overview-place{
+    margin-bottom: 10px;
+}
+.resort-room-type{
+    width: 68%;
+    margin-top: 20px;
+}
+
+.resort-map-location{
+    width: 68%;
+    margin-top: 20px;
+}

@@ -47,6 +47,7 @@ class Adventures(models.Model):
     activity_name = models.CharField(max_length=200)
     activity_type = models.CharField(max_length= 200)
     place         = models.CharField(max_length=200)
+    price         = models.IntegerField()
     about         = models.TextField()
     time_take     = models.CharField(max_length= 200)
     day_slot      = models.IntegerField()

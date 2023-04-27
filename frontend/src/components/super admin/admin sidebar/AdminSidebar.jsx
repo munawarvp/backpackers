@@ -23,7 +23,7 @@ function AdminSidebar() {
             <Link to='/admin/manage-staff'><p className='sidebar-items-top'><BsPersonFillAdd size={25} className='icons'/>Manage Staffs</p></Link>
             <Link to='/admin/adventures'><p className='sidebar-items-top'><FaHiking size={25} className='icons'/>Adventures</p></Link>
             <Link to='/admin/destinations' ><p className='sidebar-items-top'><FaLocationArrow size={20} className='icons'/> Destinations</p></Link>
-            <Link to='/admin/services' ><p className='sidebar-items-top'><BiNote size={25} className='icons'/> Services</p></Link>
+            <Link to='/admin/bookings' ><p className='sidebar-items-top'><BiNote size={25} className='icons'/> Bookings</p></Link>
             <Link to='/admin/settings' ><p className='sidebar-items-top'><IoIosSettings size={25} className='icons'/> Settings</p></Link>
         </div>
         <div className='top-items'>

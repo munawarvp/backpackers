@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useFormik } from 'formik'
 
-
+import Select from 'react-select';
 import { IoMdCloseCircle } from 'react-icons/io'
 
 import axios from 'axios';
@@ -110,12 +110,12 @@ function DestinationList() {
     }
     async function handleDelete(resort_id) {
         const response = await axios.delete(`${BASE_URL}/resorts/stafflistdestination/${resort_id}`)
-        if(response.data.msg === 200){
+        if (response.data.msg === 200) {
             getDestinations();
             setUpdateToggle(!updateToggle)
             toast.success('Deleted successfully')
-        }else{
-          toast.error('Something went wrong')
+        } else {
+            toast.error('Something went wrong')
         }
     }
     async function searchDestination(keyword) {
@@ -151,11 +151,11 @@ function DestinationList() {
 
             const response = await axios.put(`${BASE_URL}/resorts/stafflistdestination/${singleDestination.id}`, form2)
 
-            if(response.data.msg === 200){
+            if (response.data.msg === 200) {
                 toast.success('Updated successfully')
-            }else if(response.data.msg === 404){
+            } else if (response.data.msg === 404) {
                 toast.error('Something went wrong')
-            }else{
+            } else {
                 toast.error('Internal server error')
             }
             getDestinations();
@@ -163,14 +163,28 @@ function DestinationList() {
         }
     })
 
+    const options = [
+        { value: 0, label: 'All' },
+        { value: 1, label: 'Approved' },
+        { value: 2, label: 'Pending' }
+    ]
+
+    const handleFilter = async (option) => {
+        const response = await axios.get(`${BASE_URL}/resorts/filterdestination/${user_id}/${option.value}`)
+        setDestinationList(response.data)
+    }
+
     return (
         <div className="Maindash">
             <Toaster position='top-center' reverseOrder='false' ></Toaster>
             <h1>Destinations</h1>
             <div className="header">
-                <input className='search-resort' type="text" placeholder='Search Activity'
-                    onChange={(e) => searchDestination(e.target.value)}
-                />
+                <div className="resort-list-header-left">
+                    <input className='search-resort' type="text" placeholder='Search Resort'
+                        onChange={e => searchDestination(e.target.value)}
+                    />
+                    <Select className='drop-locations' options={options} onChange={handleFilter} />
+                </div>
                 <h3 className='add-resort-btn' onClick={handleAddnew}>Add new Destination</h3>
             </div>
             {toggle ? <div className='pop-update-adv'>
@@ -185,9 +199,9 @@ function DestinationList() {
                     </div>
                     <div className="resort-images">
                         <h4>Destination Images :</h4>
-                        <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
-                        <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
-                        {singleDestination.image_three ? <img style={{height: "10rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
+                        <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
+                        <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
+                        {singleDestination.image_three ? <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
 
                     </div>
                     <p><b>About Activity : {singleDestination.about}</b> <br /></p>
@@ -296,7 +310,7 @@ function DestinationList() {
                 <div>
                     <div className='resort-name-toggle'>
                         <h2>Update Destination</h2>
-                        <IoMdCloseCircle size={30} onClick={() => setUpdateToggle(!updateToggle)}/>
+                        <IoMdCloseCircle size={30} onClick={() => setUpdateToggle(!updateToggle)} />
                     </div>
                 </div>
                 <form className='add-adv-form' onSubmit={formik2.handleSubmit}>
@@ -358,31 +372,31 @@ function DestinationList() {
                         {formik.errors.about && formik.touched.about ? <p className='form-errors'>{formik.errors.about}</p> : null}
                     </div>
 
-                    <div style={{display:"flex"}}>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                    <div style={{ display: "flex" }}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input className='input-group' type="file" name='image_one'
                                 // onChange={formik.handleChange}
                                 onChange={(e) => formik2.setFieldValue('image_one', e.target.files[0])}
                             />
-                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
+                            <img style={{ height: "9rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
                         </div>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input className='input-group' type="file" name='image_two'
                                 // onChange={formik.handleChange}
                                 onChange={(e) => formik2.setFieldValue('image_two', e.target.files[0])}
                             />
-                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
+                            <img style={{ height: "9rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
                         </div>
-                        <div style={{display:"flex", flexDirection:"column"}}>
+                        <div style={{ display: "flex", flexDirection: "column" }}>
                             <input className='input-group' type="file" name='image_three'
                                 // onChange={formik.handleChange}
                                 onChange={(e) => formik2.setFieldValue('image_three', e.target.files[0])}
                             />
-                            <img style={{height: "9rem", marginRight:"6px"}} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" />
+                            <img style={{ height: "9rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" />
                         </div>
                     </div>
                     <button className='add-destination-btn' type='submit'>Update</button>
-                    <button className='resort-delete-btn' onClick={()=>handleDelete(singleDestination.id)}>Delete</button>
+                    <button className='resort-delete-btn' onClick={() => handleDelete(singleDestination.id)}>Delete</button>
                 </form>
 
             </div> : null}
@@ -408,7 +422,7 @@ function DestinationList() {
 
                             >
                                 <TableCell align="left">{row.destination}</TableCell>
-                                <TableCell align="left">{row.resort}</TableCell>
+                                <TableCell align="left">{row.resort && row.resort.resort_name}</TableCell>
                                 <TableCell align="left">{row.place}</TableCell>
                                 <TableCell align="left">{row.closing_time}</TableCell>
                                 <TableCell align="left">{row.is_approved ? <p style={{ color: "green" }}>Approved</p> : <p style={{ color: "red" }}>Pending</p>}</TableCell>

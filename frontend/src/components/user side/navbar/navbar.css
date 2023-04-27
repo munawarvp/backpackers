@@ -41,10 +41,10 @@
 .login-btn{
     padding: 0.5rem 1rem;
     cursor: pointer;
-    border-radius: 0.8rem;
+    border-radius: 0.3rem;
     border: none;
     color: white;
-    background-color: #48cae4;
+    background-color: #4361ee;
     font-size: 1.1rem;
     letter-spacing: 0.1rem;
     text-transform: uppercase;

@@ -2,11 +2,11 @@ from django.urls import path
 from . import views
 from .views import (LocationList, ResortList, CreateResort,
                     ListResorts, ListPendingResort, BlockResort, HomeListResorts,
-                    SinglePendingResort, ApproveResort, StaffPendingResort,
+                    SinglePendingResort, ApproveResort, RejectResort, StaffPendingResort, FilterResorts, FilterActivity, FilterDestination,
                     StaffAdventureList, GetAdventureDetail, SearchAdventure, AdminSearchAdventure, HomeListAdventures,
-                    StaffDestinationList,GetDestinationDeatail,SearchDestinations, AdminSearchDestination, HomeListDestinations,
-                    SearchResorts, AdminSearchResort, BlockAdventure,
-                    BlockDestination)
+                    StaffDestinationList,GetDestinationDeatail,SearchDestinations, AdminSearchDestination, HomeListDestinations, BlockDestination,
+                    SearchResorts, AdminSearchResort, BlockAdventure, AdminFilterResorts, AdminFilterActivity, AdminFilterDestination,
+                    UserResortList, UserAdventureList, UserDestinationList, SingleResortView)
 
 
 urlpatterns = [
@@ -25,8 +25,16 @@ urlpatterns = [
     path('blockresort/<int:pk>', BlockResort.as_view()),
 
     path('approveresort/<int:user_id>/<int:pk>', ApproveResort.as_view()),
+    path('rejectresort/<int:id>', RejectResort.as_view()),
 
     path('staffpendingresort/<int:id>', StaffPendingResort.as_view()),
+    path('filterresorts/<int:id>/<int:value>', FilterResorts.as_view()),
+    path('filteractivity/<int:id>/<int:value>', FilterActivity.as_view()),
+    path('filterdestination/<int:id>/<int:value>', FilterDestination.as_view()),
+
+    path('adminfilterresort/<int:value>', AdminFilterResorts.as_view()),
+    path('adminfilteractivity/<int:value>', AdminFilterActivity.as_view()),
+    path('adminfilterdestination/<int:value>', AdminFilterDestination.as_view()),
 
     path('stafflistadventure/', StaffAdventureList.as_view(), name='adventure-create'),
     path('homelistadventure/', HomeListAdventures.as_view()),
@@ -44,5 +52,10 @@ urlpatterns = [
     path('searchdestination/<int:user_id>', SearchDestinations.as_view()),
     path('adminsearchdestination/', AdminSearchDestination.as_view()),
     path('blockdestination/<int:pk>', BlockDestination.as_view()),
+
+    path('userlistresorts/', UserResortList.as_view()),
+    path('userlistadventures/', UserAdventureList.as_view()),
+    path('userlistdestinations/', UserDestinationList.as_view()),
+    path('singleresortpage/<int:resort_id>', SingleResortView.as_view()),
 
 ]

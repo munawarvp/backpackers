@@ -66,3 +66,22 @@
 .rmv-mb{
     margin-bottom: 5px;
 }
+
+.travel-login{
+    width: 50%;
+    /* margin: auto; */
+
+}
+.login-travel-image{
+    /* border: 2px solid white; */
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 50%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.register-travel-image{
+    width: 50%;
+}

@@ -3,9 +3,14 @@
     justify-content: space-between;
     align-items: center;
 }
-.search-resort{
-    height: 35px;
+.resort-list-header-left{
     width: 40%;
+    display: flex;
+    gap: 1rem;
+}
+.resort-list-header-left>input{
+    height: 35px;
+    width: 80%;
     border: 2px solid rgba(255, 139, 191, 0.725);
     padding-left: 20px;
 }

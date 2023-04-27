@@ -11,6 +11,8 @@ import Paper from '@mui/material/Paper';
 import '../tableone/tableone.css'
 import { Link } from 'react-router-dom';
 
+import Select from 'react-select';
+
 import jwtDecode from 'jwt-decode';
 import { getLocal } from '../../../../helpers/auth';
 import axios from 'axios';
@@ -37,23 +39,23 @@ function ResortList() {
     const decoded = jwtDecode(token)
     const user_id = decoded.user_id
 
-    useEffect(()=>{
+    useEffect(() => {
         async function resorts() {
             const response = await axios.get(`${BASE_URL}/resorts/resortslist/?user_id=${user_id}`)
             setResortList(response.data)
         }
         resorts()
     }, [])
-    
+
     console.log(resortList);
 
     const rows = [
         ...resortList.map((item) => (
             createData(item.id, item.resort_name, item.address, item.place, item.phone_number, item.is_approved,)
-            
+
         ))
-    
-        
+
+
     ];
 
     async function searchResorts(keyword) {
@@ -62,55 +64,70 @@ function ResortList() {
         setResortList(response.data)
     }
 
-  return (
-    <div className="MainDash">
-        <Toaster position='top-center' reverseOrder='false' ></Toaster>
-        <h1>Resorts</h1>
-        
-        <div className="header">
-            <input className='search-resort' type="text" placeholder='Search Resort'
-             onChange={e => searchResorts(e.target.value)}
-            />
-            <Link className='link-modi' to={'/add-resort'}><h3 className='add-resort-btn'>Add new Resort</h3></Link> 
-        </div>
-        <div className="resort-table">
-        <TableContainer component={Paper}
-                style={{boxShadow: '0px 13px 20px 0px #80808029'}}
-            >
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Resort Name</TableCell>
-                            <TableCell align="left">Address</TableCell>
-                            <TableCell align="left">Place</TableCell>
-                            <TableCell align="left">Phone</TableCell>
-                            <TableCell align="left">Room Types</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="left">{row.resort_name}</TableCell>
-                                <TableCell style={{padding:"10px"}} align="left">{row.address}</TableCell>
-                                <TableCell align="left">{row.place}</TableCell>
-                                <TableCell align="left">{row.phone_number}</TableCell>
-                                <TableCell align="left">{row.is_approved ? <p style={{color:"green"}}>Approved</p> : <p style={{color:"red"}}>Pending</p>}</TableCell>
-                                <div style={{display:"flex"}}>
-                                    <Link to={`/staff/view-resort/${row.id}`}><TableCell align="left" className='Details' >View</TableCell></Link>
-                                    <Link to={`/staff/update-resort/${row.id}`}><TableCell align="left" className='Details' >Update</TableCell></Link>
-                                </div>
-                               
+    const options = [
+        { value: 0, label: 'All' },
+        { value: 1, label: 'Approved' },
+        { value: 2, label: 'Pending' }
+      ]
+
+    const handleFilter = async (option)=> {
+        const response = await axios.get(`${BASE_URL}/resorts/filterresorts/${user_id}/${option.value}`)
+        setResortList(response.data)
+    }
+
+    return (
+        <div className="MainDash">
+            <Toaster position='top-center' reverseOrder='false' ></Toaster>
+            <h1>Resorts</h1>
+
+            <div className="header">
+                <div className="resort-list-header-left">
+                    <input className='search-resort' type="text" placeholder='Search Resort'
+                        onChange={e => searchResorts(e.target.value)}
+                    />
+                    <Select className='drop-locations' options={options} onChange={handleFilter}/>
+                </div>
+
+                <Link className='link-modi' to={'/add-resort'}><h3 className='add-resort-btn'>Add new Resort</h3></Link>
+            </div>
+            <div className="resort-table">
+                <TableContainer component={Paper}
+                    style={{ boxShadow: '0px 13px 20px 0px #80808029' }}
+                >
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Resort Name</TableCell>
+                                <TableCell align="left">Address</TableCell>
+                                <TableCell align="left">Place</TableCell>
+                                <TableCell align="left">Phone</TableCell>
+                                <TableCell align="left">Room Types</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow
+                                    key={row.name}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell align="left">{row.resort_name}</TableCell>
+                                    <TableCell style={{ padding: "10px" }} align="left">{row.address}</TableCell>
+                                    <TableCell align="left">{row.place}</TableCell>
+                                    <TableCell align="left">{row.phone_number}</TableCell>
+                                    <TableCell align="left">{row.is_approved ? <p style={{ color: "green" }}>Approved</p> : <p style={{ color: "red" }}>Pending</p>}</TableCell>
+                                    <div style={{ display: "flex" }}>
+                                        <Link to={`/staff/view-resort/${row.id}`}><TableCell align="left" className='Details' >View</TableCell></Link>
+                                        <Link to={`/staff/update-resort/${row.id}`}><TableCell align="left" className='Details' >Update</TableCell></Link>
+                                    </div>
+
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default ResortList

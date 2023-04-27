@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './accounts.css'
 import { toast, Toaster } from 'react-hot-toast'
 import { BASE_URL } from '../../utils/config'
+import Travels from '../../images/kindpng_2743231.png'
 
 function Register() {
   const [first_name, setFirstname] = useState('')
@@ -31,13 +32,13 @@ function Register() {
         })
       })
       // console.log(response);
-      if(response.status === 200){
+      if (response.status === 200) {
         toast.success("Account Created, Please Activate..!")
-      }else{
+      } else {
         toast.error("Something went wrong")
       }
     }
-    else{
+    else {
       toast.error("Password did't match")
     }
 
@@ -46,7 +47,9 @@ function Register() {
   return (
     <div className='main-div-signup'>
       <Toaster position='top-center' reverseOrder='false' ></Toaster>
-      <div className='login-content'>
+      <div className="login-travel-image">
+        <img className='register-travel-image' src={Travels} alt="" />
+        <div className='login-content'>
         <h1 className='login-text'>SignUp</h1>
         <p>Please Enter Your SignUp Details</p>
         <form className='login-input' onSubmit={signupSubmit} >
@@ -68,13 +71,15 @@ function Register() {
           <input className='input-field' type="password" name='password2' placeholder='confirm password'
             onChange={e => setPassword2(e.target.value)}
           />
-          <input className='login-btn' type="submit" value='SIGNUP' />
+          <input className='login-btn-login' type="submit" value='SIGNUP' />
           <div className='signup-navi'>
             <p>Alredy a member..?</p>
             <p><Link className='lo-sign' to='/login'>Login</Link></p>
           </div>
         </form>
       </div>
+      </div>
+      
 
     </div>
   )

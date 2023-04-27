@@ -10,8 +10,8 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ResortSerializer(serializers.ModelSerializer):
-    # owner = UserSerializer()
-    # location = LocationSerializer()
+    owner = UserSerializer()
+    location = LocationSerializer()
     class Meta:
         model = Resorts
         fields = '__all__'
@@ -26,6 +26,8 @@ class AdventureSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DestinationSerializer(serializers.ModelSerializer):
+    owner = UserSerializer()
+    resort = ResortSerializer()
     class Meta:
         model = Destinations
         fields = '__all__'

@@ -22,6 +22,19 @@ import RegisterWithPage from './pages/user side/RegisterWithPage';
 import RegisterSuccess from './components/user side/register with us/RegisterSuccess';
 import UpdateResort from './components/admin side/UpdateResort';
 import UserResortPage from './pages/user side/UserResortPage';
+import UserAdventurePage from './pages/user side/UserAdventurePage';
+import UserDestinationPage from './pages/user side/UserDestinationPage';
+import SingleResortPage from './pages/user side/SingleResortPage';
+import SingleAdventurePage from './pages/user side/SingleAdventurePage';
+import CheckoutPage from './pages/user side/CheckoutPage';
+import AdminBookingPage from './pages/super admin/AdminBookingPage';
+import ViewBookingPage from './pages/super admin/ViewBookingPage';
+import BookingSuccessPage from './pages/user side/BookingSuccessPage';
+import AdventureCheckoutPage from './pages/user side/AdventureCheckoutPage';
+import AdventureBookingSuccess from './components/user side/booking checkout/AdventureBookingSuccess';
+import AdventureBookingPage from './pages/super admin/AdventureBookingPage';
+import StaffAdventureBookingPage from './components/admin side/StaffAdventureBookingPage';
+
 
 
 function App() {
@@ -37,6 +50,14 @@ function App() {
             <Route path='/register-with-us' element={<RegisterWithPage/>}/>
             <Route path='/register-success' element={<RegisterSuccess/>}/>
             <Route path='/resorts-list' element={<UserResortPage/>}/>
+            <Route path='/adventure-list' element={<UserAdventurePage/>}/>
+            <Route path='/destination-list' element={<UserDestinationPage/>}/>
+            <Route path='/resort-details/:id' element={<SingleResortPage/>}/>
+            <Route path='/adventure-details/:id' element={<SingleAdventurePage/>}/>
+            <Route path='/booking-checkout' element={<CheckoutPage/>}/>
+            <Route path='/booking-success/:id' element={<BookingSuccessPage/>}/>
+            <Route path='/adventure-checkout' element={<AdventureCheckoutPage/>}/>
+            <Route path='/adventure-booking-success/:id' element={<AdventureBookingSuccess/>}/>
                 
             <Route path='/admin-dashboard' element={<PrivateRoute/>}>
                 <Route path='/admin-dashboard' element={<AdminPanel/>} />
@@ -46,7 +67,8 @@ function App() {
             <Route path='/staff/resorts' element={<ResortPage/>} />
             <Route path='/staff/adventure' element={<AdventurePage/>} />
             <Route path='/staff/destination' element={<DestinationPage/>} />
-            <Route path='/bookings' element={<BookingPage/>} />
+            <Route path='/staff/bookings' element={<BookingPage/>} />
+            <Route path='/staff/adventure-bookings' element={<StaffAdventureBookingPage/>} />
             <Route path='/add-resort' element={<AddResort/>} />
             <Route path='/staff/update-resort/:id' element={<UpdateResort/>} />
 
@@ -56,6 +78,9 @@ function App() {
             <Route path='/admin/manage-staff' element={<ManageStaff/>} />
             <Route path='/admin/adventures' element={<AdminAdventure/>} />
             <Route path='/admin/destinations' element={<AdminDestination/>} />
+            <Route path='/admin/bookings' element={<AdminBookingPage/>} />
+            <Route path='/admin/adventure-bookings' element={<AdventureBookingPage/>} />
+            <Route path='/admin/view-booking' element={<ViewBookingPage/>} />
           </Routes>
         </Router>
     </div>

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'account',
     'resorts',
+    'booking',
 
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
