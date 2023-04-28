@@ -46,7 +46,7 @@ class CreateResortBooking(APIView):
 
 class AdminListBookings(APIView):
     def get(self, request):
-        queryset = ResortBooking.objects.all()
+        queryset = ResortBooking.objects.all().order_by('-booking_date')
         serializer = ResortBookingSerializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -59,12 +59,23 @@ class GetBookingSummary(APIView):
 
 class StaffListBookings(APIView):
     def get(self, request, user_id):
-        queryset = ResortBooking.objects.filter(booked_resort__owner = user_id)
+        queryset = ResortBooking.objects.filter(booked_resort__owner = user_id).order_by('-booking_date')
         print(queryset)
         serializer = ResortBookingSerializer(queryset, many=True)
         return Response(serializer.data)
     
-
+class ChangeResortBookingStatus(APIView):
+    def get(self, request, value, booking_id):
+        queryset = ResortBooking.objects.get(booking_id = booking_id)
+        if value == 2:
+            queryset.status = "Checked In"
+            queryset.save()
+            return Response({'msg': 200})
+        elif value == 3:
+            queryset.status = "Checked Out"
+            queryset.save()
+            return Response({'msg': 200})
+        return Response({'msg': 404})
 # adventure bookings
 
 
@@ -86,7 +97,7 @@ class CreateAdventureBooking(APIView):
         data = request.data.copy()
         data['booking_id'] = booking_id
         print(data)
-
+ 
         serializer = PostAdventureBookingSerializer(data=data)
         print(serializer.is_valid())
         print(serializer.errors)
@@ -98,7 +109,7 @@ class CreateAdventureBooking(APIView):
     
 class ListAdventureBookings(APIView):
     def get(self, request):
-        queryset = AdventureBooking.objects.all()
+        queryset = AdventureBooking.objects.all().order_by('-booking_date')
         serializer = AdventureBookingSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -112,6 +123,6 @@ class GetAdventureBooking(APIView):
 
 class StaffAdventureBookings(APIView):
     def get(self, request, user_id):
-        queryset = AdventureBooking.objects.filter(booked_activity__owner=user_id)
+        queryset = AdventureBooking.objects.filter(booked_activity__owner=user_id).order_by('-booking_date')
         serializer = AdventureBookingSerializer(queryset, many=True)
         return Response(serializer.data)

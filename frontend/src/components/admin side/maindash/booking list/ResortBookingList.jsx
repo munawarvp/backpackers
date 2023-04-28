@@ -49,8 +49,8 @@ function ResortBookingList() {
         { value: 0, label: 'All' },
         { value: 1, label: 'New' },
         { value: 2, label: 'Check In' },
-        { value: 2, label: 'Check Out' },
-        { value: 2, label: 'Cancelled' },
+        { value: 3, label: 'Check Out' },
+        { value: 4, label: 'Cancelled' }
     ]
 
     const rows = [
@@ -105,7 +105,7 @@ function ResortBookingList() {
                                 <TableCell align="left">{row.check_in}</TableCell>
                                 <TableCell align="left"><p style={{ color: "green" }}>{row.status}</p></TableCell>
                                 <TableCell align="left" className='Details'><div style={{ display: "flex", justifyContent: "space-around" }}>
-                                    <p >View</p>
+                                    <Link to={`/staff/resort-booking-view/${row.booking_id}`}><p >View</p></Link> 
                                     </div>
                                 </TableCell>
                             </TableRow>

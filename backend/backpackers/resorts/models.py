@@ -33,6 +33,7 @@ class Resorts(models.Model):
     image_four      = models.ImageField(upload_to='photos/resorts',blank=True, null=True)
 
     is_approved     = models.BooleanField(default=False)
+    is_rejected   = models.BooleanField(default=False)
 
     created_date    = models.DateTimeField(auto_now_add=True)
     modified_date   = models.DateTimeField(auto_now=True)
@@ -53,6 +54,7 @@ class Adventures(models.Model):
     day_slot      = models.IntegerField()
     safety        = models.CharField(max_length= 200)
     is_approved   = models.BooleanField(default=False)
+    is_rejected   = models.BooleanField(default=False)
 
     activity_one       = models.ImageField(upload_to='photos/adventures')
     activity_two       = models.ImageField(upload_to='photos/adventures')

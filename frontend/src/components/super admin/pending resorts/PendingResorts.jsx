@@ -39,21 +39,21 @@ function PendingResorts() {
     }
 
     async function handleApproval(user_id, id){
-        
-        const response = await axios.get(`${BASE_URL}/resorts/approveresort/${user_id}/${id}`).then(()=>console.log(response))
+        console.log(user_id);
+        const response = await axios.get(`${BASE_URL}/resorts/approveresort/${user_id.id}/${id}`).then(()=>console.log(response))
         // .then(()=>{if(response.status === 200){
         //     toast.success('Approved')
         // }})
         // .catch(toast.error('Something went wrong'))
         setToggle(!toString)
         pending()
-        toast.success('Resort Approved')
+        
     }
 
     async function handleRejection(id) {
         const response = await axios.delete(`${BASE_URL}/resorts/rejectresort/${id}`)
         pending();
-        toast.success('Resort deleted')
+        toast.success('Resort rejected')
         setToggle(!toggle)
     }
     

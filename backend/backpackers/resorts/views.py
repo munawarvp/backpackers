@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.filters import SearchFilter
-from .serializers import LocationSerializer, ResortSerializer, AdventureSerializer, DestinationSerializer
+from .serializers import LocationSerializer, ResortSerializer,PostResortSerializer, AdventureSerializer, DestinationSerializer
 from .models import Location, Resorts, Adventures, Destinations
 from account.models import User
 from rest_framework import viewsets
@@ -28,7 +28,7 @@ class ResortList(ListCreateAPIView):
     
 class CreateResort(APIView):
     def post(self, request, format=None):
-        serializer = ResortSerializer(data=request.data)
+        serializer = PostResortSerializer(data=request.data)
         print(request.data)
         is_valid = serializer.is_valid()
         print(serializer.errors)
@@ -372,6 +372,10 @@ class ApproveResort(APIView):
         if (not user.is_staff):
             user.is_staff = True
             user.save()
+            
+            if (resort.is_rejected):
+                resort.is_rejected = False
+                resort.save()
             resort.is_approved = True
             resort.save()
 
@@ -389,6 +393,9 @@ class ApproveResort(APIView):
 
             return Response({'msg': 'user and resort updated'})
         else:
+            if (resort.is_rejected):
+                resort.is_rejected = False
+                resort.save()
             resort.is_approved = True
             resort.save()
             return Response({'msg': 'resort only updated'})
@@ -396,7 +403,8 @@ class ApproveResort(APIView):
 class RejectResort(APIView):
     def delete(self, request, id):
         resort = Resorts.objects.get(id=id)
-        resort.delete()
+        resort.is_rejected = True
+        resort.save()
         return Response({'msg': 200})
         
 class BlockResort(APIView):

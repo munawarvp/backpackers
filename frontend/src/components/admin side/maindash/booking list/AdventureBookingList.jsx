@@ -105,7 +105,7 @@ function AdventureBookingList() {
                                 <TableCell align="left">{row.activity_date}</TableCell>
                                 <TableCell align="left"><p style={{ color: "green" }}>{row.status}</p></TableCell>
                                 <TableCell align="left" className='Details'><div style={{ display: "flex", justifyContent: "space-around" }}>
-                                    <p >View</p>
+                                    <Link to={`/staff/adventure-booking-view/${row.booking_id}`}><p>View</p></Link>
                                     </div>
                                 </TableCell>
                             </TableRow>

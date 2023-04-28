@@ -70,3 +70,28 @@
     color: red;
     font-size: 13px;
 }
+
+.booking-view-panel{
+    background: linear-gradient(
+        106.37deg,
+        #fff3d1 29.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #7df9fb 90.85%
+    );
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1.5rem;
+}
+.booking-view-glass{
+    display: grid;
+    /* height: 97%; */
+    width: 97%;
+    border-radius: 2rem;
+    background-color: var(--glass);
+    overflow: hidden;
+    grid-template-columns: 13rem auto 2rem;
+    gap: 10px;
+}

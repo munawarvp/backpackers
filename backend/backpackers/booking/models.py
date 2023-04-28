@@ -7,8 +7,9 @@ from resorts.models import Resorts, Adventures
 class ResortBooking(models.Model):
     STATUS = (
         ('New', 'New'),
-        ('Confirm', 'Confirm'),
-        ('Pending', 'Pending'),
+        ('Checked In', 'Checked In'),
+        ('Checked Out', 'Checked Out'),
+        ('Cancelled', 'Cancelled')
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked_resort = models.ForeignKey(Resorts, on_delete=models.CASCADE)
@@ -36,7 +37,8 @@ class ResortBooking(models.Model):
 class AdventureBooking(models.Model):
     STATUS = (
         ('New', 'New'),
-        ('Confirm', 'Confirm'),
+        ('Checked In', 'Checked In'),
+        ('Checked Out', 'Checked Out'),
         ('Pending', 'Pending'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)

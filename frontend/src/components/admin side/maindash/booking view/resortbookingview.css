@@ -1,0 +1,105 @@
+.booking-view-main-container{
+    width: 100%;
+    height: 100vh;
+    margin-top: 15px;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex;
+    margin-bottom: 20px;
+}
+.booking-view-details-container{
+    width: 70%;
+    padding: 0 10px;
+    
+    /* background-color: rgb(255, 255, 255); */
+}
+
+.booking-view-img-container{
+    display: flex;
+    gap: 1rem;
+    margin-top: 10px;
+}
+.single-booked-img{
+    width: 270px;
+    height: 180px;
+    /* overflow: hidden; */
+    /* object-fit: contain; */
+    
+}
+.booked-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    border-radius: 7px;
+    box-shadow: 0 0 10px rgb(95, 95, 95);
+}
+.booking-view-resort-details{
+    margin-top: 15px;
+}
+.booking-view-resort-details>h2,h3{
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.view-resort-heading{
+    color: #15406e;
+}
+
+.booking-view-checkin-details{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    border-radius:6px;
+    background-color: #d2d2d291;
+    padding: 0 20px;
+    height: 80px;
+    justify-content: space-between;
+}
+.checkin-details-equal{
+    width: 25%;
+    height: 50px;
+    padding: 0 20px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkin-details-inside>p{
+    color: rgb(136, 136, 136);
+    font-size: 13px;
+}
+.checkin-details-inside>h3{
+    margin: 0;
+}
+.booking-view-payment-details{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-view-user-container{
+    width: 30%;
+    /* background-color: yellow; */
+    display: flex;
+    justify-content: center;
+}
+.booked-user-info-card{
+    margin-top: 20px;
+    width: 90%;
+    height: 26rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+.booked-user-info{
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    /* background-color: #15406e; */
+}

@@ -34,6 +34,8 @@ import AdventureCheckoutPage from './pages/user side/AdventureCheckoutPage';
 import AdventureBookingSuccess from './components/user side/booking checkout/AdventureBookingSuccess';
 import AdventureBookingPage from './pages/super admin/AdventureBookingPage';
 import StaffAdventureBookingPage from './components/admin side/StaffAdventureBookingPage';
+import ResortBookingViewPage from './components/admin side/ResortBookingViewPage';
+import AdventureBookingViewPage from './components/admin side/AdventureBookingViewPage';
 
 
 
@@ -69,6 +71,8 @@ function App() {
             <Route path='/staff/destination' element={<DestinationPage/>} />
             <Route path='/staff/bookings' element={<BookingPage/>} />
             <Route path='/staff/adventure-bookings' element={<StaffAdventureBookingPage/>} />
+            <Route path='/staff/resort-booking-view/:id' element={<ResortBookingViewPage/>} />
+            <Route path='/staff/adventure-booking-view/:id' element={<AdventureBookingViewPage/>} />
             <Route path='/add-resort' element={<AddResort/>} />
             <Route path='/staff/update-resort/:id' element={<UpdateResort/>} />
 

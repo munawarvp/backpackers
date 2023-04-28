@@ -16,6 +16,11 @@ class ResortSerializer(serializers.ModelSerializer):
         model = Resorts
         fields = '__all__'
 
+class PostResortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resorts
+        fields = '__all__'
+
 class AdventureSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
     resort = ResortSerializer()
