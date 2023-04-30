@@ -67,7 +67,7 @@ function AllResorts() {
                             
                             {resort.is_approved ? (<td className='approved'>Approved</td> ) : resort.is_rejected ? (<td className='pending'>Rejected</td>) : (<td className='pending'>Pending</td>) }
                             <td className='action-col' style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <Link className='action-text' ><p className='edit'><AiFillEye /> View</p></Link>
+                                <Link className='action-text' to={`/admin/view-resort/${resort.id}`} ><p className='edit'><AiFillEye /> View</p></Link>
                                 <Switch style={{ backgroundColor: resort.is_approved ? 'green' : 'red' }} onChange={() => handleChange(resort.id)} /></td>
                         </tr>
                     ))}

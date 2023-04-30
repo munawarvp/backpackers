@@ -60,8 +60,13 @@ function ResortBookingList() {
         ))
     ];
 
+    async function searchBooking(keyword) {
+        const response = await axios.get(`${BASE_URL}/bookings/searchresortbooking/${user_id}?search=${keyword}`)
+        setDestinationList(response.data)
+    }
+
     const handleFilter = async (option) => {
-        const response = await axios.get(`${BASE_URL}/resorts/filterdestination/${user_id}/${option.value}`)
+        const response = await axios.get(`${BASE_URL}/bookings/filterresortbooking/${user_id}/${option.value}`)
         setDestinationList(response.data)
     }
   return (
@@ -71,7 +76,7 @@ function ResortBookingList() {
             <div className="header">
                 <div className="resort-list-header-left">
                     <input className='search-resort' type="text" placeholder='Search bookings'
-                        // onChange={e => searchDestination(e.target.value)}
+                        onChange={e => searchBooking(e.target.value)}
                     />
                     <Select className='drop-locations' options={options} onChange={handleFilter} />
                 </div>

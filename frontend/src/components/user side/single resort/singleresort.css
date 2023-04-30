@@ -14,15 +14,25 @@
     justify-content: center;
     gap: 1rem;
 }
-.single-resort-first-image{
+.single-resort-first-img-container{
+    /* background-color: #4361ee; */
+    width: 46rem;
     height: 30rem;
-    
+}
+.single-resort-first-image{
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
-
+.single-resort-rest-img-container{
+    width: 16rem;
+    height: 9.5rem;
+    margin-bottom: .7rem;
+}
 .single-resort-remaining-image{
-    height: 150px;
-    margin-bottom: 1rem;
+    width: 100%;
+    height: 100%;
+    
     object-fit: cover;
 }
 .single-resort-heading{

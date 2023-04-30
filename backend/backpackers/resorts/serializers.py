@@ -24,8 +24,12 @@ class PostResortSerializer(serializers.ModelSerializer):
 class AdventureSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
     resort = ResortSerializer()
-    
-    # resort = serializers.IntegerField(read_only=True,source='resprt.id')
+
+    class Meta:
+        model = Adventures
+        fields = '__all__'
+
+class PostAdventureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Adventures
         fields = '__all__'
@@ -37,9 +41,10 @@ class DestinationSerializer(serializers.ModelSerializer):
         model = Destinations
         fields = '__all__'
 
-
-
-
+class PostDestinationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Destinations
+        fields = '__all__'
 
 
 

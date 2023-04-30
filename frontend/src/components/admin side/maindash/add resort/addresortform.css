@@ -19,6 +19,14 @@
 }
 .location-select{
     display: flex;
+}
+.add-resort-map-container{
+    width: 70%;
+    height: 22rem;
+    margin-bottom: 30px;
+}
+.text-area-in-row{
+    display: flex;
     flex-direction: column;
 }
 .textarea-address{
@@ -36,7 +44,7 @@
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.803);
     border: 1px solid rgb(232, 232, 232);
-    border-bottom: 3px solid #7df9fb;
+    border-bottom: 3px solid #FF919D;
     margin-bottom: 13px;
     margin-right: 1rem;
 }

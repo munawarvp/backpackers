@@ -54,6 +54,15 @@
     margin-right: 1rem;
 }
 
+.add-activity-price-input{
+    width: 10rem;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.803);
+    border: 1px solid rgb(232, 232, 232);
+    border-bottom: 3px solid #FF919D;
+    margin-right: 1rem;
+}
+
 .activity-add-btn{
     padding: 12px 20px;
     border: none;
@@ -92,6 +101,32 @@
     border-radius: 2rem;
     background-color: var(--glass);
     overflow: hidden;
+    grid-template-columns: 13rem auto 2rem;
+    gap: 10px;
+}
+
+.resort-view-panel{
+    background: linear-gradient(
+        106.37deg,
+        #fff3d1 29.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #7df9fb 90.85%
+    );
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding-bottom: 1.5rem;
+}
+
+.resort-view-glass{
+    display: grid;
+    /* height: 97%; */
+    width: 97%;
+    border-radius: 2rem;
+    background-color: var(--glass);
+    /* overflow: hidden; */
     grid-template-columns: 13rem auto 2rem;
     gap: 10px;
 }

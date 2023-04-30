@@ -1,0 +1,115 @@
+.view-resort-first-section{
+    background-color: white;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.left-view-img-container{
+    width: 190px;
+    height: 170px;
+    margin-left: 3rem;
+}
+
+.left-view-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.first-section-right-side{
+    margin-left: 3rem;
+}
+.view-right-side-name{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.view-right-side-place{
+    font-size: 14px;
+}
+
+/* .second-section-img-container{
+    display: flex;
+} */
+.second-image-only-container{
+    display: flex;
+}
+
+.view-resort-second-section{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    margin-bottom: 15px;
+    background-color: white;
+}
+.view-resort-desc-container{
+    width: 80%;
+    padding: 10px;
+}
+
+.second-section-heading{
+    margin: 10px 20px;
+}
+
+.view-resort-single-imgcontainer{
+    width: 220px;
+    height: 170px;
+    margin: 0 20px;
+    
+}
+.view-resort-single-imgcontainer>img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+
+.view-resort-third-section{
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    
+}
+
+.second-section-content{
+    margin: 10px 20px;
+    display: flex;
+    gap: 20px;
+}
+.view-second-half{
+    padding: 10px;
+    width: 50%;
+    background-color: white;
+}
+.view-second-half>p{
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.view-number-room{
+    padding: 15px;
+    height: 40px;
+    width: 45%;
+    background-color: rgb(206, 231, 255);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.view-number-icon-container{
+    background-color: #25d7f25c;
+    padding: 3px;
+    border-radius: 35px;
+}
+.number-of-room{
+    font-weight: bold;
+    font-size: 25px;
+}

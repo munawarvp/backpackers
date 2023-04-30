@@ -7,6 +7,13 @@ import { BASE_URL } from '../../../../utils/config'
 import { getLocal } from '../../../../helpers/auth'
 import { toast, Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { mapbox_access_token } from '../../../../utils/config';
+import Point from '../../../../images/marker.png'
+import { type } from '@testing-library/user-event/dist/type'
+import { useCallback } from 'react'
 // import { useFormik } from 'formik'
 
 
@@ -32,7 +39,25 @@ function AddResortForm() {
 
   const [locationList, setLocationlist] = useState([]);
 
+  const [coordinates, setCoordinates] = useState('');
+
   const history = useNavigate()
+
+  const Map = ReactMapboxGl({
+    accessToken: mapbox_access_token
+  });
+
+  const handleClick = (map, event) => {
+    setCoordinates([event.lngLat.lng, event.lngLat.lat]);
+
+  }
+
+  console.log(String(lng), 'longitude');
+  // console.log(lat, 'latitude');
+  // const map_location = ''
+  const [lng, lat] = coordinates
+  const map_location = String(lat) + ',' + String(lng)
+  console.log(map_location, 'map');
 
 
   useEffect(() => {
@@ -126,6 +151,7 @@ function AddResortForm() {
     form.append('image_two', image_two)
     form.append('image_three', image_three)
     form.append('image_four', image_four)
+    form.append('map_location', map_location)
     console.log(image_one);
 
     const res = await axios({
@@ -134,10 +160,10 @@ function AddResortForm() {
       data: form
     })
     console.log(res);
-    if(res.status === 200){
+    if (res.status === 200) {
       toast.success('resort added')
       history('/staff/resorts')
-    }else{
+    } else {
       toast.error(res.statusText)
     }
   }
@@ -150,9 +176,10 @@ function AddResortForm() {
       <div className="main-form-container">
         <h1>Add Your Resort Details</h1>
         <div className='form-container'>
+
           <form onSubmit={e => handleSubmit(e)} >
             <div className="two-input-row">
-              <div style={{display:"flex", flexDirection:"column"}}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <label htmlFor="resort">Resort Name</label>
                 <input type="text" className='input-needed' name='resort_name'
                   // onChange={formik.handleChange}
@@ -161,7 +188,7 @@ function AddResortForm() {
                   required
                 />
               </div>
-              <div style={{display:"flex", flexDirection:"column"}}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <label htmlFor="location">Place</label>
                 <input type="text" id="location" className='input-needed' name='place'
                   // onChange={formik.handleChange}
@@ -172,36 +199,56 @@ function AddResortForm() {
               </div>
             </div>
 
+
+
+
             <div className='location-select'>
-              <label htmlFor="address">Location</label>
-              <select className='select-field input-needed' name="location" id="location"
-                // onChange={formik.handleChange}
-                // value={formik.values.location}
-                onChange={e => setLocation(e.target.value)}
-                required
-              >
-                <option value="">Select an option</option>
-                {locationList.map((item) => (
-                  <option value={item.id}>{item.city_name}</option>
-                ))}
-              </select>
+              <div className='text-area-in-row'>
+                <label htmlFor="address">Address</label>
+                <textarea className='textarea-address input-needed'
+                  id="description"
+                  name='address'
+                  // onChange={formik.handleChange}
+                  // value={formik.values.address}
+                  onChange={e => setAddress(e.target.value)}
+                  required
+                ></textarea>
+              </div>
+              <div className='text-area-in-row'>
+                <label htmlFor="description">Description</label>
+                <textarea className='textarea-address input-needed'
+                  id="description"
+                  name='description'
+                  // onChange={formik.handleChange}
+                  // value={formik.values.description}
+                  onChange={e => setDescription(e.target.value)}
+                  required
+                ></textarea>
+              </div>
             </div>
 
+            <div className="add-resort-map-container">
+              <label htmlFor="maplocation">Map Location</label>
+              <Map
+                style="mapbox://styles/mapbox/streets-v9"
+                zoom={[14]}
+                containerStyle={{
+                  height: '100%',
+                  width: '100%'
+                }}
+                onClick={handleClick}
+              >
+                {coordinates.length > 0 && (
+                  <Marker coordinates={coordinates} anchor="bottom">
+                    <img height={35} src={Point} alt="Marker" />
+                  </Marker>
+                )}
+              </Map>
 
-            <div className='location-select'>
-              <label htmlFor="address">Address</label>
-              <textarea className='textarea-address input-needed'
-                id="description"
-                name='address'
-                // onChange={formik.handleChange}
-                // value={formik.values.address}
-                onChange={e => setAddress(e.target.value)}
-                required
-              ></textarea>
             </div>
 
             <div className="two-input-row">
-              <div style={{display:"flex", flexDirection:"column"}}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <label htmlFor="zipcode">Zipcode</label>
                 <input
                   type="text"
@@ -215,7 +262,7 @@ function AddResortForm() {
                 />
 
               </div>
-              <div style={{display:"flex", flexDirection:"column"}}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <label htmlFor="roomType">Phone Number</label>
                 <input
                   type="text"
@@ -228,10 +275,25 @@ function AddResortForm() {
                   required
                 />
               </div>
+
+              <div className='text-area-in-row'>
+                <label htmlFor="address">Location</label>
+                <select className='select-field input-needed' name="location" id="location"
+                  // onChange={formik.handleChange}
+                  // value={formik.values.location}
+                  onChange={e => setLocation(e.target.value)}
+                  required
+                >
+                  <option value="">Select an option</option>
+                  {locationList.map((item) => (
+                    <option value={item.id}>{item.city_name}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="two-input-row">
-              <div style={{display:"flex", flexDirection:"column"}}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <label htmlFor="numberOfRooms">Number of Rooms</label>
                 <input
                   type="number"
@@ -267,7 +329,7 @@ function AddResortForm() {
                   id="price"
                   name='price'
                   className='input-needed'
-                  style={{width:"20rem"}}
+                  style={{ width: "20rem" }}
                   // onChange={formik.handleChange}
                   // value={formik.values.price}
                   onChange={e => setPrice(e.target.value)}
@@ -277,15 +339,7 @@ function AddResortForm() {
             </div>
 
             <div className='location-select'>
-              <label htmlFor="description">Description</label>
-              <textarea className='textarea-address input-needed'
-                id="description"
-                name='description'
-                // onChange={formik.handleChange}
-                // value={formik.values.description}
-                onChange={e => setDescription(e.target.value)}
-                required
-              ></textarea>
+
             </div>
             <div className='checks'>
               <input
@@ -346,7 +400,7 @@ function AddResortForm() {
                 onChange={e => setImageFour(e.target.files[0])}
               />
             </div>
-            <div style={{display:"flex", justifyContent:"center"}}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <button className='resort-add-btn' type="submit">Submit</button>
             </div>
           </form>

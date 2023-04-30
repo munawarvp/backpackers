@@ -1,6 +1,8 @@
 from django.shortcuts import render
 import datetime
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from .models import ResortBooking, AdventureBooking
 from resorts.models import Resorts
@@ -76,6 +78,36 @@ class ChangeResortBookingStatus(APIView):
             queryset.save()
             return Response({'msg': 200})
         return Response({'msg': 404})
+    
+class StaffResortBookingFilter(APIView):
+    def get(self, request, user_id, value):
+        if value == 1:
+            queryset = ResortBooking.objects.filter(booked_resort__owner=user_id, status="New")
+        elif value == 2:
+            queryset = ResortBooking.objects.filter(booked_resort__owner=user_id, status="Checked In")
+        elif value == 3:
+            queryset = ResortBooking.objects.filter(booked_resort__owner=user_id, status="Checked Out")
+        elif value == 4:
+            queryset = ResortBooking.objects.filter(booked_resort__owner=user_id, status="Cancelled")
+        else: 
+            queryset = ResortBooking.objects.filter(booked_resort__owner=user_id)
+
+        serializer = ResortBookingSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class StaffSearchResortBooking(ListCreateAPIView):
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = ResortBooking.objects.filter(booked_resort__owner=user_id)
+        return queryset
+        
+    
+    queryset = ResortBooking.objects.all()
+    serializer_class = ResortBookingSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['booking_id']
+
+
 # adventure bookings
 
 
@@ -126,3 +158,4 @@ class StaffAdventureBookings(APIView):
         queryset = AdventureBooking.objects.filter(booked_activity__owner=user_id).order_by('-booking_date')
         serializer = AdventureBookingSerializer(queryset, many=True)
         return Response(serializer.data)
+    

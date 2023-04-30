@@ -1,0 +1,110 @@
+.admin-view-resort-main{
+    margin: 20px;
+    /* margin-top: 20px; */
+    width: 80%;
+}
+.view-resort-head{
+    margin-top: 10px;
+    width: 100%;
+    height: 10rem;
+    background-color: #328ba16e;
+    display: flex;
+    align-items: center;
+    gap: 2rem
+}
+.view-resort-head>h1{
+    margin: 0;
+}
+.head-heading-font{
+    font-size: 30px;
+    
+}
+.view-resort-first-img-contain{
+    margin-left: 20px;
+    height: 8rem;
+    width: 12rem;
+}
+.viewresort-fst-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+.view-resort-overview-contain{
+    /* display: flex; */
+    margin-top: 8px;
+    padding-bottom: 15px;
+    width: 98%;
+    height: max-content;
+    background-color: #328ba14a;
+}
+.overview-container{
+    margin-left: 30px;
+}
+.overview-main-div{
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff;
+    width: 95%;
+    height: max-content;
+}
+.owner-details-container{
+    margin-top: 13px;
+    border-radius: 15px;
+    background: linear-gradient(
+        106.37deg,
+        #328ba1ce 10.63%,
+        /* #ddd2b4 29.63%, */
+        /* #ffcfd1 51.55%, */
+        #edccbcd2 60.85%
+    );
+    width: 25%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.owner-profile-img-container{
+    margin-top: 20px;
+    width: 9rem;
+    height: 9rem;
+}
+.owner-profile-img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.single-resort-img-collection{
+    margin-top: 15px;
+    height: max-content;
+}
+.resort-single-img-contain{
+    padding: 10px;
+    background-color: #fff;
+    width: 23rem;
+    height: 12rem;
+}
+.each-img-resort-view{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.resort-room-available-view{
+    margin-top: 20px;
+    height: 50px;
+    background-color: white;
+    width: 93%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.single-resort-map-contain{
+    margin-top: 20px;
+    height: 25rem;
+    width: 97%;
+    background-color: #fff;
+}

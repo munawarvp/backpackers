@@ -89,6 +89,12 @@ function DestinationList() {
 
             const response = await axios.post(`${BASE_URL}/resorts/stafflistdestination/`, form)
 
+            if (response.data.msg === 504) {
+                toast.error('Destination did"t added')
+            } else{
+                toast.success('Destination added successfully')
+            }
+
             getDestinations();
             setAddToggle(!addToggle)
 
@@ -126,28 +132,29 @@ function DestinationList() {
     const formik2 = useFormik({
         initialValues: {
             owner: user_id,
-            spot_name: '',
-            place: '',
-            about: '',
-            resort: null,
-            start_time: '',
-            close_time: '',
-            image_one: null,
-            image_two: null,
-            image_three: null
+            spot_name: singleDestination.spot_name,
+            place: singleDestination.place,
+            about: singleDestination.about,
+            resort: singleDestination.resort,
+            start_time: singleDestination.start_time,
+            close_time: singleDestination.close_time,
+            image_one: singleDestination.image_one,
+            image_two: singleDestination.image_two,
+            image_three: singleDestination.image_three
         },
+        validationSchema: AddDestinationSchema ,
         onSubmit: async values => {
             const form2 = new FormData()
-            form2.append('owner', formik2.values.owner)
-            form2.append('spot_name', formik2.values.spot_name)
-            form2.append('place', formik2.values.place)
-            form2.append('about', formik2.values.about)
-            form2.append('resort', formik2.values.resort)
-            form2.append('start_time', formik2.values.start_time)
-            form2.append('close_time', formik2.values.close_time)
-            form2.append('image_one', formik2.values.image_one)
-            form2.append('image_two', formik2.values.image_two)
-            form2.append('image_three', formik2.values.image_three)
+            form2.append('owner', values.owner)
+            form2.append('spot_name', values.spot_name)
+            form2.append('place', values.place)
+            form2.append('about', values.about)
+            form2.append('resort', values.resort)
+            form2.append('start_time', values.start_time)
+            form2.append('close_time', values.close_time)
+            form2.append('image_one', values.image_one)
+            form2.append('image_two', values.image_two)
+            form2.append('image_three', values.image_three)
 
             const response = await axios.put(`${BASE_URL}/resorts/stafflistdestination/${singleDestination.id}`, form2)
 
@@ -322,7 +329,7 @@ function DestinationList() {
                                 // value={formik.values.spot_name}
                                 defaultValue={singleDestination.spot_name}
                             />
-                            {formik.errors.spot_name && formik.touched.spot_name ? <p className='form-errors'>{formik.errors.spot_name}</p> : null}
+                            {formik2.errors.spot_name && formik2.touched.spot_name ? <p className='form-errors'>{formik2.errors.spot_name}</p> : null}
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
                             <label>Place</label>
@@ -330,7 +337,7 @@ function DestinationList() {
                                 onChange={formik2.handleChange}
                                 defaultValue={singleDestination.place}
                             />
-                            {formik.errors.place && formik.touched.place ? <p className='form-errors'>{formik.errors.place}</p> : null}
+                            {formik2.errors.place && formik2.touched.place ? <p className='form-errors'>{formik2.errors.place}</p> : null}
                         </div>
                     </div>
                     <div className="add-destination-row">

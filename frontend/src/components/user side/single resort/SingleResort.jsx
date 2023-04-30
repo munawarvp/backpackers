@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { DatePicker, Button } from 'antd';
 import { AiOutlineSearch, AiFillStar } from 'react-icons/ai'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BiWifiOff } from 'react-icons/bi'
 import { BsWifi } from 'react-icons/bs'
 import { MdPool } from 'react-icons/md'
@@ -10,7 +10,7 @@ import Point from '../../../images/marker.png'
 import { useDispatch } from 'react-redux';
 import { updateResortId } from '../../../redux/bookingSlice';
 
-import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapbox_access_token } from '../../../utils/config';
 
@@ -38,6 +38,7 @@ function SingleResort() {
     const resort_id = useParams()
     dispatch(updateResortId(resort_id.id))
 
+    console.log(typeof (singleResort.map_location));
     console.log(singleResort.map_location ? singleResort.map_location.split(',') : null);
     const [lat, lng] = singleResort.map_location ? singleResort.map_location.split(',') : []
 
@@ -90,12 +91,20 @@ function SingleResort() {
 
             <div className="single-resort-main">
                 <div className="single-resort-img-container">
-                    <img className='single-resort-first-image' src={`${BASE_URL}/${singleResort.image_one}`} alt="" />
-
+                    <div className="single-resort-first-img-container">
+                        <img className='single-resort-first-image' src={`${BASE_URL}/${singleResort.image_one}`} alt="" />
+                    </div>
+                    
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_two}`} alt="" />
-                        <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_three}`} alt="" />
-                        <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_four}`} alt="" />
+                        <div className="single-resort-rest-img-container">
+                            <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_two}`} alt="" />
+                        </div>
+                        <div className="single-resort-rest-img-container">
+                            <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_three}`} alt="" />
+                        </div>
+                        <div className="single-resort-rest-img-container">
+                            <img className='single-resort-remaining-image' src={`${BASE_URL}/${singleResort.image_four}`} alt="" />
+                        </div>
                     </div>
                 </div>
 
@@ -107,7 +116,7 @@ function SingleResort() {
                     </div>
                     <div className="single-resort-price">
                         <h2>{singleResort.price} ₹</h2>
-                        <div style={{display:"flex", gap:"10px"}}>
+                        <div style={{ display: "flex", gap: "10px" }}>
                             <button className='availability-btn' onClick={() => handleBooking(singleResort.id)} >Check Availability</button>
                             <button className='book-now-btn' onClick={() => handleBooking(singleResort.id)} >Book Now</button>
                         </div>

@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.filters import SearchFilter
-from .serializers import LocationSerializer, ResortSerializer,PostResortSerializer, AdventureSerializer, DestinationSerializer
+from .serializers import (LocationSerializer, ResortSerializer,PostResortSerializer, AdventureSerializer,PostAdventureSerializer
+,DestinationSerializer, PostDestinationSerializer)
 from .models import Location, Resorts, Adventures, Destinations
 from account.models import User
 from rest_framework import viewsets
@@ -54,9 +55,19 @@ class CreateResort(APIView):
         except:
             Resorts.DoesNotExist
             return Response({'msg': 404})
-        print(request.data)
+        # print(request.data)
+        user_id = request.data['owner']
+        location_id = request.data['location']
+        user = User.objects.get(id=user_id)
+        location = Location.objects.get(id=location_id) 
         
-        serializer = ResortSerializer(queryset, data=request.data)
+        data = request.data.copy()
+        print(data)
+        # data['owner'] = user
+        # data['location'] = location
+
+        
+        serializer = PostResortSerializer(queryset, data=request.data)
         err = serializer.is_valid()
         print(serializer.errors)
         if serializer.is_valid():
@@ -201,7 +212,7 @@ class SingleResortView(APIView):
 # ****adventure view****
 class StaffAdventureList(APIView):
     def post(self, request):
-        serializer = AdventureSerializer(data=request.data)
+        serializer = PostAdventureSerializer(data=request.data)
         print(request.data)
         print(serializer.is_valid())
         print(serializer.errors)
@@ -227,8 +238,10 @@ class StaffAdventureList(APIView):
             Adventures.DoesNotExist
             return Response({'msg': 'Product doesnot exist'})
         
-        serializer = AdventureSerializer(queryset, data=request.data)
+        serializer = PostAdventureSerializer(queryset, data=request.data)
         serializer.is_valid()
+        print(request.data)
+        print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
             print('saved')
@@ -276,12 +289,14 @@ class AdminSearchAdventure(ListCreateAPIView):
 # *** destination views ***
 class StaffDestinationList(APIView):
     def post(self, request):
-        serializer = DestinationSerializer(data=request.data)
+        serializer = PostDestinationSerializer(data=request.data)
+        err =serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
-            return Response({'response': 'destination added successfully'})
+            return Response({'msg': 200})
         else:
-            return Response({'response': 'destination didnt added'})
+            return Response({'msg': 504})
         
     def get(self, request, user_id=None):
         if user_id is not None:
@@ -299,7 +314,9 @@ class StaffDestinationList(APIView):
         except:
             Destinations.DoesNotExist
             return Response({'msg': 404})
-        serializer = DestinationSerializer(queryset, data=request.data)
+        serializer = PostDestinationSerializer(queryset, data=request.data)
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
             return Response({'msg': 200})

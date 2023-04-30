@@ -72,6 +72,7 @@ function AdventueList() {
             about: '',
             day_slot: null,
             safety: '',
+            price: null,
             activity_one: null,
             activity_two: null,
             activity_three: null
@@ -89,6 +90,7 @@ function AdventueList() {
             form.append('about', formik.values.about)
             form.append('day_slot', formik.values.day_slot)
             form.append('safety', formik.values.safety)
+            form.append('price', formik.values.price)
             form.append('activity_one', formik.values.activity_one)
             form.append('activity_two', formik.values.activity_two)
             form.append('activity_three', formik.values.activity_three)
@@ -148,30 +150,32 @@ function AdventueList() {
     const formik2 = useFormik({
         initialValues: {
             owner: user_id,
-            activity_name: '',
-            activity_type: '',
-            place: '',
-            time_take: '',
-            resort: null,
-            about: '',
-            day_slot: null,
-            safety: '',
-            activity_one: null,
-            activity_two: null,
-            activity_three: null
+            activity_name: singleAdv.activity_name,
+            activity_type: singleAdv.activity_type,
+            place: singleAdv.place,
+            time_take: singleAdv.time_take,
+            resort: singleAdv.resort,
+            about: singleAdv.about,
+            day_slot: singleAdv.day_slot,
+            safety: singleAdv.safety,
+            price: singleAdv.price,
+            activity_one: singleAdv.activity_one,
+            activity_two: singleAdv.activity_twoo,
+            activity_three: singleAdv.activity_three
         },
         onSubmit: async values => {
             console.log(singleAdv.id);
             const form2 = new FormData()
-            form2.append('owner', formik2.values.owner)
-            form2.append('activity_name', formik2.values.activity_name)
-            form2.append('activity_type', formik2.values.activity_type)
-            form2.append('place', formik2.values.place)
-            form2.append('time_take', formik2.values.time_take)
-            form2.append('resort', formik2.values.resort)
-            form2.append('about', formik2.values.about)
+            form2.append('owner', values.owner)
+            form2.append('activity_name', values.activity_name)
+            form2.append('activity_type', values.activity_type)
+            form2.append('place', values.place)
+            form2.append('time_take', values.time_take)
+            form2.append('resort', values.resort)
+            form2.append('about', values.about)
             form2.append('day_slot', formik2.values.day_slot)
             form2.append('safety', formik2.values.safety)
+            form2.append('price', formik.values.price)
             form2.append('activity_one', formik2.values.activity_one)
             form2.append('activity_two', formik2.values.activity_two)
             form2.append('activity_three', formik2.values.activity_three)
@@ -315,6 +319,13 @@ function AdventueList() {
                             />
                             {formik.errors.safety && formik.touched.safety ? <p className='form-errors'>{formik.errors.safety}</p> : null}
                         </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Safety</label>
+                            <input className='add-activity-price-input' type="number" name='price' placeholder='price'
+                                onChange={formik.handleChange}
+                            />
+                            
+                        </div>
                     </div>
                     <div>
                         <input type="file" name='activity_one'
@@ -424,6 +435,14 @@ function AdventueList() {
                                 onChange={formik2.handleChange}
                                 defaultValue={singleAdv.safety}
                             />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "17px" }}>
+                            <label>Price</label>
+                            <input className='add-activity-price-input' type="number" name='price' placeholder='price'
+                                onChange={formik.handleChange}
+                                defaultValue={singleAdv.price}
+                            />
+                            
                         </div>
                     </div>
                     <div style={{ display: "flex" }}>
