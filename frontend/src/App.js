@@ -38,6 +38,9 @@ import ResortBookingViewPage from './components/admin side/ResortBookingViewPage
 import AdventureBookingViewPage from './components/admin side/AdventureBookingViewPage';
 import ResortViewPage from './components/admin side/ResortViewPage';
 import AdminResortPage from './pages/super admin/AdminResortPage';
+import ViewAdventurePage from './pages/super admin/ViewAdventurePage';
+import ViewDestinationPage from './pages/super admin/ViewDestinationPage';
+import SingleDestinationPage from './pages/user side/SingleDestinationPage';
 
 
 
@@ -58,6 +61,7 @@ function App() {
             <Route path='/destination-list' element={<UserDestinationPage/>}/>
             <Route path='/resort-details/:id' element={<SingleResortPage/>}/>
             <Route path='/adventure-details/:id' element={<SingleAdventurePage/>}/>
+            <Route path='/destination-details/:id' element={<SingleDestinationPage/>}/>
             <Route path='/booking-checkout' element={<CheckoutPage/>}/>
             <Route path='/booking-success/:id' element={<BookingSuccessPage/>}/>
             <Route path='/adventure-checkout' element={<AdventureCheckoutPage/>}/>
@@ -89,6 +93,8 @@ function App() {
             <Route path='/admin/adventure-bookings' element={<AdventureBookingPage/>} />
             <Route path='/admin/view-booking' element={<ViewBookingPage/>} />
             <Route path='/admin/view-resort/:id' element={<AdminResortPage/>} />
+            <Route path='/admin/view-adventure/:id' element={<ViewAdventurePage/>} />
+            <Route path='/admin/view-destination/:id' element={<ViewDestinationPage/>} />
           </Routes>
         </Router>
     </div>

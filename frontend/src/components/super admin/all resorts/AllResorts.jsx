@@ -61,7 +61,7 @@ function AllResorts() {
                     {allResorts.map((resort) => (
                         <tr>
                             <td className='all-resort-table-td'>{resort.resort_name}</td>
-                            <td>{resort.owner.username}</td>
+                            <td>{resort.place}</td>
                             <td>{resort.phone_number}</td>
                             <td className='room_avail_col'>{resort.rooms_available}</td>
                             

@@ -6,6 +6,7 @@ from rest_framework.filters import SearchFilter
 from .serializers import (LocationSerializer, ResortSerializer,PostResortSerializer, AdventureSerializer,PostAdventureSerializer
 ,DestinationSerializer, PostDestinationSerializer)
 from .models import Location, Resorts, Adventures, Destinations
+from booking.models import ResortBooking, AdventureBooking
 from account.models import User
 from rest_framework import viewsets
 
@@ -138,6 +139,15 @@ class FilterResorts(APIView):
 
         serializer = ResortSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+class DashboardCount(APIView):
+    def get(self, request):
+        resort_count = Resorts.objects.count()
+        resort_booking = ResortBooking.objects.count()
+        adventure_booking = AdventureBooking.objects.count()
+        total_booking = resort_booking + adventure_booking
+        return Response({'resort_count':resort_count,'total_booking': total_booking})
+
     
 class FilterActivity(APIView):
     def get(self, request, id, value):

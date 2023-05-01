@@ -1,20 +1,22 @@
 .header-div{
-    /* margin: 0 10px; */
+    margin: 0 5px;
     /* padding: 10px; */
     padding: 0 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: rgb(255, 255, 255);
-    /* background: linear-gradient(
-        106.37deg,
-        #ffe1bc 29.63%,
-        #ffcfd1 51.55%,
-        #f3c6f1 90.85%
-    ); */
-    /* background-color: #dedad1; */
-    background-color: #349ce4;
-    border-bottom: 3px solid #898989;
+    background: linear-gradient(
+        99.37deg,
+        #eab88d 23.63%,
+        /* #f0d5c8 29.63%, */
+        /* #487083 29.63%, */
+        #f0d5c8 51.55%,
+        #487083 80.85%
+    );
+    /* background-color: #f0d5c8; */
+    border-bottom: 4px solid #3da2e6;
+    border-radius: 0  0 30px 30px;
 }
 .user-search{
     height: 32px;

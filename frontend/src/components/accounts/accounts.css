@@ -1,87 +1,203 @@
-.main-div{
+.main-div {
     height: 100vh;
-    background-image: url('../accounts/images/login\ background.png');
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+.login-background-contain {
+    width: 100%;
+    height: 100vh;
+}
+.login-background-contain>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(76%) blur(1px) ;
+}
+.main-div-signup {
+    height: 100vh;   
+}
+.login-content {
+    color: #023e8a;
+    height: 90%;
     text-align: center;
 }
-.main-div-signup{
-    height: 100vh;
-    background-image: url('../accounts/images/signup\ background.png');
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.login-content>p{
+    margin-bottom: 20px;
+    font-weight: bold;
 }
-.login-content{
-    
-    color: white;
-}
-.login-input{
+.login-input {
     display: flex;
     flex-direction: column;
 }
-.input-field{
+.login-input-contain{
+    margin-bottom: 25px;
+    text-align: left;
+}
+.input-field {
     height: 40px;
     width: 350px;
-    color: white;
+    color: #023e8a;
     margin-top: 5px;
-    margin-bottom: 20px;
     background: transparent;
-    border: 2px solid white;
+    border: 3px solid #023e8a;
     border-radius: 3px;
     padding-left: 20px;
     outline: none;
 }
-.input-field::placeholder{
-    color: white;
+
+.input-field::placeholder {
+    color: #023e8a;
 }
 
-.signup-navi{
+.signup-navi {
     display: flex;
     justify-content: space-between;
+    color: black;
 }
-.login-btn-login{
+.signup-navi>p{
+    color: #023e8a;
+}
+
+.login-btn-login {
     margin-top: 5px;
-    color: white;
+    color: #023e8a;
     font-size: large;
     font-weight: bold;
     background: transparent;
-    border: 2px solid #ffffff;
+    border: 3px solid #023e8a;
     height: 40px;
+    margin-bottom: 17px;
 }
-.login-btn-login:hover{
-    color: black;
-    background-color: #ffffff;
-}
-.lo-sign{
+
+.login-btn-login:hover {
     color: white;
+    background-color: #023e8a;
+}
+
+.lo-sign {
+    color: #023e8a;
     text-decoration: none;
 }
-.rmv-mb{
+
+.rmv-mb {
     margin-bottom: 5px;
 }
 
-.travel-login{
+.travel-login {
     width: 50%;
     /* margin: auto; */
 
 }
-.login-travel-image{
+
+.login-travel-image {
     /* border: 2px solid white; */
+    position: absolute;
+    top: 17%;
+    left: 24%;
     padding-right: 50px;
     padding-top: 20px;
     padding-bottom: 20px;
     width: 50%;
+    height: 30rem;
     display: flex;
     /* justify-content: center; */
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.54);
+    border-radius: 30px;
+}
+
+.register-travel-image {
+    width: 50%;
+}
+
+
+
+
+/* sign up */
+
+
+
+.register-background-contain{
+    width: 100%;
+    height: 100vh;
+}
+.register-background-contain>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(80%);
 }
 .register-travel-image{
+    position: absolute;
+    top: 16%;
+    left: 21%;
+    /* padding-right: 50px; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 60%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.54);
+    border-radius: 30px;
+}
+.register-content{
+    color: #023e8a;
     width: 50%;
+    text-align: center;
+}
+.register-content>h1{
+    margin-top: 0;
+    margin-bottom: 7px;
+}
+.register-content>p{
+    margin-bottom: 7px;
+}
+.register-input-field{
+    height: 35px;
+    width: 80%;
+    color: #023e8a;
+    margin-top: 5px;
+    background: transparent;
+    border: 3px solid #023e8a;
+    border-radius: 3px;
+    padding-left: 20px;
+    outline: none;
+}
+.register-input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.register-input-field::placeholder{
+    color: #023e8a;
+}
+.register-btn{
+    margin-top: 5px;
+    color: #023e8a;
+    font-size: large;
+    font-weight: bold;
+    background: transparent;
+    border: 3px solid #023e8a;
+    height: 40px;
+    width: 86%;
+    margin-bottom: 17px;
+}
+.register-navi{
+    width: 86%;
+    display: flex;
+    justify-content: space-between;
+}
+.register-navi>p{
+    font-weight: bold;
+}
+.register-image-full-container{
+    width: 50%;
+}
+.travel-img-container{
+    width: 80%;
+}
+.travel-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

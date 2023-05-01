@@ -12,8 +12,7 @@ import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mapbox_access_token } from '../../../../utils/config';
 import Point from '../../../../images/marker.png'
-import { type } from '@testing-library/user-event/dist/type'
-import { useCallback } from 'react'
+
 // import { useFormik } from 'formik'
 
 

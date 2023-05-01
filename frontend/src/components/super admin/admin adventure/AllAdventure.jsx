@@ -67,7 +67,7 @@ function AllAdventure() {
                             <td>{item.place}</td>
                             {item.is_approved ? <td className='approved'>Approved</td> : <td className='pending'>Blocked</td>}
                             <td className='action-col' style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <Link className='action-text' ><p className='edit'><AiFillEye /> View</p></Link>
+                                <Link className='action-text' to={`/admin/view-adventure/${item.id}`} ><p className='edit'><AiFillEye /> View</p></Link>
                                 <p className='edit'><Switch style={{ backgroundColor: item.is_approved ? 'green' : 'red' }} onChange={() => handleChange(item.id)} /></p>
                             </td>
                         </tr>

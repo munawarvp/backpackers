@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, CreateAdventureBooking, GetAdventureBooking,
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
-                    StaffResortBookingFilter, StaffSearchResortBooking)
+                    StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings)
 
 
 urlpatterns = [
@@ -19,4 +19,7 @@ urlpatterns = [
 
     path('filterresortbooking/<int:user_id>/<int:value>', StaffResortBookingFilter.as_view()),
     path('searchresortbooking/<int:user_id>', StaffSearchResortBooking.as_view()),
+
+    path('recentresortbookings/', RecentResortBookings.as_view()),
+    path('recentactivitybookings/', RecentActivityBookings.as_view()),
 ]

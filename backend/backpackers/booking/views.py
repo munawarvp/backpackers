@@ -57,6 +57,18 @@ class GetBookingSummary(APIView):
         queryset = ResortBooking.objects.get(booking_id=booking_id)
         serializer = ResortBookingSerializer(queryset)
         return Response(serializer.data)
+
+class RecentResortBookings(APIView):
+    def get(self, request):
+        queryset = ResortBooking.objects.all().order_by('-booking_date')[:4]
+        serializer = ResortBookingSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class RecentActivityBookings(APIView):
+    def get(self, request):
+        queryset = AdventureBooking.objects.all().order_by('-booking_date')[:4]
+        serializer = AdventureBookingSerializer(queryset, many=True)
+        return Response(serializer.data)
     
 
 class StaffListBookings(APIView):
@@ -100,8 +112,6 @@ class StaffSearchResortBooking(ListCreateAPIView):
         user_id = self.kwargs['user_id']
         queryset = ResortBooking.objects.filter(booked_resort__owner=user_id)
         return queryset
-        
-    
     queryset = ResortBooking.objects.all()
     serializer_class = ResortBookingSerializer
     filter_backends = [SearchFilter]
@@ -109,7 +119,6 @@ class StaffSearchResortBooking(ListCreateAPIView):
 
 
 # adventure bookings
-
 
 class CreateAdventureBooking(APIView):
     def post(self, request):

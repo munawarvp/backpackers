@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import jwt_decode from "jwt-decode"
 import { toast, Toaster } from 'react-hot-toast'
 import Travel from '../../images/travel-login.png'
+import Background from '../accounts/images/trylogin.jpg'
 
 function Login() {
     // const {count} = useSelector((state)=>state.auth)
@@ -38,10 +39,10 @@ function Login() {
                 console.log('staff');
                 history('/admin-dashboard')
             } else if (location) {
-                history(location, {replace: true})
+                history(location, { replace: true })
                 localStorage.removeItem('location')
             } else {
-                history('/', {replace:true})
+                history('/', { replace: true })
             }
         } else {
             toast.error('Invalid User Credentials')
@@ -51,19 +52,23 @@ function Login() {
     return (
         <div className='main-div'>
             <Toaster position='top-center' reverseOrder='false' ></Toaster>
+            <div className="login-background-contain">
+                <img src={Background} alt="" />
+            </div>
             <div className='login-travel-image'>
-                {/* <div className="login-travel-image"> */}
-                    <img src={Travel} alt="" className="travel-login" />
-                {/* </div> */}
+                <img src={Travel} alt="" className="travel-login" />
                 <div className='login-content'>
                     <h1 className='login-text'>Login</h1>
                     <p>Please Enter Your Login Details</p>
                     <form className='login-input' onSubmit={handleSubmit} >
-                        <input className='input-field' type="email" name='username' placeholder='email' />
-                        <input className='input-field rmv-mb' type="password" name='password' placeholder='password' />
-                        <div className="signup-navi">
+                        <div className="login-input-contain">
+                            <input className='input-field' type="email" name='username' placeholder='email' />
+                        </div>
+                        <div className="login-input-contain">
+                            <input className='input-field rmv-mb' type="password" name='password' placeholder='password' />
                             <p><Link className='lo-sign' to='/forgot-password'>Forgot Password..?</Link></p>
                         </div>
+                        
                         <input className='login-btn-login' type="submit" value='LOGIN' />
 
                         <div className='signup-navi'>

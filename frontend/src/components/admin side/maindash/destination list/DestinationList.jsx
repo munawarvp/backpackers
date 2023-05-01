@@ -11,6 +11,11 @@ import { useFormik } from 'formik'
 import Select from 'react-select';
 import { IoMdCloseCircle } from 'react-icons/io'
 
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { mapbox_access_token } from '../../../../utils/config';
+import Point from '../../../../images/marker.png'
+
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { getLocal } from '../../../../helpers/auth';
@@ -40,6 +45,8 @@ function DestinationList() {
     const [addToggle, setAddToggle] = useState(false)
     const [updateToggle, setUpdateToggle] = useState(false)
 
+    const [coordinates, setCoordinates] = useState('');
+
     useEffect(() => {
         getDestinations();
     }, [])
@@ -52,6 +59,18 @@ function DestinationList() {
         const response = await axios.get(`${BASE_URL}/resorts/stafflistdestination/${user_id}`)
         setDestinationList(response.data)
     }
+
+    const Map = ReactMapboxGl({
+        accessToken: mapbox_access_token
+    });
+
+    const handleClick = (map, event) => {
+        setCoordinates([event.lngLat.lng, event.lngLat.lat]);
+
+    }
+    const [lng, lat] = coordinates
+    const map_location = String(lat) + ',' + String(lng)
+
 
     const rows = [
         ...destinationList.map((item) => (
@@ -91,7 +110,7 @@ function DestinationList() {
 
             if (response.data.msg === 504) {
                 toast.error('Destination did"t added')
-            } else{
+            } else {
                 toast.success('Destination added successfully')
             }
 
@@ -142,7 +161,7 @@ function DestinationList() {
             image_two: singleDestination.image_two,
             image_three: singleDestination.image_three
         },
-        validationSchema: AddDestinationSchema ,
+        validationSchema: AddDestinationSchema,
         onSubmit: async values => {
             const form2 = new FormData()
             form2.append('owner', values.owner)
@@ -201,14 +220,26 @@ function DestinationList() {
                         <IoMdCloseCircle size={30} onClick={() => setToggle(!toggle)} />
                     </div>
                     <div style={{ display: "flex", gap: "3rem" }}>
-                        <h3>Resort Near : {singleDestination.resort}</h3>
+                        <h3>Resort Near : {singleDestination.resort && singleDestination.resort.resort_name}</h3>
                         <h3>Place : {singleDestination.place} </h3>
                     </div>
                     <div className="resort-images">
                         <h4>Destination Images :</h4>
-                        <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
-                        <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
-                        {singleDestination.image_three ? <img style={{ height: "10rem", marginRight: "6px" }} src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
+                        <div className="destination-view-image-container">
+                            <div className="single-destination-view-contain">
+                                <img className='view-destination-single-img' src={`${BASE_URL}/${singleDestination.image_one}`} alt="" />
+
+                            </div>
+                            <div className="single-destination-view-contain">
+                                <img className='view-destination-single-img' src={`${BASE_URL}/${singleDestination.image_two}`} alt="" />
+
+                            </div>
+                            <div className="single-destination-view-contain">
+                                {singleDestination.image_three ? <img className='view-destination-single-img' src={`${BASE_URL}/${singleDestination.image_three}`} alt="" /> : null}
+
+                            </div>
+                        </div>
+
 
                     </div>
                     <p><b>About Activity : {singleDestination.about}</b> <br /></p>
@@ -282,6 +313,26 @@ function DestinationList() {
                             value={formik.values.about}
                         ></textarea>
                         {formik.errors.about && formik.touched.about ? <p className='form-errors'>{formik.errors.about}</p> : null}
+                    </div>
+
+                    <div className="add-resort-map-container">
+                        <label htmlFor="maplocation">Map Location</label>
+                        <Map
+                            style="mapbox://styles/mapbox/streets-v9"
+                            zoom={[14]}
+                            containerStyle={{
+                                height: '100%',
+                                width: '100%'
+                            }}
+                            onClick={handleClick}
+                        >
+                            {coordinates.length > 0 && (
+                                <Marker coordinates={coordinates} anchor="bottom">
+                                    <img height={35} src={Point} alt="Marker" />
+                                </Marker>
+                            )}
+                        </Map>
+
                     </div>
 
                     <div className="form-group">

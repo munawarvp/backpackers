@@ -21,3 +21,18 @@
     margin-top: 1.6rem;
     margin-right: 3rem;
 }
+
+.destination-view-image-container{
+    display: flex;
+    gap: 2rem;
+}
+
+.single-destination-view-contain{
+    height: 10rem;
+    width: 17rem;
+}
+.view-destination-single-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

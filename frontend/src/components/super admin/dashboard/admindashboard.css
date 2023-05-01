@@ -1,0 +1,71 @@
+.admin-dashboard-main-container{
+    width: 88%;
+    height: 100vh;
+    /* margin: 5px; */
+    /* background-color: violet; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-dashboard-heading{
+    width: 90%;
+}
+.admin-dashboard-heading>h1{
+    margin: 0;
+    margin-top: 5px;
+}
+
+.dashboard-menu-container{
+    /* background-color: pink; */
+    width: 90%;
+    height: 9rem;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dashboard-single-menu{
+    height: 7rem;
+    padding: 1rem;
+    width: 25%;
+    color: white;
+    border-radius: 20px;
+}
+.menu-red{
+    background-color: #eb6464;
+    box-shadow: #eb6464 0 10px 20px 0;
+}
+.menu-blue{
+    background-color: #1a8cff;
+    box-shadow: #1a8cff 0 10px 20px 0;
+}
+.menu-yellow{
+    background-color: #ffca71;
+    box-shadow: #f9d59b 0 10px 20px 0;
+}
+
+.count-icon{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.count-icon>h1{
+    font-size: 40px;
+}
+
+.dashboard-graph-container{
+    margin-top: 20px;
+    width: 94%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.first-graph{
+    width: 50%;
+    text-align: center;
+}
+
+.dashboard-recent-bookings{
+    margin-top: 15px;
+    width: 100%;
+}

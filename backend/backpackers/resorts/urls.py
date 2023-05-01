@@ -6,7 +6,7 @@ from .views import (LocationList, ResortList, CreateResort,
                     StaffAdventureList, GetAdventureDetail, SearchAdventure, AdminSearchAdventure, HomeListAdventures,
                     StaffDestinationList,GetDestinationDeatail,SearchDestinations, AdminSearchDestination, HomeListDestinations, BlockDestination,
                     SearchResorts, AdminSearchResort, BlockAdventure, AdminFilterResorts, AdminFilterActivity, AdminFilterDestination,
-                    UserResortList, UserAdventureList, UserDestinationList, SingleResortView)
+                    UserResortList, UserAdventureList, UserDestinationList, SingleResortView, DashboardCount)
 
 
 urlpatterns = [
@@ -57,5 +57,8 @@ urlpatterns = [
     path('userlistadventures/', UserAdventureList.as_view()),
     path('userlistdestinations/', UserDestinationList.as_view()),
     path('singleresortpage/<int:resort_id>', SingleResortView.as_view()),
+
+
+    path('admindasboardcount/', DashboardCount.as_view()),
 
 ]

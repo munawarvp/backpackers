@@ -15,8 +15,7 @@
     gap: 1rem;
 }
 .single-resort-first-img-container{
-    /* background-color: #4361ee; */
-    width: 46rem;
+    width: 50rem;
     height: 30rem;
 }
 .single-resort-first-image{
@@ -36,7 +35,7 @@
     object-fit: cover;
 }
 .single-resort-heading{
-    width: 63%;
+    width: 60%;
 }
 .single-heading-container{
     display: flex;
@@ -84,6 +83,7 @@
 .resort-subheading-container{
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 }
 .resort-subheading{
     /* border-bottom: 3.5px solid #15406e; */
@@ -107,9 +107,16 @@
     /* justify-content: center; */
     align-items: center;
     margin-top: 20px;
+    
+}
+.overview-shadow{
+    width: 75%;
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: #828caf51 0 0 15px 10px;
 }
 .resort-overview{
-    width: 68%;
+    width: 90%;
 }
 .resort-overview-details{
     font-weight: bold;
@@ -119,11 +126,127 @@
     margin-bottom: 10px;
 }
 .resort-room-type{
-    width: 68%;
+    width: 90%;
     margin-top: 20px;
 }
 
 .resort-map-location{
-    width: 68%;
+    width: 75%;
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: #828caf51 0 0 15px 10px;
+}
+
+/* review */
+.resort-review-main-contain{
+    width: 75%;
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: #828caf51 0 0 15px 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.resort-review-heading{
+    width: 100%;
+}
+.profile-img-name-rating{
+    display: flex;
+    align-items: center;
+}
+.resort-single-review-contain{
+    width: 96%;
+    padding: 10px 20px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    /* border: 1px solid gray; */
+    box-shadow: #4362ee79 0 0 8px 1px;
+    border-radius: 10px;
+}
+.review-profile-img-container{
+    width: 45px;
+    height: 45px;
+}
+.review-user-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.review-name-rating{
+    margin-left: 15px;
+}
+.resort-review-description{
+    width: 80%;
+}
+.resort-review-img-contain{
+    display: flex;
+    gap: 6px;
+}
+.resort-review-single-img{
+    width: 8rem;
+    height: 4.8rem;
+}
+.resort-review-single-img>p{
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: rgb(109, 109, 109);
+}
+.review-single-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.review-form-main-container{
+    width: 99%;
+    margin-top: 17px;
+    
+    
+    
+}
+.review-form-half{
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: #4362ee79 0 0 8px 1px;
+}
+
+.review-input-contain{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+.review-add-input{
+    border: none;
+    width: 90%;
+    height: 40px;
+    margin-top: 5px;
+    box-shadow: #74747479 0 0 8px 1px;
+    border-radius: 10px;
+    padding-left: 20px;
+}
+.review-rating-img-contain{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.review-textarea{
+    height: 6rem;
+}
+
+.add-review-btn{
+    height: 37px;
+    width: 50%;
+    border: none;
+    color: white;
+    background-color: #4361ee;
+    border-radius: 5px;
+    font-size: 20px;
     margin-top: 20px;
 }

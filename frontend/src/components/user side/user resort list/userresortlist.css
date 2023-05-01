@@ -152,6 +152,7 @@
     /* border: 1px solid #a1cde9; */
     border-radius: 8px;
     transition: ease 0.2s;
+    cursor: pointer;
 }
 .single-desti-card:hover{
     transform: scale(1.02);

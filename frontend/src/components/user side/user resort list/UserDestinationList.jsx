@@ -4,10 +4,13 @@ import { DatePicker, Button } from 'antd';
 import { AiOutlineSearch} from 'react-icons/ai'
 import axios from 'axios';
 import { BASE_URL } from '../../../utils/config';
+import { useNavigate } from 'react-router-dom';
 
 function UserDestinationList() {
     const [locationList, setLocationlist] = useState([]);
     const [destinationList, setDestinationList] = useState([]);
+
+    const history = useNavigate()
 
     useEffect(() => {
         locations();
@@ -28,6 +31,9 @@ function UserDestinationList() {
             value: item.id, label: item.city_name
         })
     })
+    const goSingleDestination = (id)=> {
+        history(`/destination-details/${id}`)
+    }
     return (
         <div className="user-resortlist-main">
             <div className="resort-search-filter">
@@ -65,7 +71,7 @@ function UserDestinationList() {
             <div>
                 <div className="destination-listing">
                     {destinationList.map((destination) => (
-                        <div className="single-desti-card">
+                        <div className="single-desti-card" onClick={()=>goSingleDestination(destination.id)}>
                             <img className='destination-card-img' src={`${BASE_URL}/${destination.image_one}`} alt="" />
                             <div className="destination-details">
                                 <h3>{destination.spot_name}</h3>
