@@ -82,8 +82,8 @@ function UpdateResortForm() {
       form.append('pool_available', values.pool_available)
       form.append('image_one', values.image_one)
       form.append('image_two', values.image_two)
-      { values.image_three && form.append('image_three', values.image_three) }
-      { values.image_four && form.append('image_four', values.image_four) }
+      form.append('image_three', values.image_three)
+      form.append('image_four', values.image_four)
 
       const response = await axios.put(`${BASE_URL}/resorts/createresorts/${resort_id.id}`, form)
       if (response.data.msg === 200) {

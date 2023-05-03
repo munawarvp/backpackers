@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, CreateAdventureBooking, GetAdventureBooking,
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
-                    StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings)
+                    StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings,
+                    AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews)
 
 
 urlpatterns = [
@@ -22,4 +23,12 @@ urlpatterns = [
 
     path('recentresortbookings/', RecentResortBookings.as_view()),
     path('recentactivitybookings/', RecentActivityBookings.as_view()),
+
+
+    path('addresortreview/', AddResortReview.as_view()),
+    path('addadventurereview/', AddAdventureReview.as_view()),
+    path('adddestinationreview/', AddDestinationReview.as_view()),
+    path('getresortreview/<int:resort_id>', ListResortReviews.as_view()),
+    path('getadventurereview/<int:resort_id>', ListAdventureReviews.as_view()),
+    path('getdestinationreview/<int:resort_id>', ListDestinationReviews.as_view()),
 ]

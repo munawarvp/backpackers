@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
-from .models import ResortBooking, AdventureBooking
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews
 from resorts.models import Resorts
-from .serializers import PostResortBookingSerializer, ResortBookingSerializer, AdventureBookingSerializer, PostAdventureBookingSerializer
+from .serializers import (PostResortBookingSerializer, ResortBookingSerializer, AdventureBookingSerializer, PostAdventureBookingSerializer,
+                          PostResortReviewSerializer, PostAdventureReviewSerializer, ResortReviewSerializer, AdventureReviewSerializer,
+                          PostDestinationReviewSerializer, DestinationReviewSerializer)
 
 # Create your views here.
 
@@ -168,3 +170,88 @@ class StaffAdventureBookings(APIView):
         serializer = AdventureBookingSerializer(queryset, many=True)
         return Response(serializer.data)
     
+
+
+
+#\ ******************************************** /
+
+
+class AddResortReview(APIView):
+    def post(self, request):
+        user = request.data['user']
+        resort = request.data['resort']
+        if user == '' :
+            return Response({'msg': 501})
+        else:
+            queryset = ResortBooking.objects.filter(user__id=user, booked_resort=resort).exists()
+            print(user, resort)
+            print(queryset)
+
+            if queryset:
+                serializer = PostResortReviewSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    print('saved')
+                    return Response({'msg': 200})
+                else:
+                    return Response({'msg': 500})
+            
+            else:
+                return Response({'msg': 404})
+            
+class AddAdventureReview(APIView):
+    def post(self, request):
+        user = request.data['user']
+        adventure = request.data['adventure']
+        if user == '' :
+            return Response({'msg': 501})
+        else:
+            queryset = AdventureBooking.objects.filter(user__id=user, booked_activity=adventure).exists()
+
+            if queryset:
+                serializer = PostAdventureReviewSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({'msg': 200})
+                else:
+                    return Response({'msg': 500})
+            else:
+                return Response({'msg': 404})
+            
+class AddDestinationReview(APIView):
+    def post(self, request):
+        user = request.data['user']
+        if user == '' :
+            return Response({'msg': 501})
+        else:
+            # queryset = AdventureBooking.objects.filter(user__id=user, booked_activity=adventure).exists()
+            # if queryset:
+            serializer = PostDestinationReviewSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'msg': 200})
+            else:
+                return Response({'msg': 500})
+        # else:
+        #     return Response({'msg': 404})
+
+class ListResortReviews(APIView):
+    def get(self, request, resort_id):
+        print(resort_id)
+        queryset = ResortReviews.objects.filter(resort__id=resort_id).order_by('-rating')[:3]
+        print(queryset)
+        serializer = ResortReviewSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class ListAdventureReviews(APIView):
+    def get(self, request, resort_id):
+        queryset = AdventureReviews.objects.filter(adventure__id=resort_id).order_by('-rating')[:3]
+        serializer = AdventureReviewSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class ListDestinationReviews(APIView):
+    def get(self, request, resort_id):
+        queryset = DestinationReviews.objects.filter(destination__id=resort_id).order_by('-rating')[:3]
+        serializer = DestinationReviewSerializer(queryset, many=True)
+        return Response(serializer.data)
+        

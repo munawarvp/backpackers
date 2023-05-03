@@ -1,8 +1,9 @@
-from .models import ResortBooking, AdventureBooking
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews
 from rest_framework import serializers
 
 from account.serializers import UserSerializer
-from resorts.serializers import ResortSerializer, AdventureSerializer
+from resorts.serializers import ResortSerializer, AdventureSerializer, DestinationSerializer
+
 
 
 class ResortBookingSerializer(serializers.ModelSerializer):
@@ -17,6 +18,8 @@ class PostResortBookingSerializer(serializers.ModelSerializer):
         model = ResortBooking
         fields = '__all__'
 
+                    
+                    #\ ******************************************** /
 
 class AdventureBookingSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -28,4 +31,51 @@ class AdventureBookingSerializer(serializers.ModelSerializer):
 class PostAdventureBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdventureBooking
+        fields = '__all__'
+
+                    
+                     #\ ******************************************** /
+
+class ResortReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    resort = ResortSerializer()
+    class Meta:
+        model = ResortReviews
+        fields = '__all__'
+
+class PostResortReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResortReviews
+        fields = '__all__'
+
+                   
+                   #\ ******************************************** /
+                   #\ ******************************************** /
+
+class AdventureReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    adventure = AdventureSerializer()
+    class Meta:
+        model = AdventureReviews
+        fields = '__all__'
+
+class PostAdventureReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdventureReviews
+        fields = '__all__'
+
+
+                   #\ ******************************************** /
+
+class DestinationReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    destination = DestinationSerializer()
+    class Meta:
+        model = DestinationReviews
+        fields = '__all__'
+
+
+class PostDestinationReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DestinationReviews
         fields = '__all__'

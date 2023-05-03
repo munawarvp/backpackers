@@ -167,6 +167,11 @@
     box-shadow: #4362ee79 0 0 8px 1px;
     border-radius: 10px;
 }
+.review-single-inside{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .review-profile-img-container{
     width: 45px;
     height: 45px;

@@ -5,7 +5,6 @@ import { useFormik } from 'formik'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { BookingSchema } from '../../../validations/FormValidation'
 
-import resortimg from '../../../images/resort2.webp'
 // import { useSelector } from 'react-redux'
 
 import axios from 'axios';
@@ -16,7 +15,6 @@ import { toast, Toaster } from 'react-hot-toast'
 
 function CheckOut() {
   const [singleResort, setSingleResort] = useState({})
-  const [id, setId] = useState(null)
   // const { resort_id } = useSelector((state) => state.booking)
   const history = useNavigate()
   const location = useLocation()

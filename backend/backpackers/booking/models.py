@@ -1,6 +1,6 @@
 from django.db import models
 from account.models import User
-from resorts.models import Resorts, Adventures
+from resorts.models import Resorts, Adventures, Destinations
 
 # Create your models here.
 
@@ -63,3 +63,44 @@ class AdventureBooking(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+
+class ResortReviews(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    resort = models.ForeignKey(Resorts, on_delete=models.CASCADE)
+    review_heading = models.CharField(max_length=100)
+    description = models.TextField()
+    rating = models.FloatField()
+    review_image = models.ImageField(upload_to='photos/resortReviews')
+    created_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username + " " + self.resort.resort_name
+
+    
+
+
+class AdventureReviews(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    adventure = models.ForeignKey(Adventures, on_delete=models.CASCADE)
+    review_heading = models.CharField(max_length=100)
+    description = models.TextField()
+    rating = models.FloatField()
+    review_image = models.ImageField(upload_to='photos/adventureReviews')
+    created_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username + " " + self.adventure.activity_name
+    
+
+class DestinationReviews(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    destination = models.ForeignKey(Destinations, on_delete=models.CASCADE)
+    review_heading = models.CharField(max_length=100)
+    description = models.TextField()
+    rating = models.FloatField()
+    review_image = models.ImageField(upload_to='photos/adventureReviews')
+    created_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username + " " + self.destination.spot_name
