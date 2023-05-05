@@ -4,11 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
-from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign
 from resorts.models import Resorts
 from .serializers import (PostResortBookingSerializer, ResortBookingSerializer, AdventureBookingSerializer, PostAdventureBookingSerializer,
                           PostResortReviewSerializer, PostAdventureReviewSerializer, ResortReviewSerializer, AdventureReviewSerializer,
-                          PostDestinationReviewSerializer, DestinationReviewSerializer)
+                          PostDestinationReviewSerializer, DestinationReviewSerializer, CouponSerializer)
 
 # Create your views here.
 
@@ -171,7 +171,11 @@ class StaffAdventureBookings(APIView):
         return Response(serializer.data)
     
 
-
+class UserResortBookings(APIView):
+    def get(self, request, user_id):
+        queryset = ResortBooking.objects.filter(user=user_id)
+        serializer = ResortBookingSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 #\ ******************************************** /
 
@@ -254,4 +258,21 @@ class ListDestinationReviews(APIView):
         queryset = DestinationReviews.objects.filter(destination__id=resort_id).order_by('-rating')[:3]
         serializer = DestinationReviewSerializer(queryset, many=True)
         return Response(serializer.data)
-        
+
+
+#\ ******************************************** /
+
+
+class ListCoupons(APIView):
+    def get(self, request):
+        queryset = Coupon.objects.all()
+        serializer = CouponSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class AddCoupon(APIView):
+    def post(self, request):
+        serializer = CouponSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg': 200})
+        return Response({'msg': 500})

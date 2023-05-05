@@ -7,8 +7,9 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
 
-from .serializers import UserSerializer
-from account.models import User
+from .serializers import UserSerializer, UserProfileSerializer
+from account.models import User, UserProfile
+from booking.models import Coupon, CouponAssign
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -85,6 +86,12 @@ def activate(request, uidb64, token):
 
         user.is_active = True
         user.save()
+        coupon = Coupon.objects.get(coupon_name='REGISTER')
+        user_coupon = CouponAssign.objects.create(user=user, coupon=coupon)
+        # user_coupon.save()
+        print(user_coupon)
+        print('saved')
+
 
         return HttpResponseRedirect('http://localhost:3000/login')
         # return Response({"msg": "activated"})
@@ -113,7 +120,7 @@ class ForgotPassword(APIView):
 
         if User.objects.filter(email=email).exists:
             user = User.objects.get(email__exact=email)
-            
+
             current_site = get_current_site(request)
             mail_subject = 'Reset Your Password'
             message = render_to_string('accounts/reset_password_email.html', {
@@ -193,4 +200,33 @@ class BlockStaff(APIView):
         user.save()
         return Response({'status':user.is_active})
 
+class GetUserDetails(APIView):
+    def get(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        user_profile = UserProfile.objects.get(user=user_id)
+        print(user)
+        serializer = UserSerializer(user)
+        user_serializer = UserProfileSerializer(user_profile)
+        response_data = {
+            'user': serializer.data,
+            'user_profile': user_serializer.data
+        }
+        return Response(response_data)
         
+class CreateUserProfile(APIView):
+    def put(self, request, user_id):
+        print(request.data)
+        # user_id = request.data['user']
+        # print(request.data['profile_img'])
+        user = UserProfile.objects.get(id=user_id)
+        
+        
+        serializer = UserProfileSerializer(instance=user, data=request.data)
+        print(serializer.is_valid())
+        print(serializer.errors)
+        if serializer.is_valid():
+            print('savedddd')
+            serializer.save()
+            return Response({'msg': 200})
+
+        return Response({'msg': 500})

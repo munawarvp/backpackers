@@ -36,7 +36,7 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #349ce4;
+  background-color: #558499;
   color: white;
 }
 .action-col{
@@ -67,5 +67,48 @@
   font-weight: bold;
 }
 .resort-filter-drop{
+  width: 10rem;
+}
+
+.add-new-coupon-btn{
+  background-color: #6caecd;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  width: 10rem;
+}
+
+.add-coupon-form-container{
+  margin-top: 10px;
+  background-color: #558499;
+  border-radius: 5px;
+  padding: 20px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.coupon-form-input-contain{
+  
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+.coupon-form-input{
+  height: 30px;
+  border: none;
+}
+
+.add-coupon-form-btn{
+  color: #373737;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
   width: 10rem;
 }

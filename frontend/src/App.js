@@ -41,6 +41,8 @@ import AdminResortPage from './pages/super admin/AdminResortPage';
 import ViewAdventurePage from './pages/super admin/ViewAdventurePage';
 import ViewDestinationPage from './pages/super admin/ViewDestinationPage';
 import SingleDestinationPage from './pages/user side/SingleDestinationPage';
+import UserProfilePage from './pages/user side/UserProfilePage';
+import CouponsPage from './pages/super admin/CouponsPage';
 
 
 
@@ -66,6 +68,7 @@ function App() {
             <Route path='/booking-success/:id' element={<BookingSuccessPage/>}/>
             <Route path='/adventure-checkout' element={<AdventureCheckoutPage/>}/>
             <Route path='/adventure-booking-success/:id' element={<AdventureBookingSuccess/>}/>
+            <Route path='/user-profile/:user_name' element={<UserProfilePage/>} /> 
                 
             <Route path='/admin-dashboard' element={<PrivateRoute/>}>
                 <Route path='/admin-dashboard' element={<AdminPanel/>} />
@@ -95,6 +98,7 @@ function App() {
             <Route path='/admin/view-resort/:id' element={<AdminResortPage/>} />
             <Route path='/admin/view-adventure/:id' element={<ViewAdventurePage/>} />
             <Route path='/admin/view-destination/:id' element={<ViewDestinationPage/>} />
+            <Route path='/admin/coupons' element={<CouponsPage/>} />
           </Routes>
         </Router>
     </div>

@@ -104,3 +104,26 @@ class DestinationReviews(models.Model):
 
     def __str__(self):
         return self.user.username + " " + self.destination.spot_name
+    
+
+
+
+class Coupon(models.Model):
+    coupon_name = models.CharField(max_length=100)
+    code = models.CharField(max_length=50, unique=True)
+    is_active = models.BooleanField(default=True)
+    discount_amount = models.IntegerField()
+    expiration_date = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.coupon_name
+    
+
+class CouponAssign(models.Model):
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    assigned = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " " + self.coupon.coupon_name

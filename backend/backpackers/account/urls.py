@@ -1,5 +1,5 @@
 from django.urls import path
-from account.views import UserRegistration, ForgotPassword, ResetPassword, ListStaffs, BlockStaff, AdminSearchStaff
+from account.views import UserRegistration, ForgotPassword, ResetPassword, ListStaffs, BlockStaff, AdminSearchStaff, GetUserDetails, CreateUserProfile
 from . import views
 from .views import MyTokenObtainPairView
 
@@ -21,4 +21,6 @@ urlpatterns = [
     path('liststaffs/', ListStaffs.as_view()),
     path('adminsearchstaff/', AdminSearchStaff.as_view()),
     path('blockstaff/<int:pk>', BlockStaff.as_view()),
+    path('getuserdetails/<int:user_id>', GetUserDetails.as_view()),
+    path('userprofiledetails/<int:user_id>', CreateUserProfile.as_view()),
 ]

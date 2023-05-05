@@ -1,0 +1,192 @@
+.user-profile-main-container{
+    /* background-color: violet; */
+    margin-top: 1.6rem;
+    width: 100%;
+    height: max-content;
+
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+/* .user-profile-main-container>h2{
+    margin-bottom: 0;
+} */
+.user-img-details-container{
+    width: 100%;
+    height: max-content;
+    background-color: #ebebeb;
+    border-radius: 10px;
+    /* margin-top: 20px; */
+    padding: 20px 0;
+    display: flex;
+    
+    justify-content: center;
+    /* gap: 2rem; */
+}
+.user-img-details-contain{
+    width: 29%;
+    
+    height: max-content;
+    /* background-color: orangered; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-profile-card-contain{
+    width: 70%;
+    padding: 1.8rem 0;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile-details-contain{
+    margin-top: 10px;
+    text-align: center;
+}
+.edit-user-profile-btn{
+    border: none;
+    height: 35px;
+    width: 70%;
+    background-color: #7f6ce0;
+    color: white;
+    font-size: 18px;
+    margin-top: 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.user-profile-all-details{
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    width: 65%;
+}
+.user-profile-all-details>p{
+    margin-top: 10px;
+    margin-left: 17px;
+}
+.user-profile-pic-contain{
+    width: 9rem;
+}
+.user-profile-picture{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.all-details-img-container{
+    width: 100%;
+    height: 11rem;
+}
+.user-detail-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+.details-caption-values-contain{
+    width: 80%;
+    padding: 0 20px;
+    display: flex;
+}
+.details-captions-contain{
+    width: 25%;
+    color: #362685;
+    /* background-color: #7f6ce0; */
+}
+.details-captions-contain>h5{
+    font-size: 16px;
+}
+
+.details-values-contain{
+    width: 70%;
+    /* background-color: blue; */
+}
+.details-values-contain>h5{
+    font-size: 16px;
+}
+
+.edit-profile-form-container{
+    /* background-color: #362685; */
+    width: 100%;
+    padding: 20px 0;
+
+}
+
+.edit-profile-input{
+    border: none;
+    background-color: #927ff046;
+    border-bottom: 2px solid #7f6ce0;
+    border-radius: 4px;
+    width: 80%;
+    height: 2.1rem;
+    margin: 10px 0;
+    padding-left: 10px;
+}
+.edit-profile-file-input{
+    margin: 10px 0;
+}
+.edit-profile-btn{
+    border: none;
+    height: 35px;
+    width: 82%;
+    background-color: #7f6ce0;
+    color: white;
+    font-size: 18px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+
+.user-bookings-list-contain{
+    /* background-color: #362685; */
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 1rem;
+}
+.user-single-booking-card{
+    background-color: #ebebeb;
+    width: 85%;
+    /* margin-top: 1rem; */
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+}
+.booking-card-details{
+    width: 30%;
+}
+.booking-card-details>p{
+    margin-top: 5px;
+}
+.booking-resort-img-contain{
+    width: 7rem;
+    /* height: 5rem; */
+}
+.booked-resort-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.user-coupons-list-contain{
+    width: 100%;
+    height: max-content;
+    display: grid;
+    grid-template-columns: repeat(4, 13rem);
+    padding: 20px;
+    gap: 2rem;
+}
+.user-single-coupon-card{
+    height: 8rem;
+    background-color: #ebebeb;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}

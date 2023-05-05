@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, CreateAdventureBooking, GetAdventureBooking,
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
                     StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings,
-                    AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews)
+                    AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews,
+                    UserResortBookings, ListCoupons, AddCoupon)
 
 
 urlpatterns = [
@@ -18,6 +19,8 @@ urlpatterns = [
     path('stafflistadventurebookings/<int:user_id>', StaffAdventureBookings.as_view()),
     path('changebookingstatus/<int:value>/<int:booking_id>', ChangeResortBookingStatus.as_view()),
 
+    path('userresortbookings/<int:user_id>', UserResortBookings.as_view()),
+
     path('filterresortbooking/<int:user_id>/<int:value>', StaffResortBookingFilter.as_view()),
     path('searchresortbooking/<int:user_id>', StaffSearchResortBooking.as_view()),
 
@@ -31,4 +34,7 @@ urlpatterns = [
     path('getresortreview/<int:resort_id>', ListResortReviews.as_view()),
     path('getadventurereview/<int:resort_id>', ListAdventureReviews.as_view()),
     path('getdestinationreview/<int:resort_id>', ListDestinationReviews.as_view()),
+
+    path('adminlistcoupons/', ListCoupons.as_view()),
+    path('adminaddcoupon/', AddCoupon.as_view()),
 ]
