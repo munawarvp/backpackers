@@ -12,7 +12,7 @@
 .checkform-container{
     width: 65%;
     height: max-content;
-    background-color: #dce2ff;
+    background-color: #d1d1d175;
     border-radius: 8px;
     padding: 1.2rem;
     display: flex;
@@ -22,8 +22,8 @@
 
 .booking-form-dates{
     width: 85%;
-    display: flex;
-    gap: 1rem;
+    /* display: flex; */
+    /* gap: 1rem; */
 }
 .booking-checkout-input-container{
     width: 85%;
@@ -55,16 +55,17 @@
 .booking-img-container{
     display: flex;
     justify-content: center;
-    width: 70%;
+    width: 6rem;
+    height: 4rem;
     
 }
 .booking-resort-img{
     width: 100%;
-    height: 150px;
+    height: 100%;
     /* object-fit: cover; */
 }
 .booking-details-name{
-    max-width: 70%;
+    width: 75%;
 }
 .booking-details-small{
     margin-top: 10px;
@@ -73,9 +74,9 @@
 }
 .booking-details-name>h3,h4{
     margin-top: 5px;
-    margin-bottom: 0;
-    
+    margin-bottom: 0; 
 }
+
 .booking-details-card{
     border: 3px solid rgb(171, 171, 171);
     border-radius: 8px;
@@ -104,7 +105,9 @@
     margin-top: 20px;
     width: 80%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 .booking-btn{
     border: none;
@@ -115,8 +118,58 @@
     color: white;
     background-color: #4361ee;
 }
+.razorpay-booking-btn{
+    border: none;
+    border-radius: 3px;
+    font-size: 20px;
+    height: 40px;
+    width: 80%;
+    color: white;
+    background-color: blueviolet;
+}
 .booking-btn:hover{
     background-color: #3c57d0;
+}
+
+.booking-coupon-list-contain{
+    margin: 10px 0;
+    width: 90%;
+    /* background-color: #15406e; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.single-booking-coupon{
+    width: 80%;
+    height: 3rem;
+    margin-top: 10px;
+    padding: 5px 10px;
+    height: max-content;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 7px;
+}
+/* .single-booking-coupon>p{
+    font-size: 14px;
+    color: #3c57d0;
+    cursor: pointer;
+} */
+.single-booking-coupon:hover{
+    background-color: #c3ceff95;
+    color: rgb(73, 73, 73);
+}
+.coupon-applied-text{
+    font-size: 13px;
+    color: red;
+    cursor: pointer;
+}
+.coupon-apply-text{
+    font-size: 14px;
+    color: #3c57d0;
+    cursor: pointer;
 }
 
 
@@ -205,3 +258,7 @@
     padding: 12px 15px;
     margin-bottom: 3px;
 }
+
+/* .date-picker-mu{
+    width: 10rem;
+} */

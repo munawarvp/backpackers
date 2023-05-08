@@ -51,10 +51,10 @@ function AddResortForm() {
 
   }
 
-  console.log(String(lng), 'longitude');
   // console.log(lat, 'latitude');
   // const map_location = ''
   const [lng, lat] = coordinates
+  console.log(String(lng), 'longitude');
   const map_location = String(lat) + ',' + String(lng)
   console.log(map_location, 'map');
 
@@ -229,7 +229,7 @@ function AddResortForm() {
             <div className="add-resort-map-container">
               <label htmlFor="maplocation">Map Location</label>
               <Map
-                style="mapbox://styles/mapbox/streets-v9"
+                style={"mapbox://styles/mapbox/streets-v9"}
                 zoom={[14]}
                 containerStyle={{
                   height: '100%',

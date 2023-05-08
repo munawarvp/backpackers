@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Profile from '../../../images/img2.png'
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { mapbox_access_token } from '../../../utils/config';
-import Point from '../../../images/marker.png'
 
 import axios from 'axios';
 import { BASE_URL } from '../../../utils/config';

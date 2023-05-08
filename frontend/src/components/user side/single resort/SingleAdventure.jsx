@@ -197,7 +197,7 @@ function SingleAdventure() {
                 </div>
 
                 <div className="resort-overview-container">
-                    {value == 0 && <div className="overview-shadow">
+                    {value === 0 && <div className="overview-shadow">
                         <div className="resort-overview">
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">Place : {SingleAdventure.place}</p>
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">{SingleAdventure.address}</p>
@@ -209,7 +209,7 @@ function SingleAdventure() {
                         </div>
                     </div>}
 
-                    {value == 1 && <div className="resort-review-main-contain">
+                    {value === 1 && <div className="resort-review-main-contain">
                         <div className="resort-review-heading">
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">Reviews :</p>
 

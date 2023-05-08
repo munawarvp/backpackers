@@ -1,5 +1,4 @@
 import React from 'react'
-import Done from '../../../images/Checklist.jpg'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'

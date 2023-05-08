@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik'
 
 import Select from 'react-select';
@@ -59,7 +58,7 @@ function AdventueList() {
         getAdventure();
     }, [])
 
-    const history = useNavigate()
+    
 
     const formik = useFormik({
         initialValues: {

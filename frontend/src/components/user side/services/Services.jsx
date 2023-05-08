@@ -4,13 +4,6 @@ import service2 from "../../../images/service2.png";
 import service3 from "../../../images/service3.png";
 import service4 from "../../../images/service4.png";
 
-import Destination2 from "../../../images/Destination2.png";
-import Destination3 from "../../../images/Destination3.png";
-import Destination4 from "../../../images/Destination4.png";
-import Destination5 from "../../../images/Destination5.png";
-import Destination6 from "../../../images/Destination6.png";
-import Destination1 from "../../../images/Destination1.png";
-
 import info1 from "../../../images/info1.png";
 import info2 from "../../../images/info2.png";
 import info3 from "../../../images/info3.png";
@@ -70,7 +63,6 @@ function Services() {
     ];
 
 
-    const [active, setActive] = useState(1);
     return (
         <>
             <div id='services'>

@@ -8,14 +8,12 @@ import { FiWifiOff } from 'react-icons/fi'
 import { FaSwimmer } from 'react-icons/fa'
 import { AiFillEye } from 'react-icons/ai'
 import { toast, Toaster } from 'react-hot-toast'
-import { getLocal } from '../../../helpers/auth'
-import jwtDecode from 'jwt-decode'
+
 
 function PendingResorts() {
     const [pendingResort, setPendingResort] = useState([])
     const [singleResort, setSingleResort] = useState({})
     const [locationDetails, setLocation] = useState({})
-    const [ownerDetails, setOwnerDetails] = useState({})
     const [toggle, setToggle] = useState(false)
 
     useEffect(()=>{

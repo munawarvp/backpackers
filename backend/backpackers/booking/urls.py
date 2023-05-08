@@ -3,7 +3,9 @@ from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, C
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
                     StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings,
                     AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews,
-                    UserResortBookings, ListCoupons, AddCoupon)
+                    UserResortBookings, ListCoupons,UserListCoupons, AddCoupon, DeleteCoupon)
+
+from . import views
 
 
 urlpatterns = [
@@ -36,5 +38,10 @@ urlpatterns = [
     path('getdestinationreview/<int:resort_id>', ListDestinationReviews.as_view()),
 
     path('adminlistcoupons/', ListCoupons.as_view()),
+    path('userlistcoupons/<int:user_id>', UserListCoupons.as_view()),
     path('adminaddcoupon/', AddCoupon.as_view()),
+    path('admindeletecoupon/<int:c_id>', DeleteCoupon.as_view()),
+
+    path('pay/', views.start_payment, name='start_payment'),
+    path('payment/success/', views.handle_payment_success, name='handle_payment_success'),
 ]

@@ -25,7 +25,6 @@ import Typography from '@mui/material/Typography';
 import { AiOutlineSearch, AiFillStar } from 'react-icons/ai'
 
 import Profile from '../../../images/img3.png'
-import Resort from '../../../images/resort2.webp'
 
 function SingleDestination() {
     const [SingleDestination, setSingleDestination] = useState({})
@@ -181,7 +180,7 @@ function SingleDestination() {
                 </div>
 
                 <div className="resort-overview-container">
-                    {value == 0 && <div className='overview-shadow'>
+                    {value === 0 && <div className='overview-shadow'>
                         <div className="resort-overview">
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">{SingleDestination.place}</p>
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">{SingleDestination.address}</p>
@@ -203,7 +202,7 @@ function SingleDestination() {
 
 
 
-                    {value == 1 && SingleDestination.map_location && <div className="resort-map-location">
+                    {value === 1 && SingleDestination.map_location && <div className="resort-map-location">
                         <p style={{ fontWeight: "bold" }} className="resort-overview-place">Location :</p>
                         <Map
                             style="mapbox://styles/mapbox/streets-v9"
@@ -220,7 +219,7 @@ function SingleDestination() {
                         </Map>
                     </div>}
 
-                    {value == 2 && <div className="resort-review-main-contain">
+                    {value === 2 && <div className="resort-review-main-contain">
                         <div className="resort-review-heading">
                             <p style={{ fontWeight: "bold" }} className="resort-overview-place">Reviews :</p>
 

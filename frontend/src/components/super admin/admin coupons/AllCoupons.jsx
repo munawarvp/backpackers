@@ -4,6 +4,7 @@ import axios from 'axios'
 import { BASE_URL } from '../../../utils/config'
 import { Switch } from 'antd'
 import { IoMdCloseCircle } from 'react-icons/io'
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Toaster, toast } from 'react-hot-toast';
 
 function AllCoupons() {
@@ -37,6 +38,16 @@ function AllCoupons() {
             toast.error('Something went wrong')
         }
     };
+
+    async function deleteCoupon(id) {
+        const response = await axios.get(`${BASE_URL}/bookings/admindeletecoupon/${id}`)
+        if(response.data.msg === 200){
+            toast.success('Coupone deleted')
+            coupons();
+        }else {
+            toast.error('Something went wrong')
+        }
+    }
     
     return (
         <div className='table-div'>
@@ -106,7 +117,8 @@ function AllCoupons() {
 
                             {coupon.is_active ? (<td className='approved'>Approved</td>) : coupon.is_rejected ? (<td className='pending'>Rejected</td>) : (<td className='pending'>Pending</td>)}
                             <td className='action-col' style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <Switch style={{ backgroundColor: coupon.is_active ? 'green' : 'red' }} onChange={() => handleChange(coupon.id)} /></td>
+                                <Switch style={{ backgroundColor: coupon.is_active ? 'green' : 'red' }} onChange={() => handleChange(coupon.id)} />
+                                <DeleteIcon style={{color:"red"}} size={30} onClick={()=>deleteCoupon(coupon.id)} /></td>
                         </tr>
                     ))}
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../../../utils/config';
 import { AiTwotoneHome } from 'react-icons/ai'
 import { HiCurrencyRupee } from 'react-icons/hi'

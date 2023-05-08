@@ -87,3 +87,9 @@ class CouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupon
         fields = '__all__'
+
+class CouponAssignSerializer(serializers.ModelSerializer):
+    coupon = CouponSerializer()
+    class Meta:
+        model = CouponAssign
+        fields = '__all__'

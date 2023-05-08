@@ -113,7 +113,7 @@ class Coupon(models.Model):
     code = models.CharField(max_length=50, unique=True)
     is_active = models.BooleanField(default=True)
     discount_amount = models.IntegerField()
-    expiration_date = models.DateTimeField()
+    expiration_date = models.DateField()
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

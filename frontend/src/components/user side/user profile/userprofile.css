@@ -182,11 +182,26 @@
     gap: 2rem;
 }
 .user-single-coupon-card{
-    height: 8rem;
+    height: 10rem;
+    padding-bottom: 7px;
     background-color: #ebebeb;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+}
+.single-coupon-head{
+    height: 40%;
+    width: 100%;
+    background-color: #362685;
+    color: white;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.coupon-view-details{
+    font-size: 13px;
+    color: #362685;
 }

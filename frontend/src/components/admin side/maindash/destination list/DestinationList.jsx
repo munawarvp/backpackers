@@ -68,8 +68,8 @@ function DestinationList() {
         setCoordinates([event.lngLat.lng, event.lngLat.lat]);
 
     }
-    const [lng, lat] = coordinates
-    const map_location = String(lat) + ',' + String(lng)
+    // const [lng, lat] = coordinates
+    // const map_location = String(lat) + ',' + String(lng)
 
 
     const rows = [
@@ -318,7 +318,7 @@ function DestinationList() {
                     <div className="add-resort-map-container">
                         <label htmlFor="maplocation">Map Location</label>
                         <Map
-                            style="mapbox://styles/mapbox/streets-v9"
+                            style={"mapbox://styles/mapbox/streets-v9"}
                             zoom={[14]}
                             containerStyle={{
                                 height: '100%',

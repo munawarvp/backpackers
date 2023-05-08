@@ -21,6 +21,7 @@ function UserProfile() {
     const [singleUser, setSingleUser] = useState({})
     const [userProfile, setUserProfile] = useState({})
     const [bookings, setBookings] = useState([])
+    const [coupons, setCoupons] = useState([])
     const [toggle, setToggle] = useState(1)
 
     const { register, handleSubmit } = useForm();
@@ -32,6 +33,7 @@ function UserProfile() {
     useEffect(() => {
         getUser();
         getBookings();
+        getCoupons();
     }, [])
 
     async function getUser() {
@@ -43,6 +45,10 @@ function UserProfile() {
     async function getBookings() {
         const response = await axios.get(`${BASE_URL}/bookings/userresortbookings/${user_id}`)
         setBookings(response.data)
+    }
+    async function getCoupons() {
+        const response = await axios.get(`${BASE_URL}/bookings/userlistcoupons/${user_id}`)
+        setCoupons(response.data)
     }
     // console.log(profile_img);
     // async function onSubmit(data) {
@@ -106,7 +112,7 @@ function UserProfile() {
                         <button className="edit-user-profile-btn" onClick={() => setToggle(4)}>Coupons & Rewards</button>
                     </div>
                 </div>
-                {toggle === 4 && <div className="user-profile-all-details">
+                {toggle === 1 && <div className="user-profile-all-details">
                     <div className="all-details-img-container">
                         <img className='user-detail-img' src={Background} alt="" />
                     </div>
@@ -210,16 +216,20 @@ function UserProfile() {
                     </div>
                 </div>}
 
-                {toggle === 1 && <div className="user-profile-all-details">
+                {toggle === 4 && <div className="user-profile-all-details">
                     <div className="all-details-img-container">
                         <img className='user-detail-img' src={Background4} alt="" />
                     </div>
                     <p>Your Coupons</p>
                     <div className="user-coupons-list-contain">
-                        <div className="user-single-coupon-card">
-                            <p>COUPON NAME</p>
-                            <p>COUPON CODE</p>
-                        </div>
+                        {coupons.map((coupon)=>(<div className="user-single-coupon-card">
+                            <div className="single-coupon-head">
+                                <p>{coupon.coupon.coupon_name}</p>  
+                            </div>
+                            <p>{coupon.coupon.code}</p>
+                            <p>{coupon.coupon.expiration_date}</p>
+                            <p className='coupon-view-details'>view details</p>
+                        </div>))}
                         
                     </div>
                 </div>}
