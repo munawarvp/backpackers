@@ -9,7 +9,7 @@ function Footer() {
         <div className='main-footer-container'>
             <div>
                 <span>Copyright &copy; 2023 backpackers. All rights reserved</span>
-               <Link to={'register-with-us'}><h4 className='register-with-us'>Register with us..?</h4></Link>
+               <Link to={'/register-with-us'}><h4 className='register-with-us'>Register with us..?</h4></Link>
             </div>
 
             <ul className='ul-links'>

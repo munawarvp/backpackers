@@ -157,30 +157,48 @@ function UserProfile() {
                                     {/* <input className='edit-profile-input' type="text" name='phone_number' placeholder='phone number'
                                         {...register('phone_number')}
                                     /> */}
-                                    <input className='edit-profile-input' type="text" name='address' placeholder='address'
-                                        // {...register('address')}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <input className='edit-profile-input' type="text" name='zipcode' placeholder='zipcode'
-                                        // {...register('zipcode')}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <input className='edit-profile-input' type="text" name='city' placeholder='city'
-                                        // {...register('city')}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <input className='edit-profile-input' type="text" name='state' placeholder='state'
-                                        // {...register('state')}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <input className='edit-profile-input' type="text" name='country' placeholder='country'
-                                        // {...register('country')}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <input className='edit-profile-file-input' type="file" name='profile_img'
-                                        {...register('profile_img')}
-                                        onChange={e => formik.setFieldValue('profile_img', e.target.files[0])}
-                                    />
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">Address</label>
+                                        <input className='edit-profile-input' type="text" name='address' placeholder='address'
+                                            // {...register('address')}
+                                            onChange={formik.handleChange}
+                                        />
+                                    </div>
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">Zipcode</label>
+                                        <input className='edit-profile-input' type="text" name='zipcode' placeholder='zipcode'
+                                            // {...register('zipcode')}
+                                            onChange={formik.handleChange}
+                                        />
+                                    </div>
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">City</label>
+                                        <input className='edit-profile-input' type="text" name='city' placeholder='city'
+                                            // {...register('city')}
+                                            onChange={formik.handleChange}
+                                        />
+                                    </div>
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">State</label>
+                                        <input className='edit-profile-input' type="text" name='state' placeholder='state'
+                                            // {...register('state')}
+                                            onChange={formik.handleChange}
+                                        />
+                                    </div>
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">Country</label>
+                                        <input className='edit-profile-input' type="text" name='country' placeholder='country'
+                                            // {...register('country')}
+                                            onChange={formik.handleChange}
+                                        />
+                                    </div>
+                                    <div className="user-profile-input-container">
+                                        <label htmlFor="address">Profile Picture</label>
+                                        <input className='edit-profile-file-input' type="file" name='profile_img'
+                                            {...register('profile_img')}
+                                            onChange={e => formik.setFieldValue('profile_img', e.target.files[0])}
+                                        />
+                                    </div>
                                     <button className='edit-profile-btn'>Edit Profile</button>
                                 </div>
                             </form>
@@ -194,23 +212,23 @@ function UserProfile() {
                     </div>
                     <p>Your Bookings</p>
                     <div className="user-bookings-list-contain">
-                        {bookings.map(booking=>(
+                        {bookings.map(booking => (
                             <div className="user-single-booking-card">
-                            <div className="booking-card-details">
-                                <p> <b>Booking Id :</b> {booking.booking_id}</p>
-                                <p><b> Guest Name :</b>{booking.user.first_name}</p>
-                                <p><b>Check In :</b> {booking.check_in} </p>
-                                <p><b>Check Out :</b> {booking.check_out} </p>
+                                <div className="booking-card-details">
+                                    <p> <b>Booking Id :</b> {booking.booking_id}</p>
+                                    <p><b> Guest Name :</b>{booking.user.first_name}</p>
+                                    <p><b>Check In :</b> {booking.check_in} </p>
+                                    <p><b>Check Out :</b> {booking.check_out} </p>
+                                </div>
+                                <div className="booking-card-details">
+                                    <p><b>Booked Resort:</b> {booking.booked_resort.resort_name}</p>
+                                    <p><b>Number of guests:</b> {booking.occupancy}</p>
+                                    <p><b>Total Amount :</b> {booking.booking_total}</p>
+                                </div>
+                                <div className="booking-resort-img-contain">
+                                    <img className='booked-resort-img' src={`${BASE_URL}/${booking.booked_resort.image_one}`} alt="" />
+                                </div>
                             </div>
-                            <div className="booking-card-details">
-                                <p><b>Booked Resort:</b> {booking.booked_resort.resort_name}</p>
-                                <p><b>Number of guests:</b> {booking.occupancy}</p>
-                                <p><b>Total Amount :</b> {booking.booking_total}</p>
-                            </div>
-                            <div className="booking-resort-img-contain">
-                                <img className='booked-resort-img' src={`${BASE_URL}/${booking.booked_resort.image_one}`} alt="" />
-                            </div>
-                        </div>
                         ))}
 
                     </div>
@@ -222,15 +240,15 @@ function UserProfile() {
                     </div>
                     <p>Your Coupons</p>
                     <div className="user-coupons-list-contain">
-                        {coupons.map((coupon)=>(<div className="user-single-coupon-card">
+                        {coupons.map((coupon) => (<div className="user-single-coupon-card">
                             <div className="single-coupon-head">
-                                <p>{coupon.coupon.coupon_name}</p>  
+                                <p>{coupon.coupon.coupon_name}</p>
                             </div>
                             <p>{coupon.coupon.code}</p>
                             <p>{coupon.coupon.expiration_date}</p>
                             <p className='coupon-view-details'>view details</p>
                         </div>))}
-                        
+
                     </div>
                 </div>}
             </div>

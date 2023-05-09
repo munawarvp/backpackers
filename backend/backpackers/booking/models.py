@@ -4,12 +4,13 @@ from resorts.models import Resorts, Adventures, Destinations
 
 # Create your models here.
 
+
 class ResortBooking(models.Model):
     STATUS = (
-        ('New', 'New'),
-        ('Checked In', 'Checked In'),
-        ('Checked Out', 'Checked Out'),
-        ('Cancelled', 'Cancelled')
+        ("New", "New"),
+        ("Checked In", "Checked In"),
+        ("Checked Out", "Checked Out"),
+        ("Cancelled", "Cancelled"),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked_resort = models.ForeignKey(Resorts, on_delete=models.CASCADE)
@@ -23,9 +24,9 @@ class ResortBooking(models.Model):
     address = models.TextField()
     booking_total = models.FloatField()
     payment_method = models.CharField(max_length=30)
-    status = models.CharField(max_length=20, choices=STATUS, default='New')
+    status = models.CharField(max_length=20, choices=STATUS, default="New")
     occupancy = models.IntegerField()
-    
+
     booking_date = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -33,13 +34,12 @@ class ResortBooking(models.Model):
         return self.user.username
 
 
-
 class AdventureBooking(models.Model):
     STATUS = (
-        ('New', 'New'),
-        ('Checked In', 'Checked In'),
-        ('Checked Out', 'Checked Out'),
-        ('Pending', 'Pending'),
+        ("New", "New"),
+        ("Checked In", "Checked In"),
+        ("Checked Out", "Checked Out"),
+        ("Pending", "Pending"),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked_activity = models.ForeignKey(Adventures, on_delete=models.CASCADE)
@@ -57,13 +57,13 @@ class AdventureBooking(models.Model):
     medical_condition = models.BooleanField(default=False)
     payment_method = models.CharField(max_length=30)
 
-    status = models.CharField(max_length=20, choices=STATUS, default='New')
+    status = models.CharField(max_length=20, choices=STATUS, default="New")
     booking_date = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.first_name
-    
+
 
 class ResortReviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -71,13 +71,11 @@ class ResortReviews(models.Model):
     review_heading = models.CharField(max_length=100)
     description = models.TextField()
     rating = models.FloatField()
-    review_image = models.ImageField(upload_to='photos/resortReviews')
+    review_image = models.ImageField(upload_to="photos/resortReviews")
     created_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username + " " + self.resort.resort_name
-
-    
 
 
 class AdventureReviews(models.Model):
@@ -86,12 +84,12 @@ class AdventureReviews(models.Model):
     review_heading = models.CharField(max_length=100)
     description = models.TextField()
     rating = models.FloatField()
-    review_image = models.ImageField(upload_to='photos/adventureReviews')
+    review_image = models.ImageField(upload_to="photos/adventureReviews")
     created_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username + " " + self.adventure.activity_name
-    
+
 
 class DestinationReviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -99,13 +97,11 @@ class DestinationReviews(models.Model):
     review_heading = models.CharField(max_length=100)
     description = models.TextField()
     rating = models.FloatField()
-    review_image = models.ImageField(upload_to='photos/adventureReviews')
+    review_image = models.ImageField(upload_to="photos/adventureReviews")
     created_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username + " " + self.destination.spot_name
-    
-
 
 
 class Coupon(models.Model):
@@ -118,7 +114,7 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.coupon_name
-    
+
 
 class CouponAssign(models.Model):
     coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
@@ -127,3 +123,14 @@ class CouponAssign(models.Model):
 
     def __str__(self):
         return self.user.username + " " + self.coupon.coupon_name
+
+
+class ResortPayments(models.Model):
+    user = models.ForeignKey(User, models.CASCADE)
+    order = models.IntegerField()
+    payment_id = models.CharField(max_length=200)
+    status = models.CharField(max_length=100)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " " + str(self.order)

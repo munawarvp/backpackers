@@ -189,7 +189,17 @@
 }
 .resort-review-img-contain{
     display: flex;
-    gap: 6px;
+    align-items: center;
+    gap: 1.5rem;
+}
+.delete-review-contain{
+    padding: 5px;
+    border-radius: 15px;
+    box-shadow: #acacacd7 0 0 8px 1px;
+    cursor: pointer;
+}
+.delete-review-contain:hover{
+    box-shadow: #8b8b8bd7 0 0 8px 1px;
 }
 .resort-review-single-img{
     width: 8rem;

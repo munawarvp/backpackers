@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign, ResortPayments
 
 # Register your models here.
 admin.site.register(ResortBooking)
@@ -10,6 +10,8 @@ admin.site.register(DestinationReviews)
 
 admin.site.register(Coupon)
 admin.site.register(CouponAssign)
+
+admin.site.register(ResortPayments)
 
 
 

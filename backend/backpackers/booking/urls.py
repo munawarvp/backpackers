@@ -3,7 +3,7 @@ from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, C
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
                     StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings,
                     AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews,
-                    UserResortBookings, ListCoupons,UserListCoupons, AddCoupon, DeleteCoupon)
+                    UserResortBookings, ListCoupons,UserListCoupons, AddCoupon, DeleteCoupon, GetResortPayment, DeleteResortReview)
 
 from . import views
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('createbookingresort/', CreateResortBooking.as_view()),
     path('admingetallbookings/', AdminListBookings.as_view()),
     path('getbookingsummary/<int:booking_id>', GetBookingSummary.as_view()),
+    path('getpaymentsummery/<int:booking_id>', GetResortPayment.as_view()),
 
     path('createbookingadventure/', CreateAdventureBooking.as_view()),
     path('adventurebookingsummary/<int:booking_id>', GetAdventureBooking.as_view()),
@@ -36,6 +37,8 @@ urlpatterns = [
     path('getresortreview/<int:resort_id>', ListResortReviews.as_view()),
     path('getadventurereview/<int:resort_id>', ListAdventureReviews.as_view()),
     path('getdestinationreview/<int:resort_id>', ListDestinationReviews.as_view()),
+
+    path('deleteresortreview/<int:review_id>', DeleteResortReview.as_view()),
 
     path('adminlistcoupons/', ListCoupons.as_view()),
     path('userlistcoupons/<int:user_id>', UserListCoupons.as_view()),

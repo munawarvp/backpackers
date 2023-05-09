@@ -43,6 +43,7 @@ import ViewDestinationPage from './pages/super admin/ViewDestinationPage';
 import SingleDestinationPage from './pages/user side/SingleDestinationPage';
 import UserProfilePage from './pages/user side/UserProfilePage';
 import CouponsPage from './pages/super admin/CouponsPage';
+import PageNotFound from './pages/user side/PageNotFound';
 
 
 
@@ -51,11 +52,12 @@ function App() {
     <div className="App">
         <Router>
           <Routes>
+            <Route path='*' Component={PageNotFound} />
             <Route path='/' exact Component={Home} />
             <Route path='/login' Component={Login} />
             <Route path='/forgot-password' Component={ForgotPassword} />
             <Route path='/reset-password' Component={ResetPassword} />
-            <Route Component={Register} path='/register'/>
+            <Route path='/register' Component={Register} />
             <Route path='/register-with-us' element={<RegisterWithPage/>}/>
             <Route path='/register-success' element={<RegisterSuccess/>}/>
             <Route path='/resorts-list' element={<UserResortPage/>}/>

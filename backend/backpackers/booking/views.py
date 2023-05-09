@@ -8,11 +8,12 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
-from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign, ResortPayments
 from resorts.models import Resorts
+from account.models import User
 from .serializers import (PostResortBookingSerializer, ResortBookingSerializer, AdventureBookingSerializer, PostAdventureBookingSerializer,
                           PostResortReviewSerializer, PostAdventureReviewSerializer, ResortReviewSerializer, AdventureReviewSerializer,
-                          PostDestinationReviewSerializer, DestinationReviewSerializer, CouponSerializer, CouponAssignSerializer)
+                          PostDestinationReviewSerializer, DestinationReviewSerializer, CouponSerializer, CouponAssignSerializer, ResortPaymentSerializer)
 
 # Create your views here.
 
@@ -21,15 +22,18 @@ class CreateResortBooking(APIView):
 
         ch_in = request.data['check_in']
         ch_out = request.data['check_out']
+        booking_total_str = request.data['booking_total']
+        booking_total = int(booking_total_str)
+        print(type(booking_total))
         resort_id = request.data['booked_resort']
         str_coupon_used = request.data['coupon_id']
 
         coupon_used = int(str_coupon_used)
         coupon_user = request.data['user']
-        if coupon_used == 0:
-            print('no coupon')
-        else:
-            print(coupon_used, 'used coupon')
+        # if coupon_used == 0:
+        #     print('no coupon')
+        # else:
+        #     print(coupon_used, 'used coupon')
 
         availability_case1 = ResortBooking.objects.filter(booked_resort=resort_id, check_in__lte=ch_in, check_out__gte=ch_in).exists()
         availability_case2 = ResortBooking.objects.filter(booked_resort=resort_id, check_in__lte=ch_out, check_out__gte=ch_out).exists()
@@ -61,6 +65,16 @@ class CreateResortBooking(APIView):
             if(serializer.is_valid()):
                 if coupon_used == 0:
                     serializer.save()
+
+                    if booking_total > 5000:
+                        coupon = Coupon.objects.get(coupon_name='EXPLORER')
+                        got_user = User.objects.get(id=coupon_user)
+                        user_coupon, created = CouponAssign.objects.get_or_create(user=got_user, coupon=coupon)
+                        print(user_coupon, created)
+                        if created:
+                            coupon_serializer = CouponAssignSerializer(user_coupon)
+                            return Response({'msg': 200, 'booking_id': booking_id, 'coupon_serializer': coupon_serializer.data})
+                        
                     return Response({'msg': 200, 'booking_id': booking_id})
                 else:
                     serializer.save()
@@ -95,19 +109,6 @@ def start_payment(request):
     if availability_case2 or availability_case1 or availability_case3:
         return Response({'msg': 504})
     else:
-        count = ResortBooking.objects.last()
-        id = coupon_user
-        yr = int(datetime.date.today().strftime('%Y'))
-        dt = int(datetime.date.today().strftime('%d'))
-        mt = int(datetime.date.today().strftime('%m'))
-        d = datetime.date(yr,mt,dt)
-        current_date = d.strftime("%Y%m%d")
-        if count is None:
-            booking_id = current_date + str(id) + str(1)
-        else:
-            booking_id = current_date + str(id) + str(count.id+1)
-        print(booking_id)
-
         client = razorpay.Client(auth=(config('PUBLIC_KEY'), config('SECRET_KEY')))
 
         payment = client.order.create({"amount": int(amount) * 100, 
@@ -122,12 +123,72 @@ def start_payment(request):
 @api_view(['POST'])
 def handle_payment_success(request):
     res = json.loads(request.data["response"])
+    print(res['razorpay_payment_id'], 'ra_pay_id')
     form = json.loads(request.data["form"])
-    print(form['check_in'])
+
+    coupon_user = form['user']
+    paid_user = User.objects.get(id=coupon_user)
+
+    str_coupon_used = form['coupon_id']
+    coupon_used = int(str_coupon_used)
+    print(res, 'res')
+    booking_total_str = form['booking_total']
+    booking_total = int(booking_total_str)
+
+    count = ResortBooking.objects.last()
+    id = form['user']
+    yr = int(datetime.date.today().strftime('%Y'))
+    dt = int(datetime.date.today().strftime('%d'))
+    mt = int(datetime.date.today().strftime('%m'))
+    d = datetime.date(yr,mt,dt)
+    current_date = d.strftime("%Y%m%d")
+    if count is None:
+        booking_id = current_date + str(id) + str(1)
+    else:
+        booking_id = current_date + str(id) + str(count.id+1)
+    
+    form['booking_id'] = booking_id
+    print(form, 'data')
+
+    serializer = PostResortBookingSerializer(data=form)
+    serializer.is_valid()
+    print(serializer.errors)
+
+    if(serializer.is_valid()):
+        if coupon_used == 0:
+            serializer.save()
+            payment = ResortPayments.objects.create(user=paid_user,
+                                                    order = booking_id,
+                                                    payment_id = res['razorpay_payment_id'],
+                                                    status = "Paid")
+            
+            print(payment,'created')
+
+            if booking_total > 5000:
+                coupon = Coupon.objects.get(coupon_name='EXPLORER')
+                got_user = User.objects.get(id=coupon_user)
+                user_coupon, created = CouponAssign.objects.get_or_create(user=got_user, coupon=coupon)
+                print(user_coupon, created)
+                if created:
+                    coupon_serializer = CouponAssignSerializer(user_coupon)
+                    return Response({'msg': 200, 'booking_id': booking_id, 'coupon_serializer': coupon_serializer.data})
+                
+            return Response({'msg': 200, 'booking_id': booking_id})
+        
+        else:
+            serializer.save()
+            used_coupon = CouponAssign.objects.get(coupon=coupon_used, user=coupon_user)
+            used_coupon.delete()
+            payment = ResortPayments.objects.create(user=paid_user,
+                                                    order = booking_id,
+                                                    payment_id = res['razorpay_payment_id'],
+                                                    status = "Paid")
+            print('deleted')
+            return Response({'msg': 200, 'booking_id': booking_id})
 
     
     
-    return Response({'msg': 200})
+    return Response({'msg': 504})
 
 class AdminListBookings(APIView):
     def get(self, request):
@@ -141,6 +202,15 @@ class GetBookingSummary(APIView):
         serializer = ResortBookingSerializer(queryset)
         return Response(serializer.data)
 
+class GetResortPayment(APIView):
+    def get(self, request, booking_id):
+        try:
+            queryset = ResortPayments.objects.get(order=booking_id)
+        except:
+            return Response({'msg': 404})
+        serializer = ResortPaymentSerializer(queryset)
+        return Response(serializer.data)
+    
 class RecentResortBookings(APIView):
     def get(self, request):
         queryset = ResortBooking.objects.all().order_by('-booking_date')[:4]
@@ -339,6 +409,16 @@ class ListDestinationReviews(APIView):
         queryset = DestinationReviews.objects.filter(destination__id=resort_id).order_by('-rating')[:3]
         serializer = DestinationReviewSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+class DeleteResortReview(APIView):
+    def delete(self, request, review_id):
+        try:
+            queryset = ResortReviews.objects.get(id=review_id)
+            queryset.delete()
+            return Response({'msg': 200})
+        except:
+            return Response({'msg': 404})
+
 
 
 #\ ******************************************** /

@@ -64,6 +64,7 @@
     flex-direction: column;
     gap: 0.5rem;
     background-color: #8338ec14;
+    color: black;
     border-radius: 1rem;
     transition: 0.3s ease-in-out;
     width: 18rem;

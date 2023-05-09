@@ -1,4 +1,4 @@
-from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign
+from .models import ResortBooking, AdventureBooking, ResortReviews, AdventureReviews, DestinationReviews, Coupon, CouponAssign, ResortPayments
 from rest_framework import serializers
 
 from account.serializers import UserSerializer
@@ -92,4 +92,13 @@ class CouponAssignSerializer(serializers.ModelSerializer):
     coupon = CouponSerializer()
     class Meta:
         model = CouponAssign
+        fields = '__all__'
+
+
+                    #\ ******************************************** /
+
+
+class ResortPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResortPayments
         fields = '__all__'

@@ -19,6 +19,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { getLocal } from '../../../helpers/auth'
 import jwtDecode from 'jwt-decode'
@@ -73,7 +74,7 @@ function SingleResort() {
         const response = await axios.get(`${BASE_URL}/bookings/getresortreview/${resort_id.id}`)
         setReviews(response.data)
     }
-    
+
 
     const handleBooking = (resort_id) => {
         localStorage.setItem('resort_id', resort_id)
@@ -130,6 +131,17 @@ function SingleResort() {
             }
         }
     })
+
+    async function deleteReview(id) {
+        const response = await axios.delete(`${BASE_URL}/bookings/deleteresortreview/${id}`)
+        if(response.data.msg === 200){
+            toast.success('Review deleted')
+            getReviews();
+        }else{
+            toast.error('Something went wrong')
+        }
+        
+    }
     return (
         <div className="user-resortlist-main">
             <Toaster position='top-center' reverseOrder='false' ></Toaster>
@@ -268,11 +280,11 @@ function SingleResort() {
                                                     <AiFillStar color='yellow' />
                                                 ))} */}
                                                 ({review.rating})
-                                            {[...Array(review.rating)].map((star)=>(
-                                                <AiFillStar color='yellow' />
-                                            ))}
-                                                
-                                                
+                                                {[...Array(review.rating)].map((star) => (
+                                                    <AiFillStar color='yellow' />
+                                                ))}
+
+
                                                 {/* <AiFillStar color='black' /> */}
                                             </div>
                                         </div>
@@ -281,6 +293,10 @@ function SingleResort() {
                                         </div>
                                     </div>
                                     <div className="resort-review-img-contain">
+                                        <div onClick={()=>deleteReview(review.id)} className="delete-review-contain">
+                                            <DeleteIcon />
+                                        </div>
+
                                         <div className="resort-review-single-img">
                                             <img className='review-single-img' src={`${BASE_URL}/${review.review_image}`} alt="" />
                                         </div>

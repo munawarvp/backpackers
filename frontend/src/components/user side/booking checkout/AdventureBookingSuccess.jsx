@@ -4,23 +4,33 @@ import { useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../../../utils/config'
 import { useEffect } from 'react'
+import Background4 from '../../../images/Booking Success.gif'
 
 function AdventureBookingSuccess() {
-  const history = useNavigate()
-  const booking_id = useParams()
-  const [bookingDetail, setBookingDetail] = useState({})
+    const history = useNavigate()
+    const booking_id = useParams()
+    const [bookingDetail, setBookingDetail] = useState({})
 
-  useEffect(() => {
-    booking();
-  }, [])
+    useEffect(() => {
+        booking();
+    }, [])
 
-  async function booking() {
-    const response = await axios.get(`${BASE_URL}/bookings/adventurebookingsummary/${booking_id.id}`)
-    setBookingDetail(response.data)
-  }
+    async function booking() {
+        const response = await axios.get(`${BASE_URL}/bookings/adventurebookingsummary/${booking_id.id}`)
+        setBookingDetail(response.data)
+    }
 
-  return (
-    <div className='booking-succ-bg'>
+    return (
+        <div className='booking-succ-bg'>
+            <div className="booking-success-main-container">
+                <div className='booking-heading-div'>
+                    <h2 className='booking-summary-heading'>Your Booking completed successfully..!</h2>
+                    <div className="booking-success-no-coupon">
+                        <img className='booking-gif' src={Background4} alt="" />
+
+                    </div>
+                </div>
+            </div>
             <div className="booking-success-main-container">
                 <div className='booking-heading-div'>
                     <h2 className='booking-summary-heading'>Your Booking completed successfully..!</h2>
@@ -29,9 +39,17 @@ function AdventureBookingSuccess() {
                 <div className="booking-summary-container">
                     <p className='summary-resort-headings'>Order Summery :</p>
                     <div className="summary-img-container">
-                        <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_one}`} alt="" />
-                        <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_two}`} alt="" />
-                        <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_three}`} alt="" />
+                        <div className="summary-img-contain">
+                            <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_one}`} alt="" />
+                        </div>
+                        <div className="summary-img-contain">
+                            <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_two}`} alt="" />
+                        </div>
+                        <div className="summary-img-contain">
+                            <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_activity && bookingDetail.booked_activity.activity_three}`} alt="" />
+                        </div>
+
+
                     </div>
                     <p className='summary-resort-name'>{bookingDetail.booked_activity && bookingDetail.booked_activity.activity_name}</p>
                     <p>{bookingDetail.booked_activity && bookingDetail.booked_activity.place}</p>
@@ -45,7 +63,7 @@ function AdventureBookingSuccess() {
                         <div className="summary-checkin">
                             <p> <b>Phone Number :</b> {bookingDetail.phone_number}</p>
                         </div>
-                        
+
                     </div>
                     <div className="booking-payment-info">
                         <h3 className='summary-resort-name'>Total Payable Amount : {bookingDetail.booked_activity && bookingDetail.booking_total}</h3>
@@ -60,7 +78,7 @@ function AdventureBookingSuccess() {
 
             </div>
         </div>
-  )
+    )
 }
 
 export default AdventureBookingSuccess

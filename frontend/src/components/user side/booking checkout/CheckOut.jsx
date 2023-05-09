@@ -99,7 +99,8 @@ function CheckOut() {
         const response = await axios.post(`${BASE_URL}/bookings/createbookingresort/`, form)
         const booking_id = response.data.booking_id
         if (response.data.msg === 200) {
-          history(`/booking-success/${booking_id}`)
+          history(`/booking-success/${booking_id}`, { state: { coupon_serializer: response.data.coupon_serializer } })
+          console.log(response.data);
         } else if (response.data.msg === 504) {
           toast.error('No availability')
         } else {
@@ -107,13 +108,10 @@ function CheckOut() {
         }
       } else if (values.payment_method === 'Razorpay') {
 
-
-
         formObject = Object.fromEntries(form.entries());
 
-
         // localStorage.setItem('form', form)
-        
+
         showRazorpay();
       }
 
@@ -151,7 +149,6 @@ function CheckOut() {
       },
       data: bodyData,
     }).then((res) => {
-      console.log(res, 'res');
       if (res.data.msg === 504) {
         toast.error('No availability')
 
@@ -211,7 +208,7 @@ function CheckOut() {
       // const form = localStorage.getItem('form')
       // console.log(form, 'form got from local');
       // we will send the response we've got from razorpay to the backend to validate the payment
-      console.log(formObject, 'formObject from handler');
+      console.log(response, 'respose from handler');
       bodyData.append("response", JSON.stringify(response));
       bodyData.append("form", JSON.stringify(formObject))
 
@@ -225,12 +222,21 @@ function CheckOut() {
         },
       })
         .then((res) => {
-          console.log("Everything is OK!");
+          // console.log(res, 'handle');
+          const booking_id = res.data.booking_id
+          if (res.data.msg === 200) {
+            toast.success('Booked successfully')
+            history(`/booking-success/${booking_id}`, { state: { coupon_serializer: res.data.coupon_serializer } })
+            console.log('200');
+          } else {
+            toast.error('Something went wrong ')
+          }
           // setName("");
           // setAmount("");
         })
         .catch((err) => {
           console.log(err);
+          toast.error(err)
         });
     } catch (error) {
       console.log(console.error());
@@ -248,12 +254,14 @@ function CheckOut() {
         <div className="form-details-container">
           <div className="checkform-container">
             <div className="booking-checkout-input-container">
+              <label htmlFor="first_name">First Name</label>
               <input className='booking-input-name' type="text" name='first_name' placeholder='First name'
                 onChange={formik.handleChange}
               />
               {formik.errors.first_name && formik.touched.first_name ? <p className='form-errors'>{formik.errors.first_name}</p> : null}
             </div>
             <div className="booking-checkout-input-container">
+              <label htmlFor="first_name">Last Name</label>
               <input className='booking-input-name' type="text" name='last_name' placeholder='Last name'
                 onChange={formik.handleChange}
               />
@@ -261,12 +269,14 @@ function CheckOut() {
             </div>
 
             <div className="booking-checkout-input-container">
+              <label htmlFor="first_name">Phone Number</label>
               <input className='booking-input-name' type="text" name='phone_number' placeholder='Contact Number'
                 onChange={formik.handleChange}
               />
               {formik.errors.phone_number && formik.touched.phone_number ? <p className='form-errors'>{formik.errors.phone_number}</p> : null}
             </div>
             <div className="booking-checkout-input-container">
+              <label htmlFor="first_name">Email</label>
               <input className='booking-input-name' type="email" name='email' placeholder='Email'
                 onChange={formik.handleChange}
               />
@@ -274,6 +284,7 @@ function CheckOut() {
             </div>
 
             <div className="booking-checkout-input-container">
+              <label htmlFor="first_name">Address</label>
               <input className='booking-input-name' type="text" name='address' placeholder='Address'
                 onChange={formik.handleChange}
               />
@@ -281,19 +292,23 @@ function CheckOut() {
             </div>
 
             <div className="booking-form-dates">
-              <div style={{ width: "60%", display: "flex", gap: "1rem", marginBottom: "20px" }}>
-                {/* <input className='booking-input-date' type="date" name='check_in' placeholder='Check In'
-                  onChange={formik.handleChange}
-                /> */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker className='date-picker-mu' label="Check In" name='check_in' onChange={(value) => formik.setFieldValue('check_in', dayjs(value).format('YYYY-MM-DD'))} />
-                </LocalizationProvider>
-                {formik.errors.check_in && formik.touched.check_in ? <p className='form-errors'>{formik.errors.check_in}</p> : null}
+              <div style={{ width: "89%", display: "flex", gap: "1rem"}}>
+                <div className="booking-checkout-input-container">
+                  <label htmlFor="first_name">Check In</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker label="Check In" name='check_in' onChange={(value) => formik.setFieldValue('check_in', dayjs(value).format('YYYY-MM-DD'))} />
+                  </LocalizationProvider>
+                  {formik.errors.check_in && formik.touched.check_in ? <p className='form-errors'>{formik.errors.check_in}</p> : null}
+                </div>
 
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker className='date-picker-mu' label="Check Out" name='check_out' onChange={(value) => formik.setFieldValue('check_out', dayjs(value).format('YYYY-MM-DD'))} />
-                </LocalizationProvider>
-                {formik.errors.check_out && formik.touched.check_out ? <p className='form-errors'>{formik.errors.check_out}</p> : null}
+                <div className="booking-checkout-input-container">
+                  <label htmlFor="first_name">Check Out</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker label="Check Out" name='check_out' onChange={(value) => formik.setFieldValue('check_out', dayjs(value).format('YYYY-MM-DD'))} />
+                  </LocalizationProvider>
+                  {formik.errors.check_out && formik.touched.check_out ? <p className='form-errors'>{formik.errors.check_out}</p> : null}
+                </div>
+
               </div>
               <div style={{ width: "100%" }}>
                 {/* <input className='booking-input-date' type="date" name='check_out' placeholder='Check Out'
@@ -301,7 +316,8 @@ function CheckOut() {
                 /> */}
 
               </div>
-              <div style={{ width: "100%" }}>
+              <div className='booking-checkout-input-container' style={{ width: "100%" }}>
+                <label htmlFor="first_name">Number of guest</label>
                 <input className='booking-input-name' type="number" name='occupancy' placeholder='Number of guests'
                   onChange={formik.handleChange}
                 />

@@ -1,46 +1,83 @@
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../../../utils/config'
 import { useEffect } from 'react'
 
+import Background4 from '../../../images/Booking Success.gif'
+import Background5 from '../../../images/Coupon.gif'
+import Background6 from '../../../images/Coupon2.gif'
+
 function BookingSuccess() {
     const history = useNavigate()
     const booking_id = useParams()
     const [bookingDetail, setBookingDetail] = useState({})
-    console.log(booking_id);
+    const [paymentDetail, setPaymentDetail] = useState({})
+
+    const location = useLocation()
+    // console.log(location.state.coupon_serializer.coupon.code, 'got the state');
+    console.log(location.state.coupon_serializer, 'got the state');
     useEffect(() => {
         booking();
     }, [])
 
     async function booking() {
         const response = await axios.get(`${BASE_URL}/bookings/getbookingsummary/${booking_id.id}`)
+        const response_two = await axios.get(`${BASE_URL}/bookings/getpaymentsummery/${booking_id.id}`)
         setBookingDetail(response.data)
+        setPaymentDetail(response_two.data)
     }
 
-    console.log(bookingDetail);
 
     return (
         <div className='booking-succ-bg'>
             <div className="booking-success-main-container">
                 <div className='booking-heading-div'>
                     <h2 className='booking-summary-heading'>Your Booking completed successfully..!</h2>
+                    {location.state.coupon_serializer && <h3>You have won a coupon..!</h3>}
+                    {location.state.coupon_serializer && <p>Coupon Code :{location.state.coupon_serializer && location.state.coupon_serializer.coupon.code}</p>}
+                    {location.state.coupon_serializer ? <div className="booking-success-gif-container">
+                        {location.state.coupon_serializer && <img className='booking-gif' src={Background5} alt="" />}
+                        <img className='booking-gif' src={Background4} alt="" />
+                        {location.state.coupon_serializer && <img className='booking-gif' src={Background6} alt="" />}
+                    </div> :
+                        <div className="booking-success-no-coupon">
+                            <img className='booking-gif' src={Background4} alt="" />
+
+                        </div>}
 
                 </div>
+
+                <div className='regi-btn-div'>
+                    <button className='booking-summary-btn' onClick={() => history('/')}>Home Page</button>
+                </div>
+
+            </div>
+
+            <div className="booking-success-main-container">
                 <div className="booking-summary-container">
-                    <p className='summary-resort-headings'>Order Summery :</p>
-                    <div className="summary-img-container">
-                        <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_resort && bookingDetail.booked_resort.image_one}`} alt="" />
-                        <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_resort && bookingDetail.booked_resort.image_two}`} alt="" />
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <h3 className='summary-resort-headings'>Order Summery</h3>
+                        <h2 className="summary-resort-headings">{bookingDetail.booking_id}</h2>
                     </div>
+
+                    <p>Hi {bookingDetail.booked_resort && bookingDetail.user.username},<br />
+                        Your booking has been confirmed, We'll send you the booking details to your email.<br />
+                        Booking summary is give you can reffer and download the details.<br />
+                        Thank you.!
+                    </p>
                     <p className='summary-resort-name'>{bookingDetail.booked_resort && bookingDetail.booked_resort.resort_name}</p>
-                    <p>{bookingDetail.booked_resort && bookingDetail.booked_resort.address}</p>
-                    <p>Guest Name : {bookingDetail.booked_resort && bookingDetail.user.username}</p>
-                    <p>Guest Phone Number : {bookingDetail.booked_resort && bookingDetail.user.phone_number}</p>
-                    <p>Booked Date : {bookingDetail.booked_resort && bookingDetail.booking_date}</p>
-                    <p>Payment Method : {bookingDetail.booked_resort && bookingDetail.payment_method}</p>
-                    <div style={{ display: "flex", gap: "2rem" }}>
+                    <div className="summary-img-container">
+                        <div className="summary-img-contain">
+                            <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_resort && bookingDetail.booked_resort.image_one}`} alt="" />
+                        </div>
+                        <div className="summary-img-contain">
+                            <img className='summary-image' src={`${BASE_URL}/${bookingDetail.booked_resort && bookingDetail.booked_resort.image_two}`} alt="" />
+                        </div>
+                    </div>
+
+                    <div style={{ display: "flex", gap: "2rem", marginTop: "1rem" }}>
                         <div className="summary-checkin">
                             <p> <b>Check In :</b> {bookingDetail.check_in}</p>
                         </div>
@@ -51,17 +88,24 @@ function BookingSuccess() {
                             <p> <b>Number of guests : </b> {bookingDetail.occupancy}</p>
                         </div>
                     </div>
-                    <div className="booking-payment-info">
-                        <h3 className='summary-resort-name'>Total Payable Amount : {bookingDetail.booked_resort && bookingDetail.booking_total}</h3>
-                        <h3 className='summary-resort-payment'>Payment Status : {bookingDetail.payment_method}</h3>
+
+                    <div style={{ marginTop: "1rem" }}>
+                        <p>{bookingDetail.booked_resort && bookingDetail.booked_resort.address}</p>
+                        <p>Guest Name : {bookingDetail.booked_resort && bookingDetail.user.username}</p>
+                        <p>Guest Phone Number : {bookingDetail.booked_resort && bookingDetail.user.phone_number}</p>
+                        <p>Booked Date : {bookingDetail.booked_resort && bookingDetail.booking_date.slice(0, 10)}</p>
+                        <p>Payment Method : {bookingDetail.booked_resort && bookingDetail.payment_method}</p>
                     </div>
 
 
+                    <div className="booking-payment-info">
+                        <h3 className='summary-resort-name'>Total Payable Amount : {bookingDetail.booked_resort && bookingDetail.booking_total}₹</h3>
+                        <div>
+                            <h3 className='summary-resort-payment'>Payment Status : {bookingDetail.payment_method}</h3>
+                            {paymentDetail.payment_id && <p>Payment Id: {paymentDetail.payment_id}</p>}
+                        </div>
+                    </div>
                 </div>
-                <div className='regi-btn-div'>
-                    <button className='booking-summary-btn' onClick={() => history('/')}>Home Page</button>
-                </div>
-
             </div>
         </div>
     )

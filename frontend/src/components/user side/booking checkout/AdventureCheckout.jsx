@@ -10,6 +10,11 @@ import { BASE_URL } from '../../../utils/config';
 import './checkout.css'
 import { toast, Toaster } from 'react-hot-toast'
 
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 function AdventureCheckout() {
     const [singleAdventure, setSingleadventure] = useState({})
     const history = useNavigate()
@@ -103,60 +108,87 @@ function AdventureCheckout() {
                 <div className="form-details-container">
                     <div className="checkform-container">
                         <div className="booking-checkout-input-container">
-                            <div className="adventure-booking-name-email">
-                                <input className='booking-input-half' type="text" name='first_name' placeholder="Participant's name"
-                                    onChange={formik.handleChange}
-                                />
-                                <input className='booking-input-half' type="email" name='email' placeholder='Email'
-                                    onChange={formik.handleChange}
-                                />
-                            </div>
-
+                            <label htmlFor="first_name">First Name</label>
+                            <input className='booking-input-name' type="text" name='first_name' placeholder="Participant's name"
+                                onChange={formik.handleChange}
+                            />
                             {formik.errors.first_name && formik.touched.first_name ? <p className='form-errors'>{formik.errors.first_name}</p> : null}
                         </div>
 
                         <div className="booking-checkout-input-container">
+                            <label htmlFor="first_name">First Name</label>
+                            <input className='booking-input-name' type="email" name='email' placeholder='Email'
+                                onChange={formik.handleChange}
+                            />
+                        </div>
+
+
+
+                        <div className="booking-checkout-input-container">
+                            <label htmlFor="first_name">Address</label>
                             <input className='booking-input-name' type="text" name='address' placeholder='Address'
                                 onChange={formik.handleChange}
                             />
                             {formik.errors.address && formik.touched.address ? <p className='form-errors'>{formik.errors.address}</p> : null}
                         </div>
                         <div className="booking-checkout-input-container">
+                            <label htmlFor="first_name">Age</label>
+                            <input className='booking-input-name' type="number" name='age' placeholder="Age of participant"
+                                onChange={formik.handleChange}
+                            />
+                        </div>
+
+                        <div style={{ display: "flex", width: "85%" }}>
+                            <div className="booking-checkout-input-container-half">
+                                <label htmlFor="first_name">Activity Date</label>
+                                {/* <input className='booking-input-name' type="date" name='activity_date' placeholder='Date you want to book'
+                                onChange={formik.handleChange}
+                            /> */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker label="Check In" name='activity_date' onChange={(value) => formik.setFieldValue('activity_date', dayjs(value).format('YYYY-MM-DD'))} />
+                                </LocalizationProvider>
+                            </div>
+                        </div>
+
+
+                        <div className="booking-checkout-input-container">
                             <div className="adventure-booking-name-email">
-                                <input className='booking-input-half' type="number" name='age' placeholder="Age of participant"
-                                    onChange={formik.handleChange}
-                                />
-                                <input className='booking-input-half' type="date" name='activity_date' placeholder='Date you want to book'
-                                    onChange={formik.handleChange}
-                                />
+                                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                                    <label htmlFor="first_name">Phone Number</label>
+                                    <input className='booking-input-name' type="text" name='phone_number' placeholder="Contact number"
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                                    <label htmlFor="first_name">Weight</label>
+                                    <input className='booking-input-name' type="number" name='weight' placeholder='Weight of participant'
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
                             </div>
                         </div>
 
                         <div className="booking-checkout-input-container">
                             <div className="adventure-booking-name-email">
-                                <input className='booking-input-half' type="text" name='phone_number' placeholder="Contact number"
-                                    onChange={formik.handleChange}
-                                />
-                                <input className='booking-input-half' type="number" name='weight' placeholder='Weight of participant'
-                                    onChange={formik.handleChange}
-                                />
+                                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                                    <label htmlFor="first_name">Gurdian's Name</label>
+                                    <input className='booking-input-name' type="text" name='guardian_name' placeholder="Participant's guardian name"
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                                    <label htmlFor="first_name">Gurdian's Phone</label>
+                                    <input className='booking-input-name' type="text" name='guardian_phone' placeholder='Phone number of guardian'
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
+                                
                             </div>
                         </div>
 
                         <div className="booking-checkout-input-container">
                             <div className="adventure-booking-name-email">
-                                <input className='booking-input-half' type="text" name='guardian_name' placeholder="Participant's guardian name"
-                                    onChange={formik.handleChange}
-                                />
-                                <input className='booking-input-half' type="text" name='guardian_phone' placeholder='Phone number of guardian'
-                                    onChange={formik.handleChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="booking-checkout-input-container">
-                            <div className="adventure-booking-name-email">
-                                <input type="checkbox" name='medical_condition' 
+                                <input type="checkbox" name='medical_condition'
                                     onChange={formik.handleChange}
                                 />
                                 <label htmlFor="medical_condition">Any medical illness?</label>
@@ -180,7 +212,7 @@ function AdventureCheckout() {
                                 <p>{singleAdventure.time_take} Minutes</p>
                             </div>
                             <div className="booking-details-input">
-                                
+
                                 <div className="booking-payment-method">
                                     <label>
                                         <input type="radio" value="Razorpay" name='payment_method'

@@ -11,6 +11,7 @@ import info3 from "../../../images/info3.png";
 import './services.css'
 import axios from 'axios';
 import { BASE_URL } from '../../../utils/config';
+import { Link } from 'react-router-dom';
 
 function Services() {
     const [resortList, setResortList] = useState([])
@@ -100,6 +101,7 @@ function Services() {
                 <div className="destinations">
                     {resortList.map((destination) => {
                         return (
+                            <Link to={`/resort-details/${destination.id}`}>
                             <div className="destination">
                                 <div className="resort-img-container">
                                     <img className='home-resort-img' src={`${BASE_URL}/${destination.image_one}`} alt="" />
@@ -120,6 +122,7 @@ function Services() {
                                     <span>{destination.duration}</span>
                                 </div>
                             </div>
+                            </Link>
                         );
                     })}
                 </div>
@@ -131,6 +134,7 @@ function Services() {
                 <div className="destinations">
                     {adventureList.map((destination) => {
                         return (
+                            <Link to={`/adventure-details/${destination.id}`}>
                             <div className="destination">
                                 <div className="resort-img-container">
                                     <img className='home-resort-img' src={`${BASE_URL}/${destination.activity_one}`} alt="" />
@@ -151,6 +155,7 @@ function Services() {
                                     
                                 </div>
                             </div>
+                            </Link>
                         );
                     })}
                 </div>

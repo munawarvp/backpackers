@@ -205,3 +205,8 @@
     font-size: 13px;
     color: #362685;
 }
+
+.user-profile-input-container{
+    display: flex;
+    flex-direction: column;
+}
