@@ -265,3 +265,73 @@
     font-size: 20px;
     margin-top: 20px;
 }
+
+.check-availability-popup{
+    height: 50vh;
+    width: 60%;
+    padding: 1.2rem 1.2rem;
+    position: absolute;
+    /* top: 50%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 30px #71717194;
+    background-color: #ebebeb;
+    z-index: 1;
+
+}
+/* .booking-checkout-input-container{
+    margin-top: 1rem;
+} */
+.check-availability-input-contain{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.checkavailability-input-container{
+    width: 65%;
+    margin-bottom: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.checkavailability-btn{
+    width: 25%;
+    height: 2.5rem;
+    border: none;
+    background-color: #15406e;
+    color: white;
+    font-size: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+.checkavailability-btn:hover{
+    background-color: #195392;
+}
+.check-availability-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.resort-available-container{
+    text-align: center;
+    margin-top: 20px;
+    width: 15%;
+    padding: 5px;
+    border-radius: 6px;
+    background-color: green;
+    color: white;
+}
+.resort-notavailable-container{
+    text-align: center;
+    margin-top: 20px;
+    width: 20%;
+    padding: 5px;
+    border-radius: 6px;
+    background-color: red;
+    color: white;
+}

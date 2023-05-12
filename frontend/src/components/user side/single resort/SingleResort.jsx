@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
-import { DatePicker, Button } from 'antd';
+import { Button } from 'antd';
 import { AiOutlineSearch, AiFillStar } from 'react-icons/ai'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { BiWifiOff } from 'react-icons/bi'
@@ -32,16 +32,29 @@ import { BASE_URL } from '../../../utils/config';
 
 import './singleresort.css'
 import { Toaster, toast } from 'react-hot-toast';
+import { IoMdCloseCircle } from 'react-icons/io';
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+
+import { useForm } from 'react-hook-form';
 
 function SingleResort() {
     const [locationList, setLocationlist] = useState([])
     const [singleResort, setSingleResort] = useState({})
     const [reviews, setReviews] = useState([])
-    const [value, setValue] = useState(0);
+    const [value, setTabValue] = useState(0)
+    const [toggle, setToggle] = useState(false)
+    const [available, setAvailable] = useState(false)
+    const [notAvailable, setNotAvailable] = useState(false)
 
     const dispatch = useDispatch()
     const history = useNavigate()
     const location = useLocation()
+
+    const { register, handleSubmit, setValue, watch } = useForm();
 
     useEffect(() => {
         locations();
@@ -87,12 +100,12 @@ function SingleResort() {
     })
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setTabValue(newValue);
     };
 
     let user_id = ''
     const token = getLocal()
-    console.log(token);
+    // console.log(token);
     if (token) {
         const decoded = jwtDecode(token)
         user_id = decoded.user_id
@@ -108,14 +121,16 @@ function SingleResort() {
             rating: null,
             review_image: null
         },
-        onSubmit: async values => {
+        onSubmit: async (values, { resetForm }) => {
             const form = new FormData()
             form.append('user', values.user)
             form.append('resort', values.resort)
             form.append('review_heading', values.review_heading)
             form.append('description', values.description)
             form.append('rating', values.rating)
-            form.append('review_image', values.review_image)
+            if (values.review_image) {
+                form.append('review_image', values.review_image)
+            }
 
             const response = await axios.post(`${BASE_URL}/bookings/addresortreview/`, form)
             if (response.data.msg === 501) {
@@ -125,22 +140,53 @@ function SingleResort() {
                 toast.error('Something went wrong')
             } else if (response.data.msg === 404) {
                 toast.error('You didnt booked this resort yet')
+            } else if (response.data.msg === 502) {
+                toast.error('You already added review')
+            } else if (response.data.msg === 503) {
+                toast.error('You are not checked in yet')
             } else if (response.data.msg === 200) {
                 toast.success('Review added..!')
                 getReviews();
             }
+            resetForm({ values: "" })
         }
+
     })
 
     async function deleteReview(id) {
         const response = await axios.delete(`${BASE_URL}/bookings/deleteresortreview/${id}`)
-        if(response.data.msg === 200){
+        if (response.data.msg === 200) {
             toast.success('Review deleted')
             getReviews();
-        }else{
+        } else {
             toast.error('Something went wrong')
         }
+    }
+
+    async function onSubmit(data) {
+        console.log(data);
+        data['checking_resort'] = singleResort.id
+        console.log(data);
+        const date=JSON.stringify(data)
+        console.log(typeof(date));
+        const response = await axios.get(`${BASE_URL}/bookings/checkresortavailability/${date}`)
         
+        if (response.data.msg === 200) {
+            setNotAvailable(false)
+            setAvailable(true)
+            toast.success('Resort Available')
+        } else if(response.data.msg === 504){
+            setAvailable(false)
+            setNotAvailable(true)
+            toast.error('Resort not available')
+        } else {
+            toast.error('Something went wrong')
+        }
+    }
+    const toggleOff = ()=> {
+        setToggle(!toggle)
+        setNotAvailable(false)
+        setAvailable(false)
     }
     return (
         <div className="user-resortlist-main">
@@ -152,12 +198,16 @@ function SingleResort() {
                         <Select className='drop-locations' options={loctions} value={loctions[0]} />
                     </div>
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <label htmlFor="check_in">Check In</label>
-                        <DatePicker className='date-for-checkin' />
+                        <label htmlFor="first_name">Check In</label>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker label="Check I" name='check_out' />
+                        </LocalizationProvider>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <label htmlFor="check_out">Check Out</label>
-                        <DatePicker className='date-for-checkin' />
+                        <label htmlFor="first_name">Check Out</label>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker label="Check Out" name='check_out' />
+                        </LocalizationProvider>
                     </div>
                     <Button type="primary" icon={<AiOutlineSearch />}>Search</Button>
                 </div>
@@ -199,12 +249,50 @@ function SingleResort() {
                     <div className="single-resort-price">
                         <h2>{singleResort.price} ₹</h2>
                         <div style={{ display: "flex", gap: "10px" }}>
-                            <button className='availability-btn' onClick={() => handleBooking(singleResort.id)} >Check Availability</button>
+                            <button className='availability-btn' onClick={() => setToggle(!toggle)} >Check Availability</button>
                             <button className='book-now-btn' onClick={() => handleBooking(singleResort.id)} >Book Now</button>
                         </div>
 
                     </div>
                 </div>
+
+                {toggle && <div className='check-availability-popup'>
+                    <div className="pending-reso-details">
+                        <div className='resort-name-toggle'>
+                            <h2>Check Availability</h2>
+                            <IoMdCloseCircle size={30} onClick={toggleOff} />
+                        </div>
+                        <div className="check-availability-input-contain">
+                            <form className='check-availability-form' onSubmit={handleSubmit(onSubmit)}>
+                                <div className="checkavailability-input-container">
+                                    <label htmlFor="first_name">Check In</label>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker label="Check In" name="check_in"
+                                            // value={check_in}
+                                            onChange={(newValue) => setValue("check_in", newValue)}
+                                        />
+                                    </LocalizationProvider>
+                                </div>
+                                <div className="checkavailability-input-container">
+                                    <label htmlFor="first_name">Check Out</label>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker label="Check Out" name="check_out"
+                                            // value={check_out}
+                                            onChange={(newValue) => setValue("check_out", newValue)}
+                                        />
+                                    </LocalizationProvider>
+                                </div>
+                                <button className="checkavailability-btn" type='submit'>Check</button>
+                            </form>
+                            {available && <div className="resort-available-container">
+                                <h3>AVAILABLE</h3>
+                            </div>}
+                            {notAvailable && <div className="resort-notavailable-container">
+                                <h3>NOT AVAILABLE</h3>
+                            </div>}
+                        </div>
+                    </div>
+                </div>}
 
                 <div className="resort-subheading-container">
                     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -293,13 +381,13 @@ function SingleResort() {
                                         </div>
                                     </div>
                                     <div className="resort-review-img-contain">
-                                        <div onClick={()=>deleteReview(review.id)} className="delete-review-contain">
+                                        <div onClick={() => deleteReview(review.id)} className="delete-review-contain">
                                             <DeleteIcon />
                                         </div>
 
-                                        <div className="resort-review-single-img">
+                                        {review.review_image && <div className="resort-review-single-img">
                                             <img className='review-single-img' src={`${BASE_URL}/${review.review_image}`} alt="" />
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
                             </div>
@@ -317,12 +405,14 @@ function SingleResort() {
                                         <label htmlFor="review_heading">Heading</label>
                                         <input className='review-add-input' name='review_heading' type="text" placeholder='heading'
                                             onChange={formik.handleChange}
+                                            value={formik.values.review_heading}
                                         />
                                     </div>
                                     <div className="review-input-contain">
                                         <label htmlFor="description">Description</label>
                                         <textarea className='review-add-input review-textarea' name="description" placeholder='description'
                                             onChange={formik.handleChange}
+                                            value={formik.values.description}
                                         ></textarea>
                                     </div>
                                     <div className="review-rating-img-contain">
@@ -331,12 +421,14 @@ function SingleResort() {
                                             <Rating
                                                 name="rating"
                                                 onChange={formik.handleChange}
+                                                value={formik.values.rating}
                                             />
                                         </div>
                                         <div className="review-input-contain">
                                             <label htmlFor="review-image">Review Image</label>
                                             <input name='review_image' type="file"
                                                 onChange={e => formik.setFieldValue('review_image', e.target.files[0])}
+                                                value={formik.values.review_image}
                                             />
                                         </div>
                                     </div>

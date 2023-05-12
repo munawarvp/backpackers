@@ -6,7 +6,7 @@ import Register from './components/accounts/Register';
 import Home from './pages/Home';
 import ForgotPassword from './components/accounts/ForgotPassword';
 import AdminPanel from './components/admin side/AdminPanel';
-import PrivateRoute from './utils/PrivateRoute';
+import PrivateRoute, { AdminPrivateRoute, StaffPrivateRoute } from './utils/PrivateRoute';
 import ResetPassword from './components/accounts/ResetPassword';
 import ResortPage from './components/admin side/ResortPage';
 import BookingPage from './components/admin side/BookingPage';
@@ -50,59 +50,68 @@ import PageNotFound from './pages/user side/PageNotFound';
 function App() {
   return (
     <div className="App">
-        <Router>
-          <Routes>
-            <Route path='*' Component={PageNotFound} />
-            <Route path='/' exact Component={Home} />
-            <Route path='/login' Component={Login} />
-            <Route path='/forgot-password' Component={ForgotPassword} />
-            <Route path='/reset-password' Component={ResetPassword} />
-            <Route path='/register' Component={Register} />
-            <Route path='/register-with-us' element={<RegisterWithPage/>}/>
-            <Route path='/register-success' element={<RegisterSuccess/>}/>
-            <Route path='/resorts-list' element={<UserResortPage/>}/>
-            <Route path='/adventure-list' element={<UserAdventurePage/>}/>
-            <Route path='/destination-list' element={<UserDestinationPage/>}/>
-            <Route path='/resort-details/:id' element={<SingleResortPage/>}/>
-            <Route path='/adventure-details/:id' element={<SingleAdventurePage/>}/>
-            <Route path='/destination-details/:id' element={<SingleDestinationPage/>}/>
-            <Route path='/booking-checkout' element={<CheckoutPage/>}/>
-            <Route path='/booking-success/:id' element={<BookingSuccessPage/>}/>
-            <Route path='/adventure-checkout' element={<AdventureCheckoutPage/>}/>
-            <Route path='/adventure-booking-success/:id' element={<AdventureBookingSuccess/>}/>
-            <Route path='/user-profile/:user_name' element={<UserProfilePage/>} /> 
-                
-            <Route path='/admin-dashboard' element={<PrivateRoute/>}>
-                <Route path='/admin-dashboard' element={<AdminPanel/>} />
-            </Route>
+      <Router>
+        <Routes>
+          <Route path='*' Component={PageNotFound} />
+          <Route path='/' exact Component={Home} />
+          <Route path='/login' Component={Login} />
+          <Route path='/forgot-password' Component={ForgotPassword} />
+          <Route path='/reset-password' Component={ResetPassword} />
+          <Route path='/register' Component={Register} />
+          <Route path='/register-with-us' element={<RegisterWithPage />} />
+          <Route path='/register-success' element={<RegisterSuccess />} />
+          <Route path='/resorts-list' element={<UserResortPage />} />
+          <Route path='/adventure-list' element={<UserAdventurePage />} />
+          <Route path='/destination-list' element={<UserDestinationPage />} />
+          <Route path='/resort-details/:id' element={<SingleResortPage />} />
+          <Route path='/adventure-details/:id' element={<SingleAdventurePage />} />
+          <Route path='/destination-details/:id' element={<SingleDestinationPage />} />
+          <Route path='/booking-checkout' element={<CheckoutPage />} />
+          <Route path='/booking-success/:id' element={<BookingSuccessPage />} />
+          <Route path='/adventure-checkout' element={<AdventureCheckoutPage />} />
+          <Route path='/adventure-booking-success/:id' element={<AdventureBookingSuccess />} />
+          <Route path='/user-profile/:user_name' element={<UserProfilePage />} />
 
-            {/* ***staff admin*** */}
-            <Route path='/staff/resorts' element={<ResortPage/>} />
-            <Route path='/staff/view-resort/:id' element={<ResortViewPage/>} />
-            <Route path='/staff/adventure' element={<AdventurePage/>} />
-            <Route path='/staff/destination' element={<DestinationPage/>} />
-            <Route path='/staff/bookings' element={<BookingPage/>} />
-            <Route path='/staff/adventure-bookings' element={<StaffAdventureBookingPage/>} />
-            <Route path='/staff/resort-booking-view/:id' element={<ResortBookingViewPage/>} />
-            <Route path='/staff/adventure-booking-view/:id' element={<AdventureBookingViewPage/>} />
-            <Route path='/add-resort' element={<AddResort/>} />
-            <Route path='/staff/update-resort/:id' element={<UpdateResort/>} />
+          <Route path='/admin-dashboard' element={<PrivateRoute />}>
+            <Route path='/admin-dashboard' element={<AdminPanel />} />
+          </Route>
 
-            {/* ***super admin*** */}
-            <Route path='/admin/resorts' element={<SuperAllResorts/>} />
-            <Route path='/admin/pendings' element={<ResortsPending/>} />
-            <Route path='/admin/manage-staff' element={<ManageStaff/>} />
-            <Route path='/admin/adventures' element={<AdminAdventure/>} />
-            <Route path='/admin/destinations' element={<AdminDestination/>} />
-            <Route path='/admin/bookings' element={<AdminBookingPage/>} />
-            <Route path='/admin/adventure-bookings' element={<AdventureBookingPage/>} />
-            <Route path='/admin/view-booking' element={<ViewBookingPage/>} />
-            <Route path='/admin/view-resort/:id' element={<AdminResortPage/>} />
-            <Route path='/admin/view-adventure/:id' element={<ViewAdventurePage/>} />
-            <Route path='/admin/view-destination/:id' element={<ViewDestinationPage/>} />
-            <Route path='/admin/coupons' element={<CouponsPage/>} />
-          </Routes>
-        </Router>
+          {/* ***staff admin*** */}
+          <Route path='/staff' element={<StaffPrivateRoute />}>
+            <Route path='resorts' element={<ResortPage />} />
+            <Route path='view-resort/:id' element={<ResortViewPage />} />
+            <Route path='adventure' element={<AdventurePage />} />
+            <Route path='destination' element={<DestinationPage />} />
+            <Route path='bookings' element={<BookingPage />} />
+            <Route path='adventure-bookings' element={<StaffAdventureBookingPage />} />
+            <Route path='resort-booking-view/:id' element={<ResortBookingViewPage />} />
+            <Route path='adventure-booking-view/:id' element={<AdventureBookingViewPage />} />
+            <Route path='add-resort' element={<AddResort />} />
+            <Route path='update-resort/:id' element={<UpdateResort />} />
+          </Route>
+
+
+
+          <Route path='/admin' element={<AdminPrivateRoute />}>
+            <Route path='resorts' element={<SuperAllResorts />} />
+            <Route path='pendings' element={<ResortsPending />} />
+            <Route path='manage-staff' element={<ManageStaff />} />
+            <Route path='adventures' element={<AdminAdventure />} />
+            <Route path='destinations' element={<AdminDestination />} />
+            <Route path='bookings' element={<AdminBookingPage />} />
+            <Route path='adventure-bookings' element={<AdventureBookingPage />} />
+            <Route path='view-booking' element={<ViewBookingPage />} />
+            <Route path='view-resort/:id' element={<AdminResortPage />} />
+            <Route path='view-adventure/:id' element={<ViewAdventurePage />} />
+            <Route path='view-destination/:id' element={<ViewDestinationPage />} />
+            <Route path='coupons' element={<CouponsPage />} />
+          </Route>
+
+
+          {/* ***super admin*** */}
+
+        </Routes>
+      </Router>
     </div>
   );
 }

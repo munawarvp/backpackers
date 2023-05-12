@@ -56,9 +56,7 @@ function AdventueList() {
 
     useEffect(() => {
         getAdventure();
-    }, [])
-
-    
+    }, [])  
 
     const formik = useFormik({
         initialValues: {

@@ -3,12 +3,15 @@ from .views import (CreateResortBooking, AdminListBookings, GetBookingSummary, C
                     ListAdventureBookings, StaffListBookings, StaffAdventureBookings, ChangeResortBookingStatus,
                     StaffResortBookingFilter, StaffSearchResortBooking, RecentResortBookings, RecentActivityBookings,
                     AddResortReview, ListResortReviews, AddAdventureReview, ListAdventureReviews, AddDestinationReview, ListDestinationReviews,
-                    UserResortBookings, ListCoupons,UserListCoupons, AddCoupon, DeleteCoupon, GetResortPayment, DeleteResortReview)
+                    UserResortBookings,UserAdventureBookings, ListCoupons,UserListCoupons, AddCoupon, DeleteCoupon, GetResortPayment,
+                    DeleteResortReview, CheckResortAvailability, CancelResortBooking)
 
 from . import views
 
 
 urlpatterns = [
+    path('checkresortavailability/<date>', CheckResortAvailability.as_view()),
+    path('cancelresortbooking/<int:booking_id>', CancelResortBooking.as_view()),
     path('createbookingresort/', CreateResortBooking.as_view()),
     path('admingetallbookings/', AdminListBookings.as_view()),
     path('getbookingsummary/<int:booking_id>', GetBookingSummary.as_view()),
@@ -23,6 +26,7 @@ urlpatterns = [
     path('changebookingstatus/<int:value>/<int:booking_id>', ChangeResortBookingStatus.as_view()),
 
     path('userresortbookings/<int:user_id>', UserResortBookings.as_view()),
+    path('useractivitybookings/<int:user_id>', UserAdventureBookings.as_view()),
 
     path('filterresortbooking/<int:user_id>/<int:value>', StaffResortBookingFilter.as_view()),
     path('searchresortbooking/<int:user_id>', StaffSearchResortBooking.as_view()),
@@ -47,4 +51,6 @@ urlpatterns = [
 
     path('pay/', views.start_payment, name='start_payment'),
     path('payment/success/', views.handle_payment_success, name='handle_payment_success'),
+    path('activitypay/', views.activity_pay, name='start_activitypayment'),
+    path('activitypayment/success/', views.activity_payment_success, name='activity_payment_success'),
 ]

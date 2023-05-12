@@ -120,7 +120,7 @@
     border-radius: 4px;
     width: 80%;
     height: 2.1rem;
-    margin: 10px 0;
+    /* margin: 10px 0; */
     padding-left: 10px;
 }
 .edit-profile-file-input{
@@ -209,4 +209,10 @@
 .user-profile-input-container{
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
+}
+.booking-cancel-btn-contain{
+    display: flex;
+    align-items: center;
+    margin-left: 5rem;
 }

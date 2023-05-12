@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './accounts.css'
 import { toast, Toaster } from 'react-hot-toast'
 import { BASE_URL } from '../../utils/config'
@@ -14,7 +14,7 @@ function Register() {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
-  const history = useNavigate()
+  
 
   const signupSubmit = async (e) => {
     e.preventDefault()

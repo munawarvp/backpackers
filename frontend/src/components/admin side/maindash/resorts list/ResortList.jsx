@@ -89,7 +89,7 @@ function ResortList() {
                     <Select className='drop-locations' options={options} onChange={handleFilter}/>
                 </div>
 
-                <Link className='link-modi' to={'/add-resort'}><h3 className='add-resort-btn'>Add new Resort</h3></Link>
+                <Link className='link-modi' to={'/staff/add-resort'}><h3 className='add-resort-btn'>Add new Resort</h3></Link>
             </div>
             <div className="resort-table">
                 <TableContainer component={Paper}

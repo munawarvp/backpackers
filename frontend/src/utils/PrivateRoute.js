@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode"
 import AdminPanel from "../components/admin side/AdminPanel";
 import SuperAdmin from "../pages/super admin/SuperAdmin"
 import Login from "../components/accounts/Login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = ({children, ...rest}) => {
     const response = getLocal('authToken');
@@ -24,11 +24,35 @@ const PrivateRoute = ({children, ...rest}) => {
 
     }else{
         return history('/')
-        // history('/login')
-        // console.log('navigated');
-        // window.location.href = '/login'
     }
 
 }
 
 export default PrivateRoute;
+
+export const StaffPrivateRoute = ({children, ...rest}) => {
+    const response = getLocal('authToken');
+
+    if (response) {
+        const decoded = jwt_decode(response)
+        if (decoded.is_staff) {
+            console.log('staff');
+            return <Outlet/>
+        }
+    }else {
+        return <Login/>
+    }
+}
+
+export const AdminPrivateRoute = ({children, ...rest}) => {
+    const response = getLocal('authToken');
+
+    if (response) {
+        const decoded = jwt_decode(response)
+        if (decoded.is_admin) {
+            return <Outlet/>
+        }
+    }else {
+        return <Login/>
+    }
+}

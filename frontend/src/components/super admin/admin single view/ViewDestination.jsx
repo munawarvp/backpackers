@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Profile from '../../../images/img2.png'
 
 import Tabs from '@mui/material/Tabs';

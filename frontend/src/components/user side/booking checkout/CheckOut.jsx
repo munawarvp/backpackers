@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getLocal } from '../../../helpers/auth'
 import jwtDecode from 'jwt-decode'
 import { useFormik } from 'formik'
-import { useNavigate, useLocation, json } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { BookingSchema } from '../../../validations/FormValidation'
 
 // import { useSelector } from 'react-redux'
@@ -16,6 +16,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+dayjs.extend(advancedFormat);
 
 
 function CheckOut() {
@@ -26,6 +28,8 @@ function CheckOut() {
   // const { resort_id } = useSelector((state) => state.booking)
   const history = useNavigate()
   const location = useLocation()
+
+  const minDate = dayjs().format('YYYY-MM-DD');
 
   useEffect(() => {
     getResort();
@@ -133,7 +137,6 @@ function CheckOut() {
 
   const showRazorpay = async () => {
     const res = loadScript();
-    // console.log(formData, 'formData');
     let bodyData = new FormData();
 
     // we will pass the amount and product name to the backend using form data
@@ -187,9 +190,6 @@ function CheckOut() {
 
       }
     });
-
-
-
   }
 
 
@@ -296,7 +296,11 @@ function CheckOut() {
                 <div className="booking-checkout-input-container">
                   <label htmlFor="first_name">Check In</label>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Check In" name='check_in' onChange={(value) => formik.setFieldValue('check_in', dayjs(value).format('YYYY-MM-DD'))} />
+                    <DatePicker label="Check In" name='check_in'
+                      disablePast
+                      onChange={(value) => formik.setFieldValue('check_in', dayjs(value).format('YYYY-MM-DD'))}
+                      
+                      />
                   </LocalizationProvider>
                   {formik.errors.check_in && formik.touched.check_in ? <p className='form-errors'>{formik.errors.check_in}</p> : null}
                 </div>
@@ -304,7 +308,10 @@ function CheckOut() {
                 <div className="booking-checkout-input-container">
                   <label htmlFor="first_name">Check Out</label>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Check Out" name='check_out' onChange={(value) => formik.setFieldValue('check_out', dayjs(value).format('YYYY-MM-DD'))} />
+                    <DatePicker label="Check Out" name='check_out'
+                      disablePast
+                      onChange={(value) => formik.setFieldValue('check_out', dayjs(value).format('YYYY-MM-DD'))}
+                    />
                   </LocalizationProvider>
                   {formik.errors.check_out && formik.touched.check_out ? <p className='form-errors'>{formik.errors.check_out}</p> : null}
                 </div>

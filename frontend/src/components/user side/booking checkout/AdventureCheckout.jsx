@@ -17,6 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function AdventureCheckout() {
     const [singleAdventure, setSingleadventure] = useState({})
+    const [booking_total_state, setBookingTotal] = useState(0)
     const history = useNavigate()
     const location = useLocation()
 
@@ -43,7 +44,10 @@ function AdventureCheckout() {
         const id = localStorage.getItem('activity_id')
         const response = await axios.get(`${BASE_URL}/resorts/getadventuredetail/${id}`)
         setSingleadventure(response.data)
+        setBookingTotal(response.data.price)
     }
+
+    let formObject = {}
 
     const formik = useFormik({
         initialValues: {
@@ -80,21 +84,131 @@ function AdventureCheckout() {
             form.append('booking_total', singleAdventure.price)
             form.append('payment_method', values.payment_method)
 
-            const response = await axios.post(`${BASE_URL}/bookings/createbookingadventure/`, form)
-            const booking_id = response.data.booking_id
-            if (response.data.msg === 200) {
+            if (values.payment_method === "Pay at desk") {
+                const response = await axios.post(`${BASE_URL}/bookings/createbookingadventure/`, form)
+                const booking_id = response.data.booking_id
+                if (response.data.msg === 200) {
 
-                toast.success('Activity booked')
-                history(`/adventure-booking-success/${booking_id}`)
-            } else if (response.data.msg === 504) {
-                toast.error('No availability')
-            } else {
-                toast.error('Something went wrong')
+                    toast.success('Activity booked')
+                    history(`/adventure-booking-success/${booking_id}`)
+                } else {
+                    toast.error('Something went wrong')
+                }
+                console.log(response.data.msg);
+            } else if (values.payment_method === 'Razorpay') {
+
+                formObject = Object.fromEntries(form.entries());
+                showRazorpay();
             }
-            console.log(response.data.msg);
+
         }
     })
 
+    const showRazorpay = async () => {
+        const res = loadScript();
+        let bodyData = new FormData();
+
+        // we will pass the amount and product name to the backend using form data
+        bodyData.append("amount", booking_total_state.toString());
+        bodyData.append("form", JSON.stringify(formObject))
+
+        const data = await axios({
+            url: `${BASE_URL}/bookings/activitypay/`,
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            data: bodyData,
+        }).then((res) => {
+            console.log(res,'this is res');
+            if (res.data.msg === 504) {
+                toast.error('No availability')
+
+            } else {
+                var options = {
+                    key_id: process.env.REACT_APP_PUBLIC_KEY, // in react your environment variable must start with REACT_APP_
+                    key_secret: process.env.REACT_APP_SECRET_KEY,
+                    amount: res.data.payment.amount,
+                    // amount: booking_total_state,
+                    currency: "INR",
+                    name: "Backpackers",
+                    description: "Test teansaction",
+                    image: "", // add image url
+                    order_id: res.data.payment.id,
+                    handler: function (response) {
+                        // we will handle success by calling handlePaymentSuccess method and
+                        // will pass the response that we've got from razorpay
+                        handlePaymentSuccess(response);
+                    },
+                    prefill: {
+                        name: "User's name",
+                        email: "User's email",
+                        contact: "User's phone",
+                    },
+                    notes: {
+                        address: "Razorpay Corporate Office",
+                    },
+                    theme: {
+                        color: "#3399cc",
+                    },
+                };
+
+                var rzp1 = new window.Razorpay(options);
+                rzp1.open();
+                // return res;
+
+            }
+        });
+    }
+    const loadScript = () => {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        document.body.appendChild(script);
+    };
+
+    const handlePaymentSuccess = async (response) => {
+        try {
+            let bodyData = new FormData();
+
+            // const form = localStorage.getItem('form')
+            // console.log(form, 'form got from local');
+            // we will send the response we've got from razorpay to the backend to validate the payment
+            // console.log(response, 'respose from handler');
+            bodyData.append("response", JSON.stringify(response));
+            bodyData.append("form", JSON.stringify(formObject))
+
+            await axios({
+                url: `${BASE_URL}/bookings/activitypayment/success/`,
+                method: "POST",
+                data: bodyData,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => {
+                    console.log(res, 'bulllied');
+                    const booking_id = res.data.booking_id
+                    console.log(booking_id, 'handle');
+                    if (res.data.msg === 200) {
+                        toast.success('Booked successfully')
+                        history(`/adventure-booking-success/${booking_id}`)
+                        // console.log('200');
+                    } else {
+                        toast.error('Something went wrong ')
+                    }
+                    // setName("");
+                    // setAmount("");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    toast.error(err)
+                });
+        } catch (error) {
+            console.log(console.error());
+        }
+    };
 
 
     return (
@@ -145,7 +259,9 @@ function AdventureCheckout() {
                                 onChange={formik.handleChange}
                             /> */}
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker label="Check In" name='activity_date' onChange={(value) => formik.setFieldValue('activity_date', dayjs(value).format('YYYY-MM-DD'))} />
+                                    <DatePicker label="Check In" name='activity_date'
+                                        disablePast
+                                        onChange={(value) => formik.setFieldValue('activity_date', dayjs(value).format('YYYY-MM-DD'))} />
                                 </LocalizationProvider>
                             </div>
                         </div>
@@ -182,7 +298,7 @@ function AdventureCheckout() {
                                         onChange={formik.handleChange}
                                     />
                                 </div>
-                                
+
                             </div>
                         </div>
 

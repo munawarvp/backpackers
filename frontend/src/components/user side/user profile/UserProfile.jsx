@@ -8,31 +8,42 @@ import Background2 from '../../../images/bookings.jpg'
 import Background3 from '../../../images/background3.jpg'
 import Background4 from '../../../images/background4.jpg'
 
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import './userprofile.css'
 import jwtDecode from 'jwt-decode';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-import { useForm } from 'react-hook-form';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import { useFormik } from 'formik';
 import { Toaster, toast } from 'react-hot-toast';
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 function UserProfile() {
     const [singleUser, setSingleUser] = useState({})
     const [userProfile, setUserProfile] = useState({})
     const [bookings, setBookings] = useState([])
+    const [activityBookings, setActivityBookings] = useState([])
     const [coupons, setCoupons] = useState([])
     const [toggle, setToggle] = useState(1)
+    const [value, setValue] = useState(0);
 
-    const { register, handleSubmit } = useForm();
 
     const token = getLocal()
     const { user_id } = jwtDecode(token)
-    // console.log(user_id);
 
     useEffect(() => {
         getUser();
         getBookings();
+        getActivityBookings()
         getCoupons();
     }, [])
 
@@ -46,19 +57,15 @@ function UserProfile() {
         const response = await axios.get(`${BASE_URL}/bookings/userresortbookings/${user_id}`)
         setBookings(response.data)
     }
+    async function getActivityBookings() {
+        const response = await axios.get(`${BASE_URL}/bookings/useractivitybookings/${user_id}`)
+        setActivityBookings(response.data)
+    }
     async function getCoupons() {
         const response = await axios.get(`${BASE_URL}/bookings/userlistcoupons/${user_id}`)
         setCoupons(response.data)
     }
-    // console.log(profile_img);
-    // async function onSubmit(data) {
-    //     data['user'] = user_id
-    //     data['profile_img'] = profile_img
 
-    //     console.log(data);
-    //     const response = await axios.put(`${BASE_URL}/api/userprofiledetails/`, data)
-    //     console.log(response);
-    // };
 
     const formik = useFormik({
         initialValues: {
@@ -89,6 +96,42 @@ function UserProfile() {
             }
         }
     })
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    const cancelBooking = async (booking_id) => {
+        console.log(booking_id);
+        const response = await axios.get(`${BASE_URL}/bookings/cancelresortbooking/${booking_id}`)
+        if (response.data.msg === 200) {
+            getBookings();
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        }
+    }
+
+    const handleCancel = (booking_id) => {
+        Swal.fire({
+            title: 'Do you really want to cancel the booking?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // console.log(booking_id);
+                const response = cancelBooking(booking_id)
+                console.log(response);
+
+            }
+        })
+    }
+    
+
     return (
         <div className="user-profile-main-container">
             <Toaster position='top-center' reverseOrder='false' ></Toaster>
@@ -195,7 +238,6 @@ function UserProfile() {
                                     <div className="user-profile-input-container">
                                         <label htmlFor="address">Profile Picture</label>
                                         <input className='edit-profile-file-input' type="file" name='profile_img'
-                                            {...register('profile_img')}
                                             onChange={e => formik.setFieldValue('profile_img', e.target.files[0])}
                                         />
                                     </div>
@@ -211,8 +253,19 @@ function UserProfile() {
                         <img className='user-detail-img' src={Background3} alt="" />
                     </div>
                     <p>Your Bookings</p>
-                    <div className="user-bookings-list-contain">
-                        {bookings.map(booking => (
+                    <div className="resort-subheading-container">
+                        <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                            <Tabs value={value} onChange={handleChange} centered>
+                                <Tab style={{ marginRight: "3rem", fontWeight: "bold", fontSize: "18px" }} label="Resort Bookings" />
+                                <Tab style={{ marginRight: "3rem", fontWeight: "bold", fontSize: "18px" }} label="Adventure Bookings" />
+
+                            </Tabs>
+                        </Box>
+                    </div>
+                    {value === 0 && <div className="user-bookings-list-contain">
+                        {bookings.map(booking => {
+                            const isCancelled = booking.status === 'Cancelled';
+                        return(
                             <div className="user-single-booking-card">
                                 <div className="booking-card-details">
                                     <p> <b>Booking Id :</b> {booking.booking_id}</p>
@@ -224,14 +277,38 @@ function UserProfile() {
                                     <p><b>Booked Resort:</b> {booking.booked_resort.resort_name}</p>
                                     <p><b>Number of guests:</b> {booking.occupancy}</p>
                                     <p><b>Total Amount :</b> {booking.booking_total}</p>
+                                    <p><b>Status :</b> {booking.status}</p>
                                 </div>
                                 <div className="booking-resort-img-contain">
                                     <img className='booked-resort-img' src={`${BASE_URL}/${booking.booked_resort.image_one}`} alt="" />
                                 </div>
+                                {!isCancelled && <div className='booking-cancel-btn-contain'>
+                                    <CancelIcon onClick={() => handleCancel(booking.id)} style={{ fontSize: "35px", cursor: "pointer", color: "#ff4e4e" }} />
+                                </div>}
+                            </div>
+                        )})}
+                    </div>}
+                    {value === 1 && <div className="user-bookings-list-contain">
+                        {activityBookings.map(booking => (
+                            <div className="user-single-booking-card">
+                                <div className="booking-card-details">
+                                    <p> <b>Booking Id :</b> {booking.booking_id}</p>
+                                    <p><b>Guest Name :</b>{booking.user.first_name}</p>
+                                    <p><b>Activity Date :</b> {booking.activity_date} </p>
+                                    <p><b>Booked Activity:</b> {booking.booked_activity.activity_name} </p>
+                                </div>
+                                <div className="booking-card-details">
+                                    <p><b>Phone Number:</b> {booking.guardian_name}</p>
+                                    <p><b>Gurdian:</b> {booking.phone_number}</p>
+                                    <p><b>Payment Method:</b> {booking.payment_method}</p>
+                                    <p><b>Total Amount :</b> {booking.booking_total}</p>
+                                </div>
+                                <div className="booking-resort-img-contain">
+                                    <img className='booked-resort-img' src={`${BASE_URL}/${booking.booked_activity.activity_one}`} alt="" />
+                                </div>
                             </div>
                         ))}
-
-                    </div>
+                    </div>}
                 </div>}
 
                 {toggle === 4 && <div className="user-profile-all-details">

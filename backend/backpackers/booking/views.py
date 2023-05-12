@@ -2,6 +2,7 @@ from django.shortcuts import render
 import datetime
 import razorpay
 import json
+import datetime
 from decouple import config
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -16,6 +17,26 @@ from .serializers import (PostResortBookingSerializer, ResortBookingSerializer, 
                           PostDestinationReviewSerializer, DestinationReviewSerializer, CouponSerializer, CouponAssignSerializer, ResortPaymentSerializer)
 
 # Create your views here.
+
+class CheckResortAvailability(APIView):
+    def get(self, request, date):
+        sample = json.loads(date)
+        check_in=sample['check_in']
+        check_out=sample['check_out']
+        checking_resort = sample['checking_resort']
+
+        checkin_obj = datetime.datetime.fromisoformat(check_in)
+        checkout_obj = datetime.datetime.fromisoformat(check_out)
+
+        availability_case1 = ResortBooking.objects.filter(booked_resort=checking_resort, check_in__lte=checkin_obj, check_out__gte=checkin_obj).exists()
+        availability_case2 = ResortBooking.objects.filter(booked_resort=checking_resort, check_in__lte=checkout_obj, check_out__gte=checkout_obj).exists()
+        availability_case3 = ResortBooking.objects.filter(booked_resort=checking_resort, check_in__gte=checkin_obj, check_out__lte=checkout_obj).exists()
+
+        if availability_case2 or availability_case1 or availability_case3:
+            return Response({'msg': 504})
+        else:
+            return Response({'msg': 200})
+
 
 class CreateResortBooking(APIView):
     def post(self, request):
@@ -67,9 +88,11 @@ class CreateResortBooking(APIView):
                     serializer.save()
 
                     if booking_total > 5000:
-                        coupon = Coupon.objects.get(coupon_name='EXPLORER')
+                        coupon = Coupon.objects.filter(is_active=True).exclude(coupon_name="REGISTER")
+                        if coupon:
+                            random_coupon = coupon.order_by('?').first()
                         got_user = User.objects.get(id=coupon_user)
-                        user_coupon, created = CouponAssign.objects.get_or_create(user=got_user, coupon=coupon)
+                        user_coupon, created = CouponAssign.objects.get_or_create(user=got_user, coupon=random_coupon)
                         print(user_coupon, created)
                         if created:
                             coupon_serializer = CouponAssignSerializer(user_coupon)
@@ -119,6 +142,22 @@ def start_payment(request):
         "payment": payment
     }
     return Response(data)
+
+@api_view(['POST'])
+def activity_pay(request):
+    amount = request.data['amount']
+    form = json.loads(request.data["form"])
+
+    client = razorpay.Client(auth=(config('PUBLIC_KEY'), config('SECRET_KEY')))
+    payment = client.order.create({"amount": int(amount) * 100, 
+                                    "currency": "INR", 
+                                    "payment_capture": "1"})
+    
+    data = {
+        "payment": payment
+    }
+    return Response(data)
+
 
 @api_view(['POST'])
 def handle_payment_success(request):
@@ -185,10 +224,45 @@ def handle_payment_success(request):
                                                     status = "Paid")
             print('deleted')
             return Response({'msg': 200, 'booking_id': booking_id})
-
-    
     
     return Response({'msg': 504})
+
+
+@api_view(['POST'])
+def activity_payment_success(request):
+    res = json.loads(request.data["response"])
+    form = json.loads(request.data["form"])
+
+    user = form['user']
+    paid_user = User.objects.get(id=user)
+
+    count = AdventureBooking.objects.last()
+    id = form['user']
+    yr = int(datetime.date.today().strftime('%Y'))
+    dt = int(datetime.date.today().strftime('%d'))
+    mt = int(datetime.date.today().strftime('%m'))
+    d = datetime.date(yr,mt,dt)
+    current_date = d.strftime("%Y%m%d")
+    if count is None:
+        booking_id = current_date + str(id) + str(1)
+    else:
+        booking_id = current_date + str(id) + str(count.id+1)
+
+    form['booking_id'] = booking_id
+    print(form, 'data')
+
+    serializer = PostAdventureBookingSerializer(data=form)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'msg': 200, 'booking_id': booking_id})
+    return Response({'msg': 504})
+
+class CancelResortBooking(APIView):
+    def get(self, request, booking_id):
+        queryset = ResortBooking.objects.get(id=booking_id)
+        queryset.status = "Cancelled"
+        queryset.save()
+        return Response({'msg': 200})
 
 class AdminListBookings(APIView):
     def get(self, request):
@@ -327,6 +401,12 @@ class UserResortBookings(APIView):
         queryset = ResortBooking.objects.filter(user=user_id)
         serializer = ResortBookingSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+class UserAdventureBookings(APIView):
+    def get(self, request, user_id):
+        queryset = AdventureBooking.objects.filter(user=user_id)
+        serializer = AdventureBookingSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 #\ ******************************************** /
 
@@ -339,14 +419,24 @@ class AddResortReview(APIView):
             return Response({'msg': 501})
         else:
             queryset = ResortBooking.objects.filter(user__id=user, booked_resort=resort).exists()
-            print(user, resort)
-            print(queryset)
+            user_experienced = ResortBooking.objects.filter(user__id=user, booked_resort=resort, status__in=["Checked In", "Checked Out"]).exists()
 
-            if queryset:
+            print(user, resort)
+            print(queryset,'review query')
+
+            review = ResortReviews.objects.filter(user=user, resort=resort).exists()
+            
+            print(user_experienced,'status check')
+
+            if not user_experienced:
+                return Response({'msg': 503})
+            if review:
+                return Response({'msg': 502})
+
+            if queryset :
                 serializer = PostResortReviewSerializer(data=request.data)
                 if serializer.is_valid():
                     serializer.save()
-                    print('saved')
                     return Response({'msg': 200})
                 else:
                     return Response({'msg': 500})
@@ -427,6 +517,9 @@ class DeleteResortReview(APIView):
 class ListCoupons(APIView):
     def get(self, request):
         queryset = Coupon.objects.all()
+        if queryset:
+            random_coupon = queryset.order_by('?').first()
+            print(random_coupon,'random')
         serializer = CouponSerializer(queryset, many=True)
         return Response(serializer.data)
 

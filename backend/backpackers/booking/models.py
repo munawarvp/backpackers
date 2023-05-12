@@ -71,7 +71,7 @@ class ResortReviews(models.Model):
     review_heading = models.CharField(max_length=100)
     description = models.TextField()
     rating = models.FloatField()
-    review_image = models.ImageField(upload_to="photos/resortReviews")
+    review_image = models.ImageField(upload_to="photos/resortReviews", blank=True, null=True)
     created_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
