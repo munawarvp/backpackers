@@ -50,6 +50,7 @@
 .single-resort-card:hover{
     transform: scale(1.02);
     cursor: pointer;
+    box-shadow: 0 0 15px 6px #adadad88;
 }
 .single-resort-card{
     width: 60%;
@@ -176,4 +177,11 @@
 .destination-place{
     color: #0583D2;
     font-weight: bold;
+}
+
+.resort-pagination-contain{
+    margin-top: 20px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
 }

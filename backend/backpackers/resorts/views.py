@@ -9,6 +9,7 @@ from .models import Location, Resorts, Adventures, Destinations
 from booking.models import ResortBooking, AdventureBooking
 from account.models import User
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
@@ -193,11 +194,24 @@ class HomeListDestinations(APIView):
         serializer = DestinationSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class UserResortList(APIView):
-    def get(self, request):
-        queryset = Resorts.objects.filter(is_approved=True)
-        serializer = ResortSerializer(queryset, many=True)
-        return Response(serializer.data)
+#pagination for user resort listing 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 3
+
+class UserResortList(ListCreateAPIView):
+    queryset = Resorts.objects.filter(is_approved=True)
+    serializer_class = ResortSerializer
+    pagination_class = StandardResultsSetPagination
+    # def get(self, request):
+    #     queryset = Resorts.objects.filter(is_approved=True)
+    #     page = self.pagination_class().paginate_queryset(queryset, request)
+    #     next = self.page.paginator.count
+    #     print(next)
+        
+    #     serializer = ResortSerializer(page, many=True)
+    #     return Response(serializer.data)
     
 class UserAdventureList(APIView):
     def get(self, request):

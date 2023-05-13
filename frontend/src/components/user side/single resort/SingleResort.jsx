@@ -128,9 +128,8 @@ function SingleResort() {
             form.append('review_heading', values.review_heading)
             form.append('description', values.description)
             form.append('rating', values.rating)
-            if (values.review_image) {
-                form.append('review_image', values.review_image)
-            }
+            form.append('review_image', values.review_image)
+            
 
             const response = await axios.post(`${BASE_URL}/bookings/addresortreview/`, form)
             if (response.data.msg === 501) {
@@ -428,7 +427,7 @@ function SingleResort() {
                                             <label htmlFor="review-image">Review Image</label>
                                             <input name='review_image' type="file"
                                                 onChange={e => formik.setFieldValue('review_image', e.target.files[0])}
-                                                value={formik.values.review_image}
+                                                
                                             />
                                         </div>
                                     </div>

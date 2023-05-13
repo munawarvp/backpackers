@@ -4,6 +4,7 @@ import Header from '../components/user side/header/Header'
 import './additional.css'
 import Footer from '../components/user side/footer/Footer'
 import Services from '../components/user side/services/Services'
+import CustomerGalley from '../components/user side/customer gallery/CustomerGalley'
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
       <Navbar/>
       <Header/>
       <Services/>
+      <CustomerGalley/>
       <Footer/>
     </div>
   )

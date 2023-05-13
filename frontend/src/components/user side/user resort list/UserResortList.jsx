@@ -5,6 +5,9 @@ import { DatePicker, Button } from 'antd';
 import { AiOutlineSearch, AiFillStar } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 
+// import Pagination from '@mui/material/Pagination';
+import { Pagination } from 'antd';
+
 import axios from 'axios';
 import { BASE_URL } from '../../../utils/config';
 
@@ -12,6 +15,9 @@ import { BASE_URL } from '../../../utils/config';
 function UserResortList() {
     const [locationList, setLocationlist] = useState([]);
     const [resortList, setResortList] = useState([])
+    const [nextUrl, setnextUrl] = useState()
+    const [prevUrl, setprevUrl] = useState()
+    const [current, setCurrent] = useState(1);
 
     useEffect(() => {
         locations();
@@ -23,14 +29,35 @@ function UserResortList() {
     }
     async function resorts() {
         const response = await axios.get(`${BASE_URL}/resorts/userlistresorts`)
-        setResortList(response.data)
+        console.log(response.data);
+        setResortList(response.data.results)
+        setnextUrl(response.data.next)
     }
     const loctions = locationList.map((item) => {
         return ({
             value: item.id, label: item.city_name
         })
     })
-    
+    const paginationHandler = async (url)=> {
+        const response = await axios.get(url)
+        console.log(response.data);
+        setprevUrl(response.data.previous)
+        setResortList(response.data.results)
+    }
+
+    const handlePageChange = (page)=> {
+        console.log(page);
+        if(page > current) {
+            console.log('Increased');
+            paginationHandler(nextUrl)
+        }else if(page < current) {
+            console.log('Decreased');
+            paginationHandler(prevUrl)
+        }
+        setCurrent(page)
+    }
+    console.log(current);
+
     return (
         <div className="user-resortlist-main">
             <div className="resort-search-filter">
@@ -72,7 +99,7 @@ function UserResortList() {
                     <div className="resort-listing">
                         <div className="single-resort-card">
                             <div className="resort-card-image">
-                                <img src={`${BASE_URL}/${resort.image_one}`} alt="" />
+                                <img src={`${resort.image_one}`} alt="" />
                             </div>
                             <div className="resort-card-details">
                                 <div>
@@ -101,6 +128,10 @@ function UserResortList() {
                     </div>
                 </Link>
             ))}
+            <div className="resort-pagination-contain">
+                {/* <Pagination count={10}  color="secondary" onClick={handlePageChange} /> */}
+                <Pagination defaultCurrent={current} total={50} onChange={handlePageChange} />
+            </div>
         </div>
     )
 }

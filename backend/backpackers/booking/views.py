@@ -435,6 +435,8 @@ class AddResortReview(APIView):
 
             if queryset :
                 serializer = PostResortReviewSerializer(data=request.data)
+                serializer.is_valid()
+                print(serializer.errors)
                 if serializer.is_valid():
                     serializer.save()
                     return Response({'msg': 200})
@@ -508,7 +510,20 @@ class DeleteResortReview(APIView):
             return Response({'msg': 200})
         except:
             return Response({'msg': 404})
+        
+class GetReviewImages(APIView):
+    def get(self, request):
+        resort_review = ResortReviews.objects.all().order_by('-rating')[:3]
+        resort = ResortReviewSerializer(resort_review, many=True)
 
+        adventure_review = AdventureReviews.objects.all().order_by('-rating')[:2]
+        adventure = AdventureReviewSerializer(adventure_review, many=True)
+
+        data = {
+            'resort': resort.data,
+            'adventure': adventure.data
+        }
+        return Response(data)
 
 
 #\ ******************************************** /
