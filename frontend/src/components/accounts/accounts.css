@@ -201,3 +201,22 @@
     height: 100%;
     object-fit: cover;
 }
+
+/* forgot password */
+
+.forgot-travel-image{
+    position: absolute;
+    top: 17%;
+    left: 24%;
+    /* padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px; */
+    padding: 50px 50px;
+    width: 50%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.54);
+    border-radius: 30px;
+}

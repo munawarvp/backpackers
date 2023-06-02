@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './registerwithus.css'
-import Image from '../../../images/register-with.jpg'
+import Background from '../../../images/register-with-us.jpg'
 import { getLocal } from '../../../helpers/auth'
 import jwtDecode from 'jwt-decode'
 import { useFormik } from 'formik'
@@ -19,14 +19,14 @@ function RegisterWithUs() {
 
     useEffect(() => {
         async function locations() {
-          const response = await axios.get(`${BASE_URL}/resorts/locations/`)
-          setLocationlist(response.data)
+            const response = await axios.get(`${BASE_URL}/resorts/locations/`)
+            setLocationlist(response.data)
         }
         locations();
         const user = getLocal()
         const data = jwtDecode(user)
         setOwner(data.user_id)
-      }, [])
+    }, [])
 
     const token = getLocal()
     const decoded = jwtDecode(token)
@@ -38,7 +38,7 @@ function RegisterWithUs() {
             resort_name: '',
             place: '',
             location: null,
-            price : null,
+            price: null,
             address: '',
             zipcode: '',
             phone_number: '',
@@ -53,8 +53,8 @@ function RegisterWithUs() {
             image_four: null,
         },
         validationSchema: RegisterWithSchema,
-        
-        onSubmit: async values =>  {
+
+        onSubmit: async values => {
             const form = new FormData()
             form.append('owner', formik.values.owner)
             form.append('resort_name', formik.values.resort_name)
@@ -75,37 +75,37 @@ function RegisterWithUs() {
             form.append('image_four', formik.values.image_four)
 
             const response = await axios.post(`${BASE_URL}/resorts/createresorts/`, form)
-            if(response.data.msg === 200){
+            if (response.data.msg === 200) {
                 toast.success('Resort added successfully')
                 history('/register-success')
-            }else if(response.data.msg === 404){
+            } else if (response.data.msg === 404) {
                 toast.error('Something went wrong')
             }
         }
-        
+
     })
     // console.log(formik.errors);
     return (
-        <div className='registerwith-main-container flex'>
+        <div className='registerwith-main-container'>
+            <div className="login-background-contain">
+                <img src={Background} alt="" />
+            </div>
             <div className="image-form-container">
-                <div className="image-only-container">
-                    <img src={Image} alt="" />
 
-                </div>
                 <div className="form-only-container">
-                    <h2 className='titles'>Register With Us</h2>
+                    <h2 className='titles'>REGISTER WITH US</h2>
                     <form className='registerwith-form' onSubmit={formik.handleSubmit}>
                         <div className='registerwith-two-col'>
                             <div >
-                                <label htmlFor="resort_name" style={{display : 'block'}}>Resort Name</label>
+                                <label htmlFor="resort_name" style={{ display: 'block' }}>Resort Name</label>
                                 <input className='registerwith-input' name='resort_name' type="text"
                                     onChange={formik.handleChange}
                                 />
                                 {formik.errors.resort_name && formik.touched.resort_name ? <p className='form-errors'>{formik.errors.resort_name}</p> : null}
                             </div>
                             <div>
-                                <label htmlFor="resort_type" style={{display : 'block'}}>Place</label>
-                                <input className='registerwith-input' name='place' type="text" 
+                                <label htmlFor="resort_type" style={{ display: 'block' }}>Place</label>
+                                <input className='registerwith-input' name='place' type="text"
                                     onChange={formik.handleChange}
                                 />
                                 {formik.errors.place && formik.touched.place ? <p className='form-errors'>{formik.errors.place}</p> : null}
@@ -116,12 +116,12 @@ function RegisterWithUs() {
                                 <label htmlFor='location'>Location</label>
                                 <select className='registerwith-select' name="location" id="location"
                                     onChange={formik.handleChange}
-                                    
+
                                 >
                                     <option value="">Select an option</option>
                                     {locationList.map((item) => (
-                                    <option value={item.id}>{item.city_name}</option>
-                                ))}
+                                        <option value={item.id}>{item.city_name}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div style={{ display: 'flex', flexDirection: "column" }}>
@@ -152,7 +152,7 @@ function RegisterWithUs() {
                             </div>
                             <div style={{ display: 'flex', flexDirection: "column" }}>
                                 <label htmlFor="phone_number">Phone Number</label>
-                                <input className='registerwith-input' name='phone_number' type="text" 
+                                <input className='registerwith-input' name='phone_number' type="text"
                                     onChange={formik.handleChange}
                                 />
                                 {formik.errors.phone_number && formik.touched.phone_number ? <p className='form-errors'>{formik.errors.phone_number}</p> : null}
@@ -161,7 +161,7 @@ function RegisterWithUs() {
                         <div className='registerwith-two-col'>
                             <div style={{ display: 'flex', flexDirection: "column" }}>
                                 <label htmlFor="rooms_available">Number Of Rooms</label>
-                                <input className='registerwith-input' name='rooms_available' type="number" 
+                                <input className='registerwith-input' name='rooms_available' type="number"
                                     onChange={formik.handleChange}
                                 />
                                 {formik.errors.rooms_available && formik.touched.rooms_available ? <p className='form-errors'>{formik.errors.rooms_available}</p> : null}
@@ -170,7 +170,7 @@ function RegisterWithUs() {
                                 <label htmlFor="room_type">Room Type</label>
                                 <input className='registerwith-input' name='room_type' type="text"
                                     onChange={formik.handleChange}
-                                    
+
                                 />
                             </div>
 
@@ -181,7 +181,7 @@ function RegisterWithUs() {
                                 name='description'
                                 id="description"
                                 onChange={formik.handleChange}
-                                
+
                             ></textarea>
                         </div>
                         <div className='registerwith-two-col'>
@@ -191,7 +191,7 @@ function RegisterWithUs() {
                                     id="roomType"
                                     name='wifi_available'
                                     onChange={formik.handleChange}
-                                    
+
                                 />
                                 <label htmlFor="wifi_available">Wifi available?</label>
                             </div>
@@ -202,7 +202,7 @@ function RegisterWithUs() {
                                     id="roomType"
                                     name='pool_available'
                                     onChange={formik.handleChange}
-                                    
+
                                 />
                                 <label htmlFor="pool_available">Pool available?</label>
                             </div>
@@ -213,28 +213,28 @@ function RegisterWithUs() {
                                 id="roomType"
                                 name='image_one'
                                 onChange={e => formik.setFieldValue('image_one', e.target.files[0])}
-                                
+
                             />
                             <input
                                 type="file"
                                 id="roomType"
                                 name='image_two'
                                 onChange={e => formik.setFieldValue('image_two', e.target.files[0])}
-                                
+
                             />
                             <input
                                 type="file"
                                 id="roomType"
                                 name='image_three'
                                 onChange={e => formik.setFieldValue('image_three', e.target.files[0])}
-                                
+
                             />
                             <input
                                 type="file"
                                 id="roomType"
                                 name='image_four'
                                 onChange={e => formik.setFieldValue('image_four', e.target.files[0])}
-                                
+
                             />
                         </div>
                         <button className='registerwith-btn' type='submit'>Add Resort</button>

@@ -335,3 +335,38 @@
     background-color: red;
     color: white;
 }
+
+.similar-stays-container{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.similar-stay-card{
+    /* padding: 15px 20px; */
+    width: 24%;
+    height: 20rem;
+    background-color: #dbdbdb;
+    box-shadow: #7474745b 0 0 2px 1px;
+    border-radius: 20px;
+}
+.similar-resort-img-container{
+    width: 100%;
+    height: 9rem;
+}
+.similar-resort-img-container>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+.similar-stays-details{
+    width: 100%;
+    padding: 5px 10px;
+}
+.similar-stays-details>h3{
+    color: #15406e;
+}
+.similar-stays-details>h4{
+    color: #4361ee;
+}

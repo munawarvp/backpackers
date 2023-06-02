@@ -26,6 +26,7 @@ import jwtDecode from 'jwt-decode'
 import { useFormik } from 'formik'
 
 import Profile from '../../../images/img3.png'
+import Background from '../../../images/travelling.jpg'
 
 import axios from 'axios';
 import { BASE_URL } from '../../../utils/config';
@@ -44,6 +45,7 @@ import { useForm } from 'react-hook-form';
 function SingleResort() {
     const [locationList, setLocationlist] = useState([])
     const [singleResort, setSingleResort] = useState({})
+    const [similarResorts, setSimilarResort] = useState([])
     const [reviews, setReviews] = useState([])
     const [value, setTabValue] = useState(0)
     const [toggle, setToggle] = useState(false)
@@ -75,7 +77,9 @@ function SingleResort() {
 
     async function getResort() {
         const response = await axios.get(`${BASE_URL}/resorts/singleresortpage/${resort_id.id}`)
+        const similar_response = await axios.get(`${BASE_URL}/resorts/similarstays/${resort_id.id}`)
         setSingleResort(response.data)
+        setSimilarResort(similar_response.data)
     }
 
     async function locations() {
@@ -129,7 +133,7 @@ function SingleResort() {
             form.append('description', values.description)
             form.append('rating', values.rating)
             form.append('review_image', values.review_image)
-            
+
 
             const response = await axios.post(`${BASE_URL}/bookings/addresortreview/`, form)
             if (response.data.msg === 501) {
@@ -166,15 +170,15 @@ function SingleResort() {
         console.log(data);
         data['checking_resort'] = singleResort.id
         console.log(data);
-        const date=JSON.stringify(data)
-        console.log(typeof(date));
+        const date = JSON.stringify(data)
+        console.log(typeof (date));
         const response = await axios.get(`${BASE_URL}/bookings/checkresortavailability/${date}`)
-        
+
         if (response.data.msg === 200) {
             setNotAvailable(false)
             setAvailable(true)
             toast.success('Resort Available')
-        } else if(response.data.msg === 504){
+        } else if (response.data.msg === 504) {
             setAvailable(false)
             setNotAvailable(true)
             toast.error('Resort not available')
@@ -182,7 +186,7 @@ function SingleResort() {
             toast.error('Something went wrong')
         }
     }
-    const toggleOff = ()=> {
+    const toggleOff = () => {
         setToggle(!toggle)
         setNotAvailable(false)
         setAvailable(false)
@@ -427,7 +431,7 @@ function SingleResort() {
                                             <label htmlFor="review-image">Review Image</label>
                                             <input name='review_image' type="file"
                                                 onChange={e => formik.setFieldValue('review_image', e.target.files[0])}
-                                                
+
                                             />
                                         </div>
                                     </div>
@@ -435,6 +439,25 @@ function SingleResort() {
                                 </form>
                             </div>
 
+                        </div>
+                    </div>}
+
+                    {value === 3 && <div className="resort-review-main-contain">
+                        <div className="similar-stays-container">
+                            {similarResorts.map((similar) => (
+                                <div className="similar-stay-card">
+                                    <div className="similar-resort-img-container">
+                                        <img src={`${BASE_URL}/${similar.image_two}`} alt="" />
+                                    </div>
+                                    <div className="similar-stays-details">
+                                        <h3>{similar.resort_name}</h3>
+                                        <AiFillStar color='yellow' /><AiFillStar color='yellow' /><AiFillStar color='yellow' />
+                                        <h4>{similar.place}</h4>
+                                        <p>{similar.owner.first_name}</p>
+                                        <p>{similar.phone_number}</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>}
 

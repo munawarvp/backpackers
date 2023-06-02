@@ -229,7 +229,16 @@ class SingleResortView(APIView):
     def get(self, request, resort_id):
         queryset = Resorts.objects.get(id=resort_id)
         serializer = ResortSerializer(queryset)
-        return Response(serializer.data)
+        
+        return Response(serializer.data)  
+    
+class SimilarStays(APIView):
+    def get(self, request, resort_id):
+        print(resort_id)
+        queryset = Resorts.objects.all().exclude(id=resort_id)[:3]
+        serializer = ResortSerializer(queryset, many=True)
+        
+        return Response(serializer.data) 
     
 # user side views
 
